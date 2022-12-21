@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="DaCharFileCLR">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Double Agent\Dev\v4.0\DaCharFileCLR.dll</HintPath>
+    </Reference>
+    <Reference Include="DoubleAgent.AxControl">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Double Agent\Dev\v4.0\DoubleAgent.AxControl.dll</HintPath>
+    </Reference>
+    <Reference Include="DoubleAgent.Control">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Double Agent\Dev\v4.0\DoubleAgent.Control.dll</HintPath>
+    </Reference>
+    <Reference Include="DoubleAgent.Server">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Double Agent\Dev\v4.0\DoubleAgent.Server.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BonziAI\Interfaces\" />
+    <Folder Include="BonziAI\Speech\" />
+  </ItemGroup>
+
+</Project>
