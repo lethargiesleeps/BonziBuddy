@@ -2,6 +2,50 @@
 
 public static class Phrases
 {
+    public static Dictionary<string, string> BonziIntro(string name)
+    {
+        return new Dictionary<string, string>()
+        {
+            {"Greeting", $"Nice to meet you {name}!"},
+            {"FirstTime", "Since this is the first time we've met I'd like to tell you a bit about myself."},
+            {
+                "Intro", "I am your friend and Bonzi Buddy! I have the ability to learn from you." +
+                         "The more we hang out together, the smarter I'll become!"
+            },
+            {"Smart", "Not that I'm not already smart!"}
+        };
+    }
+    public static Dictionary<string, string> GetErrors()
+    {
+        return new Dictionary<string, string>()
+        {
+            {"NoCity", "You can enter the name of the city you'd like to get the weather from."},
+            
+        };
+    }
+    public static string BadJoke()
+    {
+        return
+            "Just kidding, I have learned from my nefarious ways. You have nothing to worry about, I am 100% spyware free these days.";
+    }
+    public static List<string> FirstTimeGreeting()
+    {
+        return new List<string>()
+        {
+            "Well! Hello there!",
+            "I don't believe we've been properly introduced.",
+            "I'm Bonzi!",
+            "What is your name?"
+        };
+    }
+
+    public static List<string> ReturnGreetings(string name)
+    {
+        return new List<string>()
+        {
+            $"Nice to see you again {name}!"
+        };
+    }
     public static List<string> GetForecasts(float temperature, string city)
     {
         return new List<string>()

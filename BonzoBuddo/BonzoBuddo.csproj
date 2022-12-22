@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="BonziAI\Interfaces\" />
-    <Folder Include="BonziAI\Speech\" />
   </ItemGroup>
 
 </Project>

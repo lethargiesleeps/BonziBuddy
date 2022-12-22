@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BonzoBuddo.BonziAI;
 using BonzoBuddo.BonziAI.Interfaces;
+using BonzoBuddo.BonziAI.Speech;
 using BonzoBuddo.BonziAI.Tools;
 using DoubleAgent.AxControl;
+using DoubleAgent.Control;
 
 namespace BonzoBuddo
 {
@@ -30,36 +32,78 @@ namespace BonzoBuddo
             _agent.CreateControl();
             _agent.Characters.Load(_agentName, _acsPath);
             foreach(var a in _agent.Characters[_agentName].Animations)
-                Debug.WriteLine(a);
-
+                Dev.Log(a);
             _agent.Characters[_agentName].TTSModeID = _ttsID;
             _agent.Characters[_agentName].MoveTo(Convert.ToInt16(Screen.PrimaryScreen.Bounds.Right - 700),
                 Convert.ToInt16(Screen.PrimaryScreen.Bounds.Bottom - 500), 500);
             _agent.Characters[_agentName].SetSize(250, 250);
             _agent.Characters[_agentName].Show();
+            if (!_bonzi.GetInitializationStatus())
+            {
+                
+                _agent.Characters[_agentName].Play("Wave");
+                _agent.Characters[_agentName].Speak(_bonzi.Greet()[0]);
+                _agent.Characters[_agentName].Speak(_bonzi.Greet()[1]);
+                _agent.Characters[_agentName].Play("Greet");
+                _agent.Characters[_agentName].Speak(_bonzi.Greet()[2]);
+                _agent.Characters[_agentName].Speak(_bonzi.Greet()[3]);
+                GetName form = new GetName(this);
+                form.Show();
+            }
+            else
+            {
+                
+                
+                _agent.Characters[_agentName].Play("Wave");
+                _agent.Characters[_agentName].Speak(_bonzi.Greet()[0]);
+                
+            }
             
 
         }
 
         private void jokeButton_Click(object sender, EventArgs e)
         {
-            _bonzi.SetSpeechPattern(SpeechType.Joke);
-            _agent.Characters[_agentName].Play("Read");
-            _agent.Characters[_agentName].Speak(_bonzi.GetPhrase());
+            Random rnd = new Random();
+            int selection = rnd.Next(1,51);
+
+            if (selection == 1)
+            {
+                _bonzi.PlayBadJoke(MessageBox.Show("You have been infected with numerous malware.", "Bonzi Buddy",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Error), _agent.Characters[_agentName]);
+                
+            }
+            else
+            {
+                _bonzi.SetSpeechPattern(SpeechType.Joke);
+                _agent.Characters[_agentName].Play("Read");
+                _agent.Characters[_agentName].Speak(_bonzi.GetPhrase());
+            }
+
+            
         }
 
         private void weatherButton_Click(object sender, EventArgs e)
         {
             
-            var city = cityText.Text;
-            if (string.IsNullOrEmpty(city) || string.IsNullOrWhiteSpace(city))
-                city = "New York City";
-            _bonzi.SetSpeechPattern(SpeechType.Weather);
             
+            _bonzi.SetSpeechPattern(SpeechType.Weather);
             _agent.Characters[_agentName].Speak(Phrases.AsyncWarning());
             _agent.Characters[_agentName].Play("Think");
-            _agent.Characters[_agentName].Speak(_bonzi.GetCurrentWeather(city));
+            if (string.IsNullOrWhiteSpace(cityText.Text) || string.IsNullOrEmpty(cityText.Text))
+            {
+                
+                _agent.Characters[_agentName].GestureAt(Convert.ToInt16(MousePosition.X), Convert.ToInt16(BonziBuddyControlPanel.MousePosition.Y));
+
+
+            }
+                
+            
+            _agent.Characters[_agentName].Speak(_bonzi.GetCurrentWeather(cityText.Text));
             cityText.Text = "";
         }
+
+        public Bonzi GetBonzi() => _bonzi;
+        public AxControl GetAgent() => _agent;
     }
 }
