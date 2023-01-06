@@ -1,0 +1,89 @@
+﻿namespace BonzoBuddo.BonziAI.Speech;
+
+/// <summary>
+/// Lists and dictionaries of phrases used by Bonzi.
+/// </summary>
+public static class Phrases
+{
+    public static List<string> FirstTimeGreeting()
+    {
+        return new List<string>()
+        {
+            "Well! Hello there!",
+            "I don't believe we've been properly introduced.",
+            "I'm Bonzi!",
+            "What is your name?"
+        };
+    }
+
+    public static List<string> Insulted(string name)
+    {
+        return new List<string>()
+        {
+            $"Why are you being so mean to me {name}...",
+            $"I know I used to be kind of a bad boy, but I swear I've changed my ways.",
+            $"{name}, I though we were best of friends...",
+            $"Well fuck you too {name}...",
+            $"I don't deserve this kind of abuse from you.",
+            $"You are being quite a Richard, {name}..."
+        };
+    }
+    public static Dictionary<string, string> BonziIntro(string name)
+    {
+        return new Dictionary<string, string>()
+        {
+            {"Greeting", $"Nice to meet you {name}!"},
+            {"FirstTime", "Since this is the first time we've met I'd like to tell you a bit about myself."},
+            {
+                "Intro", "I am your friend and Bonzi Buddy! I have the ability to learn from you." +
+                         "The more we hang out together, the smarter I'll become!"
+            },
+            {"Smart", "Not that I'm not already smart!"}
+        };
+    }
+
+    public static List<string> ReturnGreeting(string name)
+    {
+        return new List<string>()
+        {
+            $"Welcome back {name}!",
+            $"Nice to see you again {name}!",
+            $"{name}! I was almost starting to think you abandoned me.",
+            $"Oh hi {name}, I was just thinking of you.",
+            $"{name}! I've gone ahead and deleted your files while you were away.\nJust kidding!"
+        };
+    }
+
+    public static Dictionary<string, string> Prompts()
+    {
+        return new Dictionary<string, string>()
+        {
+            {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."}
+        };
+    }
+    public static Dictionary<string, string> ErrorMessages()
+    {
+        return new Dictionary<string, string>()
+        {
+            {
+                "NoWeather",
+                "Well, it seems like I couldn't get the weather for you. Are you sure you are connected to the internet?"
+            }
+        };
+    }
+    public static Dictionary<string, string> WeatherForecasts(string city, float temp)
+    {
+        return new Dictionary<string, string>()
+        {
+            {
+                "VeryCold",
+                $"Oh my goodness, if you don't dress warm you might die! It's currently {temp} degrees in {city}!"
+            },
+            {"Cold", $"Burr, you better put on your long john's because it's {temp} degrees in {city} right now."},
+            {"Brisk", $"Seems a little brisk right now in {city}. It's currently {temp} degrees."},
+            {"Warm", $"Great weather today in {city}! It's currently {temp} degrees!"},
+            {"Hot", $"Wow! You have some beautiful hot weather today in {city}! It's currently {temp} degrees. Make sure to stay hydrated."},
+            {"VeryHot", $"Oh my god. {city} is literally on fire. If I were you I'd evacuate. "}
+        };
+    }
+}
