@@ -123,6 +123,7 @@
             this.bonziLabel.TabIndex = 7;
             this.bonziLabel.Text = "Bonzi Buddy";
             this.bonziLabel.Visible = false;
+            this.bonziLabel.Click += new System.EventHandler(this.bonziLabel_Click);
             // 
             // insultButton
             // 

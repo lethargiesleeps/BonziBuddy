@@ -1,10 +1,19 @@
 ﻿namespace BonzoBuddo.BonziAI.Speech;
 
+/// <summary>
+/// Speech Bonzi uses when retrieving the forecast. This class uses the phrase dictionary instead of phrase list.
+/// </summary>
 public class WeatherForecast : Speech
 {
     private float _currentTemp;
     private string? _city;
 
+    /// <summary>
+    /// Default constructor.
+    /// </summary>
+    /// <param name="city">User's city.</param>
+    /// <param name="currentTemp">Temperature retrieved using OpenWeather API and ApiHelper class</param>
+    /// 
     public WeatherForecast (string city, float currentTemp)
     {
         _city = city;
@@ -12,16 +21,32 @@ public class WeatherForecast : Speech
         PhraseDictionary = Phrases.WeatherForecasts(_city, _currentTemp);
     }
 
+    /// <summary>
+    /// Method unsupported by implementation.
+    /// </summary>
+    /// <param name="key">Not used</param>
+    /// <returns>See exception.</returns>
+    /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
     public override string GetPhrase(string key)
     {
         throw new NotSupportedException("Please us GetPhrase() with no parameters for method call of this object");
     }
 
+    /// <summary>
+    /// Method unsupported by implementation.
+    /// </summary>
+    /// <param name="index">Not used.</param>
+    /// <returns>See exception</returns>
+    /// <exception cref="NotSupportedException"></exception>
     public override string GetPhrase(int index)
     {
         throw new NotSupportedException("Please us GetPhrase() with no parameters for method call of this object");
     }
 
+    /// <summary>
+    /// Changes the phrase Bonzi says depending on the temperature received from API.
+    /// </summary>
+    /// <returns></returns>
     public override string GetPhrase()
     {
         switch (_currentTemp)
@@ -34,9 +59,12 @@ public class WeatherForecast : Speech
                 return PhraseDictionary["Brisk"];
             case > 15.0f and <= 30.0f:
                 return PhraseDictionary["Hot"];
+            case > 30.0f and <= 40.0f:
+                return PhraseDictionary["VeryHot"];
 
             default:
-                return "Hmm something went wrong.";
+                return Phrases.ErrorMessages()["NoWeather"];
+
         }
     }
 

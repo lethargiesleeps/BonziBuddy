@@ -1,5 +1,8 @@
 namespace BonzoBuddo
 {
+    /// <summary>
+    /// Main program execution.
+    /// </summary>
     internal static class Program
     {
         /// <summary>

@@ -5,8 +5,17 @@ using System.Text.Json.Nodes;
 
 namespace BonzoBuddo.Helpers;
 
+/// <summary>
+/// Static helper class for interacting with third-party APIs and JSON parsing.
+/// </summary>
 public static class ApiHelper
 {
+    /// <summary>
+    /// Uses OpenWeather API call to retrieve weather for the user.
+    /// </summary>
+    /// <param name="city">City to query.</param>
+    /// <param name="unit">Degree unit to use.</param>
+    /// <returns>The current weather as a float</returns>
     public static float GetWeather(string city, WeatherUnits unit)
     {
         var unitType = "";
@@ -43,8 +52,12 @@ public static class ApiHelper
     }
 }
 
+/// <summary>
+/// Different units to be used to retrieve the weather.
+/// </summary>
 public enum WeatherUnits
 {
+    //TODO: User can change which unit they want.
     Celcius,
     Farrenheit,
     Kelvin

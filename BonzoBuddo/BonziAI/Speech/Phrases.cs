@@ -28,6 +28,7 @@ public static class Phrases
             $"You are being quite a Richard, {name}..."
         };
     }
+
     public static Dictionary<string, string> BonziIntro(string name)
     {
         return new Dictionary<string, string>()
@@ -61,6 +62,7 @@ public static class Phrases
             {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."}
         };
     }
+
     public static Dictionary<string, string> ErrorMessages()
     {
         return new Dictionary<string, string>()
@@ -71,6 +73,7 @@ public static class Phrases
             }
         };
     }
+
     public static Dictionary<string, string> WeatherForecasts(string city, float temp)
     {
         return new Dictionary<string, string>()
@@ -82,8 +85,12 @@ public static class Phrases
             {"Cold", $"Burr, you better put on your long john's because it's {temp} degrees in {city} right now."},
             {"Brisk", $"Seems a little brisk right now in {city}. It's currently {temp} degrees."},
             {"Warm", $"Great weather today in {city}! It's currently {temp} degrees!"},
-            {"Hot", $"Wow! You have some beautiful hot weather today in {city}! It's currently {temp} degrees. Make sure to stay hydrated."},
-            {"VeryHot", $"Oh my god. {city} is literally on fire. If I were you I'd evacuate. "}
+            {
+                "Hot",
+                $"Wow! You have some beautiful hot weather today in {city}! It's currently {temp} degrees. Make sure to stay hydrated."
+            },
+            {"VeryHot", $"Oh my god. {city} is literally on fire. If I were you I'd evacuate."}
+
         };
     }
 }

@@ -10,7 +10,14 @@ public class Speech : ISpeakable
 {
     protected List<string> PhraseList { get; set; }
     protected Dictionary<string, string> PhraseDictionary { get; set; }
-    
+
+    /// <summary>
+    /// Default constructor, used to override default behaviour.
+    /// </summary>
+    public Speech()
+    {
+
+    }
 
     /// <summary>
     /// Constructor, sets the phrase list and defaults the phrase dictionary.

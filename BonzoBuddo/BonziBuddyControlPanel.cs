@@ -31,24 +31,20 @@ namespace BonzoBuddo
         private string _agentName = "Bonzi";
         private string _ttsID = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
         private Bonzi _bonzi;
+        private BonziHelper _helper;
         private System.Windows.Forms.Control[] _disposableControls;
         private System.Windows.Forms.Control[] _controls;
 
+        private int _debugCounter;
         #endregion
 
         /// <summary>
         /// Constructor for Control Panel. Contains all instantiation and loading logic.
+        /// Determines if program has been used before, also sets visibility of all UI controls to be used.
+        /// Contains instantiation of main Bonzi object.
         /// </summary>
         public BonziBuddyControlPanel()
         {
-
-            //TODO: 2. If they don't create them, then greet user and make them go through registration
-            //TODO: 3. If they do, load user data from file, then greet user
-            //TODO: 4. Jokes
-            //TODO: 5. Facts
-            //TODO: 6. Weather
-            //TODO: 7. XML comments
-
             InitializeComponent();
             _bonzi = new Bonzi();
             _disposableControls = new System.Windows.Forms.Control[]
@@ -73,51 +69,66 @@ namespace BonzoBuddo
                 Convert.ToInt16(Screen.PrimaryScreen.Bounds.Bottom - 500), 500);
             _agent.Characters[_agentName].SetSize(250, 250);
             _agent.Characters[_agentName].Show();
+            _helper = new BonziHelper(_agent, _agentName);
             
             if (!_bonzi.Initialized)
             {
                 UIHelper.ToggleControlVisibility(_controls, false);
                 UIHelper.ToggleControlVisibility(_disposableControls, true);
                 _bonzi.SetSpeechPattern(SpeechType.Greeting);
-                _agent.Characters[_agentName].Play("Greet");
+                _helper.Play("Greet");
                 foreach(var s in _bonzi.Speak().GetPhraseList())
-                    _agent.Characters[_agentName].Speak(s);
-                
-
+                    _helper.Speak(s);
             }
             else
             {
                 _bonzi.SetSpeechPattern(SpeechType.Greeting);
                 UIHelper.ToggleControlVisibility(_controls, true);
                 UIHelper.ToggleControlVisibility(_disposableControls, false);
-                _agent.Characters[_agentName].Play("Wave");
-                _agent.Characters[_agentName].Speak(_bonzi.Speak().GetRandomPhrase());
+                _helper.Play("Wave");
+                _helper.Speak(_bonzi.Speak().GetRandomPhrase());
+
+                //If random phrase is specific, can maybe refactor to own helper class later.
                 if(RandomNumberHelper.CurrentValue == 4)
-                    _agent.Characters[_agentName].Play("Giggle");
+                    _helper.Play("Giggle");
 
             }
 
         }
 
+        /// <summary>
+        /// Makes Bonzi tell a joke.
+        /// </summary>
+        /// <param name="sender">The joke button.</param>
+        /// <param name="e"></param>
         private void jokeButton_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Makes Bonzi get the weather and play different animations based on the result.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void weatherButton_Click(object sender, EventArgs e)
         {
-            _agent.Characters[_agentName].Speak(Phrases.Prompts()["GetWeather"]);
-            _agent.Characters[_agentName].Play("Think");
+            _helper.Speak(Phrases.Prompts()["GetWeather"]);
+            _helper.Play("Think");
+            //TODO: Refactor try catches for weather api calls so if HTTP request doesnt work Bonzi says a message instead of app throwing exception.
             try
             {
                 _bonzi.SetSpeechPattern(SpeechType.Weather);
-                
-                _agent.Characters[_agentName].Speak(_bonzi.Speak().GetPhrase());
-                if(_bonzi.Speak().GetPhrase().Equals(Phrases.WeatherForecasts(_bonzi.Data.City, ApiHelper.GetWeather(_bonzi.Data.City, WeatherUnits.Celcius))["Hot"]))
-                    _agent.Characters[_agentName].Play("Idle1_24");
-                else if(_bonzi.Speak().GetPhrase().Equals(Phrases.WeatherForecasts(_bonzi.Data.City, ApiHelper.GetWeather(_bonzi.Data.City, WeatherUnits.Celcius))["Cold"]))
-                    _agent.Characters[_agentName].Play("Confused");
+                _helper.Speak(_bonzi.Speak().GetPhrase());
 
+                //If its really hot out, Bonzi puts on sunglasses.
+                if(_bonzi.Data != null && _bonzi.Speak().GetPhrase().Equals(
+                       Phrases.WeatherForecasts(_bonzi.Data.City, 
+                           ApiHelper.GetWeather(_bonzi.Data.City, WeatherUnits.Celcius)
+                       )["Hot"])
+                   )
+                    _helper.Play("Idle1_24");
+               
             }
             catch (HttpRequestException ex)
             {
@@ -128,6 +139,11 @@ namespace BonzoBuddo
 
         }
 
+        /// <summary>
+        /// Used only when program is launched for the first time.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void submitButton_Click(object sender, EventArgs e)
         {
             _bonzi.Temporary = nameText.Text;
@@ -136,27 +152,37 @@ namespace BonzoBuddo
             _bonzi.Data.City = cityText.Text;
             _bonzi.Data.DateCreated = DateTime.Now;
             _bonzi.Data.LastAccessed = DateTime.Now;
-            
             UIHelper.ToggleControlVisibility(_controls, true);
             UIHelper.ToggleControlVisibility(_disposableControls, false);
             _bonzi.Save();
-            Thread.Sleep(100);
-            _agent.Characters[_agentName].Speak(_bonzi.Speak().GetPhraseDictionary()["Greeting"]);
-            _agent.Characters[_agentName].Speak(_bonzi.Speak().GetPhraseDictionary()["FirstTime"]);
-            _agent.Characters[_agentName].Speak(_bonzi.Speak().GetPhraseDictionary()["Intro"]);
-            _agent.Characters[_agentName].Speak(_bonzi.Speak().GetPhraseDictionary()["Smart"]);
-            _agent.Characters[_agentName].Play("Giggle");
+            _bonzi.Data = _bonzi.Load();
+            _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["Greeting"]);
+            _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["FirstTime"]);
+            _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["Intro"]);
+            _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["Smart"]);
+            _helper.Play("Confused");
 
 
         }
 
         private void insultButton_Click(object sender, EventArgs e)
         {
-            
             _bonzi.SetSpeechPattern(SpeechType.Insulted);
             _agent.Characters[_agentName].Play("Sad");
             _agent.Characters[_agentName].Speak(_bonzi.Speak().GetRandomPhrase());
+        }
 
+        private void bonziLabel_Click(object sender, EventArgs e)
+        {
+            _debugCounter++;
+            if (_debugCounter == 5)
+            {
+                _helper.Play("Sad");
+                _helper.Speak("Just break me will you...");
+                BonziDebug debug = new BonziDebug(_helper);
+                debug.Show(this);
+                _debugCounter = 0;
+            }
         }
     }
 }

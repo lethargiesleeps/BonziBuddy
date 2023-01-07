@@ -3,12 +3,17 @@ using BonzoBuddo.BonziAI;
 
 namespace BonzoBuddo.Helpers;
 
+/// <summary>
+/// Instantiable helper class to write and load data for application persistence.
+/// </summary>
 public class FileHelper
 {
     private readonly string _dataPath;
     private readonly string _folderPath;
 
-
+    /// <summary>
+    /// Default constructor, sets folder and file path internally.
+    /// </summary>
     public FileHelper()
     {
         _folderPath =
@@ -16,16 +21,30 @@ public class FileHelper
         _dataPath = _folderPath + "bonzidata.txt";
     }
 
+    /// <summary>
+    /// Checks if BonziBuddy folder exists.
+    /// </summary>
+    /// <returns>True if it exists, otherwise false.</returns>
     public bool CheckFolder()
     {
         return Directory.Exists(_folderPath);
     }
 
+    /// <summary>
+    /// Check if bonzidata.txt file exists.
+    /// </summary>
+    /// <returns>True if it exists, otherwise false.</returns>
     public bool CheckDataFile()
     {
         return File.Exists(_dataPath);
     }
 
+    /// <summary>
+    /// Opens and deserializes bonzidata.txt
+    /// </summary>
+    /// <returns>BonziData deserialized from file.</returns>
+    /// <exception cref="Exception">Throws exception if program cannot open file.</exception>
+    /// <see cref="BonziData"/>
     public BonziData LoadData()
     {
         string[] values;
@@ -56,6 +75,10 @@ public class FileHelper
         throw new Exception("Could not load data!");
     }
 
+    /// <summary>
+    /// Saves overwritten data to the file. Deletes file and creates a new one based on BonziData values.
+    /// </summary>
+    /// <param name="data">Data model to serialize.</param>
     public void SaveData(BonziData data)
     {
         string[] values =
@@ -77,6 +100,9 @@ public class FileHelper
         }
     }
 
+    /// <summary>
+    /// Creates directories needed to save data.
+    /// </summary>
     public void CreateDirectory()
     {
         Directory.CreateDirectory(_folderPath);
