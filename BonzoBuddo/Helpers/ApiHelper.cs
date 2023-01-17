@@ -10,11 +10,32 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class ApiHelper
 {
-    public static string GetJoke()
+    public static string GetFact()
     {
+        var client = new HttpClient();
         try
         {
-            var client = new HttpClient();
+            var response = client.GetStringAsync("https://api.api-ninjas.com/v1/facts?limit=1");
+            var data = JsonNode.Parse(response.Result)!;
+            var fact = data.Root["fact"];
+            return fact.ToJsonString();
+        }
+        catch (JsonException e)
+        {
+            Debug.WriteLine(e.Message);
+            return "I cannot connect to the internet.";
+        }
+        finally
+        {
+            client.Dispose();
+        }
+    }
+    public static string GetJoke()
+    {
+        var client = new HttpClient();
+        try
+        {
+            
             var response =
                 client.GetStringAsync(
                     "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,political,explicit&type=single");
@@ -27,6 +48,11 @@ public static class ApiHelper
             Debug.WriteLine(e.Message);
             return "I cannot connect to the internet.";
         }
+        finally
+        {
+            client.Dispose();
+        }
+        
     }
     /// <summary>
     /// Uses OpenWeather API call to retrieve weather for the user.

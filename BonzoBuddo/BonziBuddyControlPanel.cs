@@ -64,6 +64,14 @@ namespace BonzoBuddo
                 insultButton,
                 virusButton,
                 newsButton,
+                showHideButton,
+                songButton,
+                dictionaryButton,
+                recipeButton,
+                triviaButton,
+                riddleButton,
+                babyButton,
+                mortgageButton
 
             };
             _agent = new AxControl();

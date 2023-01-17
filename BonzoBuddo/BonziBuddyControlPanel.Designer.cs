@@ -43,6 +43,14 @@
             this.songButton = new System.Windows.Forms.Button();
             this.virusButton = new System.Windows.Forms.Button();
             this.showHideButton = new System.Windows.Forms.Button();
+            this.dictionaryButton = new System.Windows.Forms.Button();
+            this.recipeButton = new System.Windows.Forms.Button();
+            this.triviaButton = new System.Windows.Forms.Button();
+            this.riddleButton = new System.Windows.Forms.Button();
+            this.babyButton = new System.Windows.Forms.Button();
+            this.mortgageButton = new System.Windows.Forms.Button();
+            this.airQualityButton = new System.Windows.Forms.Button();
+            this.randomWordButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // jokeButton
@@ -161,7 +169,7 @@
             // 
             this.newsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.newsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.newsButton.Location = new System.Drawing.Point(11, 265);
+            this.newsButton.Location = new System.Drawing.Point(11, 253);
             this.newsButton.Margin = new System.Windows.Forms.Padding(2);
             this.newsButton.Name = "newsButton";
             this.newsButton.Size = new System.Drawing.Size(153, 63);
@@ -173,7 +181,7 @@
             // 
             this.songButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.songButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.songButton.Location = new System.Drawing.Point(198, 265);
+            this.songButton.Location = new System.Drawing.Point(198, 253);
             this.songButton.Margin = new System.Windows.Forms.Padding(2);
             this.songButton.Name = "songButton";
             this.songButton.Size = new System.Drawing.Size(153, 63);
@@ -185,7 +193,7 @@
             // 
             this.virusButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.virusButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.virusButton.Location = new System.Drawing.Point(385, 265);
+            this.virusButton.Location = new System.Drawing.Point(385, 253);
             this.virusButton.Margin = new System.Windows.Forms.Padding(2);
             this.virusButton.Name = "virusButton";
             this.virusButton.Size = new System.Drawing.Size(153, 63);
@@ -197,7 +205,7 @@
             // 
             this.showHideButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.showHideButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.showHideButton.Location = new System.Drawing.Point(572, 265);
+            this.showHideButton.Location = new System.Drawing.Point(572, 253);
             this.showHideButton.Margin = new System.Windows.Forms.Padding(2);
             this.showHideButton.Name = "showHideButton";
             this.showHideButton.Size = new System.Drawing.Size(153, 63);
@@ -206,12 +214,116 @@
             this.showHideButton.UseVisualStyleBackColor = true;
             this.showHideButton.Click += new System.EventHandler(this.showHideButton_Click);
             // 
+            // dictionaryButton
+            // 
+            this.dictionaryButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.dictionaryButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.dictionaryButton.Location = new System.Drawing.Point(11, 352);
+            this.dictionaryButton.Margin = new System.Windows.Forms.Padding(2);
+            this.dictionaryButton.Name = "dictionaryButton";
+            this.dictionaryButton.Size = new System.Drawing.Size(153, 63);
+            this.dictionaryButton.TabIndex = 109;
+            this.dictionaryButton.Text = "Lookup a word for me";
+            this.dictionaryButton.UseVisualStyleBackColor = true;
+            // 
+            // recipeButton
+            // 
+            this.recipeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.recipeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.recipeButton.Location = new System.Drawing.Point(198, 352);
+            this.recipeButton.Margin = new System.Windows.Forms.Padding(2);
+            this.recipeButton.Name = "recipeButton";
+            this.recipeButton.Size = new System.Drawing.Size(153, 63);
+            this.recipeButton.TabIndex = 110;
+            this.recipeButton.Text = "Give me a recipe idea";
+            this.recipeButton.UseVisualStyleBackColor = true;
+            // 
+            // triviaButton
+            // 
+            this.triviaButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.triviaButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.triviaButton.Location = new System.Drawing.Point(385, 352);
+            this.triviaButton.Margin = new System.Windows.Forms.Padding(2);
+            this.triviaButton.Name = "triviaButton";
+            this.triviaButton.Size = new System.Drawing.Size(153, 63);
+            this.triviaButton.TabIndex = 111;
+            this.triviaButton.Text = "Tell me some trivia";
+            this.triviaButton.UseVisualStyleBackColor = true;
+            // 
+            // riddleButton
+            // 
+            this.riddleButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.riddleButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.riddleButton.Location = new System.Drawing.Point(572, 352);
+            this.riddleButton.Margin = new System.Windows.Forms.Padding(2);
+            this.riddleButton.Name = "riddleButton";
+            this.riddleButton.Size = new System.Drawing.Size(153, 63);
+            this.riddleButton.TabIndex = 112;
+            this.riddleButton.Text = "Tell me a riddle";
+            this.riddleButton.UseVisualStyleBackColor = true;
+            // 
+            // babyButton
+            // 
+            this.babyButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.babyButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.babyButton.Location = new System.Drawing.Point(12, 451);
+            this.babyButton.Margin = new System.Windows.Forms.Padding(2);
+            this.babyButton.Name = "babyButton";
+            this.babyButton.Size = new System.Drawing.Size(153, 63);
+            this.babyButton.TabIndex = 113;
+            this.babyButton.Text = "Name my baby";
+            this.babyButton.UseVisualStyleBackColor = true;
+            // 
+            // mortgageButton
+            // 
+            this.mortgageButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.mortgageButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.mortgageButton.Location = new System.Drawing.Point(198, 451);
+            this.mortgageButton.Margin = new System.Windows.Forms.Padding(2);
+            this.mortgageButton.Name = "mortgageButton";
+            this.mortgageButton.Size = new System.Drawing.Size(153, 63);
+            this.mortgageButton.TabIndex = 114;
+            this.mortgageButton.Text = "Calculate my mortgage";
+            this.mortgageButton.UseVisualStyleBackColor = true;
+            // 
+            // airQualityButton
+            // 
+            this.airQualityButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.airQualityButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.airQualityButton.Location = new System.Drawing.Point(385, 451);
+            this.airQualityButton.Margin = new System.Windows.Forms.Padding(2);
+            this.airQualityButton.Name = "airQualityButton";
+            this.airQualityButton.Size = new System.Drawing.Size(153, 63);
+            this.airQualityButton.TabIndex = 115;
+            this.airQualityButton.Text = "What\'s the air quality right now?";
+            this.airQualityButton.UseVisualStyleBackColor = true;
+            // 
+            // randomWordButton
+            // 
+            this.randomWordButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.randomWordButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.randomWordButton.Location = new System.Drawing.Point(572, 451);
+            this.randomWordButton.Margin = new System.Windows.Forms.Padding(2);
+            this.randomWordButton.Name = "randomWordButton";
+            this.randomWordButton.Size = new System.Drawing.Size(153, 63);
+            this.randomWordButton.TabIndex = 116;
+            this.randomWordButton.Text = "Give me a random word";
+            this.randomWordButton.UseVisualStyleBackColor = true;
+            // 
             // BonziBuddyControlPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(738, 873);
+            this.Controls.Add(this.randomWordButton);
+            this.Controls.Add(this.airQualityButton);
+            this.Controls.Add(this.mortgageButton);
+            this.Controls.Add(this.babyButton);
+            this.Controls.Add(this.riddleButton);
+            this.Controls.Add(this.triviaButton);
+            this.Controls.Add(this.recipeButton);
+            this.Controls.Add(this.dictionaryButton);
             this.Controls.Add(this.showHideButton);
             this.Controls.Add(this.virusButton);
             this.Controls.Add(this.songButton);
@@ -250,5 +362,13 @@
         private Button songButton;
         private Button virusButton;
         private Button showHideButton;
+        private Button dictionaryButton;
+        private Button recipeButton;
+        private Button triviaButton;
+        private Button riddleButton;
+        private Button babyButton;
+        private Button mortgageButton;
+        private Button airQualityButton;
+        private Button randomWordButton;
     }
 }
