@@ -22,6 +22,17 @@ public static class RandomNumberHelper
     }
 
     /// <summary>
+    /// Set UpperBound manually, use if number of elements or results is known ahead of time.
+    /// </summary>
+    /// <param name="upperBound">Highest value achievable from RNG</param>
+    public static void SetIndex(int upperBound)
+    {
+        Random random = new Random();
+        UpperBound = upperBound;
+        CurrentValue = random.Next(0, UpperBound);
+    }
+
+    /// <summary>
     /// Records last used index for later use.
     /// </summary>
     public static void SetPreviousIndex()

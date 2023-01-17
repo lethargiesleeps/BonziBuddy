@@ -5,6 +5,14 @@
 /// </summary>
 public static class Phrases
 {
+    public static Dictionary<string, string> JokeExtras()
+    {
+        return new Dictionary<string, string>()
+        {
+            {"First", "Not a problem."},
+            {"Last", "Laughter is the best medicine."}
+        };
+    }
     public static List<string> FirstTimeGreeting()
     {
         return new List<string>()

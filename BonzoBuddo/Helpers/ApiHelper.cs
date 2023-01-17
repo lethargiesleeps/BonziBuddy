@@ -10,6 +10,24 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class ApiHelper
 {
+    public static string GetJoke()
+    {
+        try
+        {
+            var client = new HttpClient();
+            var response =
+                client.GetStringAsync(
+                    "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,political,explicit&type=single");
+            var data = JsonNode.Parse(response.Result)!;
+            var joke = data.Root["joke"];
+            return joke.ToString();
+        }
+        catch (JsonException e)
+        {
+            Debug.WriteLine(e.Message);
+            return "I cannot connect to the internet.";
+        }
+    }
     /// <summary>
     /// Uses OpenWeather API call to retrieve weather for the user.
     /// </summary>

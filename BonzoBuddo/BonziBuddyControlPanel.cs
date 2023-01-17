@@ -59,7 +59,12 @@ namespace BonzoBuddo
             {
                 weatherButton,
                 jokeButton,
-                bonziLabel
+                bonziLabel,
+                factButton,
+                insultButton,
+                virusButton,
+                newsButton,
+
             };
             _agent = new AxControl();
             _agent.CreateControl();
@@ -103,7 +108,36 @@ namespace BonzoBuddo
         /// <param name="e"></param>
         private void jokeButton_Click(object sender, EventArgs e)
         {
-
+            _bonzi.SetSpeechPattern(SpeechType.Joke);
+            _helper.Speak(Phrases.JokeExtras()["First"]);
+            RandomNumberHelper.SetIndex(4);
+            switch (RandomNumberHelper.CurrentValue)
+            {
+                case 0:
+                    _helper.Play("Explain");
+                    break;
+                case 1:
+                    _helper.Play("Explain2");
+                    break;
+                case 2:
+                    _helper.Play("Explain3");
+                    break;
+                case 3:
+                    _helper.Play("Explain4");
+                    break;
+            }
+            _helper.Speak(_bonzi.Speak().GetPhrase());
+            RandomNumberHelper.SetIndex(2);
+            switch (RandomNumberHelper.CurrentValue)
+            {
+                case 0:
+                    _helper.Play("Giggle");
+                    break;
+                case 1:
+                    _helper.Play("PleasedSoft");
+                    break;
+            }
+            //_helper.Speak(Phrases.JokeExtras()["Last"]);
         }
 
         /// <summary>
@@ -165,6 +199,11 @@ namespace BonzoBuddo
 
         }
 
+        /// <summary>
+        /// Insults Bonzi and makes him sad.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void insultButton_Click(object sender, EventArgs e)
         {
             _bonzi.SetSpeechPattern(SpeechType.Insulted);
@@ -172,6 +211,11 @@ namespace BonzoBuddo
             _agent.Characters[_agentName].Speak(_bonzi.Speak().GetRandomPhrase());
         }
 
+        /// <summary>
+        /// Opens up the debug panel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bonziLabel_Click(object sender, EventArgs e)
         {
             _debugCounter++;
@@ -182,6 +226,22 @@ namespace BonzoBuddo
                 BonziDebug debug = new BonziDebug(_helper);
                 debug.Show(this);
                 _debugCounter = 0;
+            }
+        }
+
+        private void showHideButton_Click(object sender, EventArgs e)
+        {
+            if (!_bonzi.IsHidden)
+            {
+                _helper.Hide();
+                showHideButton.Text = "Come back Bonzi!";
+                _bonzi.IsHidden = true;
+            }
+            else
+            {
+                _helper.Show();
+                showHideButton.Text = "Go away Bonzi";
+                _bonzi.IsHidden = false;
             }
         }
     }

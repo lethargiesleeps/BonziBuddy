@@ -13,6 +13,7 @@ public class Bonzi
 {
     public bool Initialized { get; }
     public string Temporary { get; set; }
+    public bool IsHidden { get; set; }
     public BonziData? Data { get; set; }
     private FileHelper _fileHelper;
     private ISpeakable _speechPattern;
@@ -77,6 +78,10 @@ public class Bonzi
                 if (_speechPattern is not Insulted)
                     _speechPattern = new Insulted(Data.Name);
 
+                break;
+            case SpeechType.Joke:
+                if (_speechPattern is not Joke)
+                    _speechPattern = new Joke();
                 break;
         }
     }
