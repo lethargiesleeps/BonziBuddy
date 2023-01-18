@@ -4,7 +4,7 @@ using BonzoBuddo.BonziAI;
 namespace BonzoBuddo.Helpers;
 
 /// <summary>
-/// Instantiable helper class to write and load data for application persistence.
+///     Instantiable helper class to write and load data for application persistence.
 /// </summary>
 public class FileHelper
 {
@@ -12,7 +12,7 @@ public class FileHelper
     private readonly string _folderPath;
 
     /// <summary>
-    /// Default constructor, sets folder and file path internally.
+    ///     Default constructor, sets folder and file path internally.
     /// </summary>
     public FileHelper()
     {
@@ -22,7 +22,7 @@ public class FileHelper
     }
 
     /// <summary>
-    /// Checks if BonziBuddy folder exists.
+    ///     Checks if BonziBuddy folder exists.
     /// </summary>
     /// <returns>True if it exists, otherwise false.</returns>
     public bool CheckFolder()
@@ -31,7 +31,7 @@ public class FileHelper
     }
 
     /// <summary>
-    /// Check if bonzidata.txt file exists.
+    ///     Check if bonzidata.txt file exists.
     /// </summary>
     /// <returns>True if it exists, otherwise false.</returns>
     public bool CheckDataFile()
@@ -40,11 +40,11 @@ public class FileHelper
     }
 
     /// <summary>
-    /// Opens and deserializes bonzidata.txt
+    ///     Opens and deserializes bonzidata.txt
     /// </summary>
     /// <returns>BonziData deserialized from file.</returns>
     /// <exception cref="Exception">Throws exception if program cannot open file.</exception>
-    /// <see cref="BonziData"/>
+    /// <see cref="BonziData" />
     public BonziData LoadData()
     {
         string[] values;
@@ -76,7 +76,7 @@ public class FileHelper
     }
 
     /// <summary>
-    /// Saves overwritten data to the file. Deletes file and creates a new one based on BonziData values.
+    ///     Saves overwritten data to the file. Deletes file and creates a new one based on BonziData values.
     /// </summary>
     /// <param name="data">Data model to serialize.</param>
     public void SaveData(BonziData data)
@@ -101,7 +101,7 @@ public class FileHelper
     }
 
     /// <summary>
-    /// Creates directories needed to save data.
+    ///     Creates directories needed to save data.
     /// </summary>
     public void CreateDirectory()
     {

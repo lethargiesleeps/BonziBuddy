@@ -1,8 +1,8 @@
 ﻿namespace BonzoBuddo.BonziAI.Speech;
 
 /// <summary>
-/// Interface used for Bonzi's responses. Implemented by Speech and it's derivatives.
-/// <see cref="Speech"/>
+///     Interface used for Bonzi's responses. Implemented by Speech and it's derivatives.
+///     <see cref="Speech" />
 /// </summary>
 public interface ISpeakable
 {

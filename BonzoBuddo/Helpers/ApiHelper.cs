@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 namespace BonzoBuddo.Helpers;
 
 /// <summary>
-/// Static helper class for interacting with third-party APIs and JSON parsing.
+///     Static helper class for interacting with third-party APIs and JSON parsing.
 /// </summary>
 public static class ApiHelper
 {
@@ -31,12 +31,12 @@ public static class ApiHelper
             client.Dispose();
         }
     }
+
     public static string GetJoke()
     {
         var client = new HttpClient();
         try
         {
-            
             var response =
                 client.GetStringAsync(
                     "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,political,explicit&type=single");
@@ -53,10 +53,10 @@ public static class ApiHelper
         {
             client.Dispose();
         }
-        
     }
+
     /// <summary>
-    /// Uses OpenWeather API call to retrieve weather for the user.
+    ///     Uses OpenWeather API call to retrieve weather for the user.
     /// </summary>
     /// <param name="city">City to query.</param>
     /// <param name="unit">Degree unit to use.</param>
@@ -98,7 +98,7 @@ public static class ApiHelper
 }
 
 /// <summary>
-/// Different units to be used to retrieve the weather.
+///     Different units to be used to retrieve the weather.
 /// </summary>
 public enum WeatherUnits
 {

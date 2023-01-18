@@ -189,6 +189,7 @@
             this.songButton.TabIndex = 106;
             this.songButton.Text = "Sing me a song";
             this.songButton.UseVisualStyleBackColor = true;
+            this.songButton.Click += new System.EventHandler(this.songButton_Click);
             // 
             // virusButton
             // 

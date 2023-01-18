@@ -1,20 +1,19 @@
 ﻿namespace BonzoBuddo.BonziAI.Speech;
 
 /// <summary>
-/// Speech Bonzi uses when retrieving the forecast. This class uses the phrase dictionary instead of phrase list.
+///     Speech Bonzi uses when retrieving the forecast. This class uses the phrase dictionary instead of phrase list.
 /// </summary>
 public class WeatherForecast : Speech
 {
-    private float _currentTemp;
-    private string? _city;
+    private readonly string? _city;
+    private readonly float _currentTemp;
 
     /// <summary>
-    /// Default constructor.
+    ///     Default constructor.
     /// </summary>
     /// <param name="city">User's city.</param>
     /// <param name="currentTemp">Temperature retrieved using OpenWeather API and ApiHelper class</param>
-    /// 
-    public WeatherForecast (string city, float currentTemp)
+    public WeatherForecast(string city, float currentTemp)
     {
         _city = city;
         _currentTemp = currentTemp;
@@ -22,7 +21,7 @@ public class WeatherForecast : Speech
     }
 
     /// <summary>
-    /// Method unsupported by implementation.
+    ///     Method unsupported by implementation.
     /// </summary>
     /// <param name="key">Not used</param>
     /// <returns>See exception.</returns>
@@ -33,7 +32,7 @@ public class WeatherForecast : Speech
     }
 
     /// <summary>
-    /// Method unsupported by implementation.
+    ///     Method unsupported by implementation.
     /// </summary>
     /// <param name="index">Not used.</param>
     /// <returns>See exception</returns>
@@ -44,7 +43,7 @@ public class WeatherForecast : Speech
     }
 
     /// <summary>
-    /// Changes the phrase Bonzi says depending on the temperature received from API.
+    ///     Changes the phrase Bonzi says depending on the temperature received from API.
     /// </summary>
     /// <returns></returns>
     public override string GetPhrase()
@@ -64,8 +63,6 @@ public class WeatherForecast : Speech
 
             default:
                 return Phrases.ErrorMessages()["NoWeather"];
-
         }
     }
-
 }
