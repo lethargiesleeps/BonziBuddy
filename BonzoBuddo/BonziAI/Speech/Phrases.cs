@@ -109,11 +109,13 @@ public static class Phrases
         };
     }
 
-    public static Dictionary<string, string> Prompts()
+    public static Dictionary<string, string> Prompts(string name)
     {
         return new Dictionary<string, string>
         {
-            {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."}
+            {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."},
+            {"GetNews", $"No problem {name}. I just need some extra information for you before I conduct my search."},
+            
         };
     }
 

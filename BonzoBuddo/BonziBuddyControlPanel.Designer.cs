@@ -177,6 +177,7 @@
             this.newsButton.TabIndex = 105;
             this.newsButton.Text = "What\'s the news Bonzi?";
             this.newsButton.UseVisualStyleBackColor = true;
+            this.newsButton.Click += new System.EventHandler(this.newsButton_Click);
             // 
             // songButton
             // 

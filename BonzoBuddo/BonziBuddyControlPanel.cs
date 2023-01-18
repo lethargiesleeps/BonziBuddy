@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using BonzoBuddo.BonziAI.Speech;
+using BonzoBuddo.Forms;
 using BonzoBuddo.Helpers;
 using DoubleAgent.AxControl;
 
@@ -117,7 +118,7 @@ public partial class BonziBuddyControlPanel : Form
     {
         _bonzi.SetSpeechPattern(SpeechType.Joke);
         _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["First"]);
-        RandomNumberHelper.SetIndex(4);
+        RandomNumberHelper.SetIndex(5);
         switch (RandomNumberHelper.CurrentValue)
         {
             case 0:
@@ -131,6 +132,9 @@ public partial class BonziBuddyControlPanel : Form
                 break;
             case 3:
                 _helper.Play("Explain4");
+                break;
+            case 4:
+                _helper.Play("Surprised");
                 break;
         }
 
@@ -155,7 +159,7 @@ public partial class BonziBuddyControlPanel : Form
     /// <param name="e"></param>
     private void weatherButton_Click(object sender, EventArgs e)
     {
-        _helper.Speak(Phrases.Prompts()["GetWeather"]);
+        _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["GetWeather"]);
         _helper.Play("Think");
         //TODO: Refactor try catches for weather api calls so if HTTP request doesnt work Bonzi says a message instead of app throwing exception.
         try
@@ -259,5 +263,11 @@ public partial class BonziBuddyControlPanel : Form
         _helper.Speak("I'm afraid I can't do that just yet.");
     }
 
-    
+    private void newsButton_Click(object sender, EventArgs e)
+    {
+        _helper.Play("GestureRight");
+        _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["GetNews"]);
+        NewsForm news = new NewsForm(_helper);
+        news.Show();
+    }
 }
