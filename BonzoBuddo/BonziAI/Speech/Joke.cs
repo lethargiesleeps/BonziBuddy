@@ -7,14 +7,26 @@ namespace BonzoBuddo.BonziAI.Speech;
 /// </summary>
 public class Joke : Speech
 {
-    public override string GetPhrase() => ApiHelper.GetJoke();
-    public override string GetPhrase(int index)
+    /// <summary>
+    /// Default constructor for Joke.
+    /// </summary>
+    public Joke()
     {
-        throw new NotImplementedException("Use GetPhrase()");
+        PhraseDictionary = Phrases.JokeExtras();
     }
 
-    public override string GetPhrase(string key)
-    {
-        throw new NotImplementedException("Use GetPhrase()");
-    }
+    /// <summary>
+    /// Gets a random jok, using ApiHelper class and Ninja APIs
+    /// </summary>
+    /// <returns>Returns random joke using ApiHelper</returns>
+    public override string GetPhrase() => ApiHelper.GetJoke();
+
+
+    /// <summary>
+    /// Method unsupported by implementation.
+    /// </summary>
+    /// <param name="key">Not used.</param>
+    /// <returns>See exception</returns>
+    /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
+    public override string GetPhrase(string key) => throw new NotSupportedException("Use parameter-less GetPhrase() or GetPhrase(int index)");
 }

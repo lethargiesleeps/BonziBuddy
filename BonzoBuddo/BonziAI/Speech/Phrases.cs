@@ -5,6 +5,20 @@
 /// </summary>
 public static class Phrases
 {
+    public static List<string> PostFact(string name)
+    {
+        return new List<string>()
+        {
+            "Wow! Isn't it fun to learn something new everyday.",
+            $"{name}, I really think you should thank me for giving you this vital information.",
+            "Well, isn't this fascinating.",
+            "They say Einstein was the smartest man in the world. I think now we can both agree that it's Bonzi!",
+            "You learn a lot when you spend nearly two decades in internet prison.",
+            "That's fascinating to you, but I already knew that.",
+            $"{name}, aren't I a wealth of information!"
+
+        };
+    }
     public static Dictionary<string, string> JokeExtras()
     {
         return new Dictionary<string, string>()

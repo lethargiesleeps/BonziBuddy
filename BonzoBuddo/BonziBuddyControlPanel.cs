@@ -110,6 +110,22 @@ namespace BonzoBuddo
         }
 
         /// <summary>
+        /// Makes Bonzi tell a fact.
+        /// </summary>
+        /// <param name="sender">The fact button</param>
+        /// <param name="e"></param>
+        private void factButton_Click(object sender, EventArgs e)
+        {
+            _bonzi.SetSpeechPattern(SpeechType.Fact);
+            _helper.Play("ReadLookUp");
+            _helper.Play("ReadReturn");
+            _helper.Speak(_bonzi.Speak().GetPhrase());
+            _helper.Play("Explain2");
+            _helper.Speak(_bonzi.Speak().GetRandomPhrase());
+
+
+        }
+        /// <summary>
         /// Makes Bonzi tell a joke.
         /// </summary>
         /// <param name="sender">The joke button.</param>
@@ -117,7 +133,7 @@ namespace BonzoBuddo
         private void jokeButton_Click(object sender, EventArgs e)
         {
             _bonzi.SetSpeechPattern(SpeechType.Joke);
-            _helper.Speak(Phrases.JokeExtras()["First"]);
+            _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["First"]);
             RandomNumberHelper.SetIndex(4);
             switch (RandomNumberHelper.CurrentValue)
             {

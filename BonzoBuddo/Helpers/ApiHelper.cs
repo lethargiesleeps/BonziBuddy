@@ -13,11 +13,12 @@ public static class ApiHelper
     public static string GetFact()
     {
         var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("X-Api-Key", Keys.NinjaKey());
         try
         {
             var response = client.GetStringAsync("https://api.api-ninjas.com/v1/facts?limit=1");
             var data = JsonNode.Parse(response.Result)!;
-            var fact = data.Root["fact"];
+            var fact = data.AsArray()[0]["fact"];
             return fact.ToJsonString();
         }
         catch (JsonException e)
@@ -82,7 +83,7 @@ public static class ApiHelper
             city = Encoding.UTF8.GetString(bytes);
             var client = new HttpClient();
             var response = client.GetStringAsync(
-                $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid=79002f649b41ab93f1bc47f86efc5fff&units={unitType}"
+                $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={Keys.OpenWeatherKey()}&units={unitType}"
             );
             var data = JsonNode.Parse(response.Result)!;
             var currentTemp = data.Root["main"]?["temp"];

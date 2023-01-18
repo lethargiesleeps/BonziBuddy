@@ -164,6 +164,7 @@
             this.factButton.TabIndex = 104;
             this.factButton.Text = "Tell me a fact";
             this.factButton.UseVisualStyleBackColor = true;
+            this.factButton.Click += new System.EventHandler(this.factButton_Click);
             // 
             // newsButton
             // 

@@ -83,6 +83,10 @@ public class Bonzi
                 if (_speechPattern is not Joke)
                     _speechPattern = new Joke();
                 break;
+            case SpeechType.Fact:
+                if(_speechPattern is not Fact)
+                    _speechPattern = new Fact(Data.Name);
+                break;
         }
     }
 
