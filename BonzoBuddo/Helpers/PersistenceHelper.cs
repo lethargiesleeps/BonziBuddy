@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace BonzoBuddo.Helpers;
+﻿namespace BonzoBuddo.Helpers;
 
 /// <summary>
 ///     This class keeps track of any static information needed for function classes.
@@ -14,8 +12,11 @@ public static class PersistenceHelper
     public static string NewsCategory { get; private set; }
     public static int NewsResults { get; private set; }
 
+    public static string ArticleUrl { get; private set; }
+    public static string ArticlePublishDate { get; private set; }
+
     /// <summary>
-    /// Object array with all possible news categories. Unsorted.
+    ///     Object array with all possible news categories. Unsorted.
     /// </summary>
     /// <returns>An object array.</returns>
     public static object[] GetCategories()
@@ -43,7 +44,7 @@ public static class PersistenceHelper
     }
 
     /// <summary>
-    /// Array with all names and country codes of countries.
+    ///     Array with all names and country codes of countries.
     /// </summary>
     /// <returns>An object array.</returns>
     public static object[] GetCountries()
@@ -109,7 +110,7 @@ public static class PersistenceHelper
     }
 
     /// <summary>
-    ///  Sets value to be persisted.
+    ///     Sets value to be persisted.
     /// </summary>
     /// <param name="type">Persistence type.</param>
     /// <param name="data">Data to be stored.</param>
@@ -134,6 +135,12 @@ public static class PersistenceHelper
                 break;
             case PersistenceType.NewsResults:
                 NewsResults = int.Parse(data);
+                break;
+            case PersistenceType.ArticleUrl:
+                ArticleUrl = data;
+                break;
+            case PersistenceType.ArticleDate:
+                ArticlePublishDate = data;
                 break;
         }
     }
@@ -164,7 +171,12 @@ public static class PersistenceHelper
             case PersistenceType.NewsResults:
                 NewsResults = 0;
                 break;
-            
+            case PersistenceType.ArticleUrl:
+                ArticleUrl = string.Empty;
+                break;
+            case PersistenceType.ArticleDate:
+                ArticlePublishDate = string.Empty;
+                break;
         }
     }
 
@@ -175,6 +187,8 @@ public static class PersistenceHelper
         NewsCategory = string.Empty;
         CountryCode = string.Empty;
         NewsResults = 0;
+        ArticlePublishDate = string.Empty;
+        ArticleUrl = string.Empty;
     }
 }
 
@@ -189,7 +203,6 @@ public enum PersistenceType
     NewsCategory,
     NewsKeywords,
     NewsResults,
-    Hello
+    ArticleDate,
+    ArticleUrl
 }
-
-

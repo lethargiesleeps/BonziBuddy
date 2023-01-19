@@ -32,10 +32,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="NewsAPI" Version="0.6.0" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<SplashScreen Include="Helpers\bonzi.jpg">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</SplashScreen>

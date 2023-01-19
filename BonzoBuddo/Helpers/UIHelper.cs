@@ -1,4 +1,8 @@
-﻿namespace BonzoBuddo.Helpers;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+
+namespace BonzoBuddo.Helpers;
 
 /// <summary>
 ///     Static helper class for managing WinForm elements.
@@ -18,5 +22,37 @@ public static class UIHelper
         else
             foreach (var c in controls)
                 c.Visible = false;
+    }
+
+    /// <summary>
+    ///     Opens a hyperlink using default browser.
+    /// </summary>
+    /// <param name="url">URL to be opened</param>
+    public static void OpenUrl(string url)
+    {
+        try
+        {
+            Process.Start(url);
+        }
+        catch (Win32Exception ex)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                url = url.Replace("&", "^&");
+                Process.Start(new ProcessStartInfo(url) {UseShellExecute = true});
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Process.Start("xdg-open", url);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process.Start("open", url);
+            }
+            else
+            {
+                throw;
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@ using BonzoBuddo.BonziAI.Speech;
 using BonzoBuddo.Forms;
 using BonzoBuddo.Helpers;
 using DoubleAgent.AxControl;
+using DoubleAgent.Control;
+using Control = System.Windows.Forms.Control;
 
 namespace BonzoBuddo;
 
@@ -11,21 +13,6 @@ namespace BonzoBuddo;
 /// </summary>
 public partial class BonziBuddyControlPanel : Form
 {
-    #region PrivateFields
-
-    private readonly AxControl _agent;
-    private readonly string _acsPath = "C:\\agents\\Bonzi.acs";
-    private readonly string _agentName = "Bonzi";
-    private readonly string _ttsID = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
-    private readonly Bonzi _bonzi;
-    private readonly BonziHelper _helper;
-    private readonly Control[] _disposableControls;
-    private readonly Control[] _controls;
-
-    private int _debugCounter;
-
-    #endregion
-
     /// <summary>
     ///     Constructor for Control Panel. Contains all instantiation and loading logic.
     ///     Determines if program has been used before, also sets visibility of all UI controls to be used.
@@ -69,8 +56,9 @@ public partial class BonziBuddyControlPanel : Form
             Convert.ToInt16(Screen.PrimaryScreen.Bounds.Bottom - 500), 500);
         _agent.Characters[_agentName].SetSize(250, 250);
         _agent.Characters[_agentName].Show();
+        
         _helper = new BonziHelper(_agent, _agentName);
-
+        
         if (!_bonzi.Initialized)
         {
             UIHelper.ToggleControlVisibility(_controls, false);
@@ -94,6 +82,7 @@ public partial class BonziBuddyControlPanel : Form
         }
     }
 
+   
     /// <summary>
     ///     Makes Bonzi tell a fact.
     /// </summary>
@@ -117,7 +106,7 @@ public partial class BonziBuddyControlPanel : Form
     private void jokeButton_Click(object sender, EventArgs e)
     {
         _bonzi.SetSpeechPattern(SpeechType.Joke);
-        _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["First"]);
+        _helper.Speak(_bonzi.Speak()!.GetPhraseDictionary()["First"]);
         RandomNumberHelper.SetIndex(5);
         switch (RandomNumberHelper.CurrentValue)
         {
@@ -267,7 +256,23 @@ public partial class BonziBuddyControlPanel : Form
     {
         _helper.Play("GestureRight");
         _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["GetNews"]);
-        NewsForm news = new NewsForm(_helper, _bonzi);
+        var news = new NewsForm(_helper, _bonzi);
         news.Show();
     }
+
+
+    #region PrivateFields
+
+    private readonly AxControl _agent;
+    private readonly string _acsPath = "C:\\agents\\Bonzi.acs";
+    private readonly string _agentName = "Bonzi";
+    private readonly string _ttsID = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
+    private readonly Bonzi _bonzi;
+    private readonly BonziHelper _helper;
+    private readonly Control[] _disposableControls;
+    private readonly Control[] _controls;
+
+    private int _debugCounter;
+
+    #endregion
 }

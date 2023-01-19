@@ -13,7 +13,7 @@ public static class RandomNumberHelper
     ///     Creates a random integer dependent on size of list provided.
     /// </summary>
     /// <param name="list">List of items to iterate.</param>
-    public static void SetIndex(IEnumerable<object> list)
+    public static void SetIndex(IEnumerable<object>? list)
     {
         var random = new Random();
         UpperBound = list.Count();

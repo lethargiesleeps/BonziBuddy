@@ -1,13 +1,8 @@
 ﻿using System.Diagnostics;
-using System.Net;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using BonzoBuddo.BonziAI.Speech;
-using NewsAPI;
-using NewsAPI.Constants;
-using NewsAPI.Models;
 
 namespace BonzoBuddo.Helpers;
 
@@ -17,7 +12,7 @@ namespace BonzoBuddo.Helpers;
 public static class ApiHelper
 {
     /// <summary>
-    /// Gets a random news article from NewsCatcher.
+    ///     Gets a random news article from NewsCatcher.
     /// </summary>
     /// <param name="keyWords">Keywords used in query.</param>
     /// <param name="countryCode">Country's code.</param>
@@ -26,13 +21,14 @@ public static class ApiHelper
     public static Dictionary<string, string> GetNews(string keyWords, string countryCode, string category)
     {
         var newsDictionary = new Dictionary<string, string>();
-        string url = "";
+        var url = "";
         if (countryCode.Equals("nn"))
             countryCode = "us"; //Change this to default country later
-        
+
         if (string.IsNullOrEmpty(keyWords))
         {
-            url = $"https://api.newscatcherapi.com/v2/latest_headlines?countries={countryCode.ToUpper()}&topic={category.ToLower()}";
+            url =
+                $"https://api.newscatcherapi.com/v2/latest_headlines?countries={countryCode.ToUpper()}&topic={category.ToLower()}";
         }
         else
         {
@@ -40,13 +36,14 @@ public static class ApiHelper
             url =
                 $"https://api.newscatcherapi.com/v2/search?q={parsedKeywords}&countries={countryCode.ToUpper()}&topic={category.ToLower()}";
         }
+
         var client = new HttpClient();
         client.DefaultRequestHeaders.Add("x-api-key", Keys.NewsKey());
         try
         {
             var response = client.GetStringAsync(url);
             var data = JsonNode.Parse(response.Result)!;
-            var articles = data.Root["articles"].AsArray();
+            var articles = data.Root["articles"]?.AsArray();
             if (articles.Count <= 0)
             {
                 newsDictionary.Add("NoResults", Phrases.ErrorMessages()["NoResults"]);
@@ -56,24 +53,28 @@ public static class ApiHelper
                 //TODO: Add some randomly generated flavour.
                 RandomNumberHelper.SetIndex(articles.Count);
                 var selectedArticle = articles[RandomNumberHelper.CurrentValue];
-                newsDictionary.Add("Title", $"It's titled: {selectedArticle["title"]}");
-                newsDictionary.Add("Author", $"Here's one from {selectedArticle["author"]}.");
-                newsDictionary.Add("Excerpt", $"{selectedArticle["excerpt"].ToString()}.");
-                newsDictionary.Add("Summary", selectedArticle["summary"].ToString());
+                if (selectedArticle != null)
+                {
+                    newsDictionary.Add("Title", $"It's titled: {selectedArticle["title"]}.");
+                    newsDictionary.Add("Author", $"Here's one from {selectedArticle["author"]}.");
+                    newsDictionary.Add("Excerpt", $"{selectedArticle["excerpt"]}");
+                    newsDictionary.Add("Summary", selectedArticle["summary"].ToString());
+                    PersistenceHelper.SetData(PersistenceType.ArticleDate,
+                        selectedArticle["published_date"]?.ToString() ?? string.Empty);
+                    PersistenceHelper.SetData(PersistenceType.ArticleUrl, selectedArticle["link"]?.ToString() ?? string.Empty);
+                }
             }
-            
-
         }
         catch (AggregateException e)
         {
             Debug.WriteLine("Nope");
         }
-        return newsDictionary;
 
+        return newsDictionary;
     }
 
     /// <summary>
-    /// Gets a random fun fact from Ninja API.
+    ///     Gets a random fun fact from Ninja API.
     /// </summary>
     /// <returns>A fact for Bonzi to say.</returns>
     public static string GetFact()
@@ -84,7 +85,8 @@ public static class ApiHelper
         {
             var response = client.GetStringAsync("https://api.api-ninjas.com/v1/facts?limit=1");
             var data = JsonNode.Parse(response.Result)!;
-            var fact = data.AsArray()[0]["fact"];
+            var fact = data.AsArray()[0]!["fact"];
+            Debug.Assert(fact != null, nameof(fact) + " != null");
             return fact.ToJsonString();
         }
         catch (JsonException e)
@@ -99,7 +101,7 @@ public static class ApiHelper
     }
 
     /// <summary>
-    /// Retrieves a random joke from joke api.
+    ///     Retrieves a random joke from joke api.
     /// </summary>
     /// <returns>A joke for Bonzi to say.</returns>
     public static string GetJoke()
@@ -112,6 +114,7 @@ public static class ApiHelper
                     "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,political,explicit&type=single");
             var data = JsonNode.Parse(response.Result)!;
             var joke = data.Root["joke"];
+            Debug.Assert(joke != null, nameof(joke) + " != null");
             return joke.ToString();
         }
         catch (JsonException e)
@@ -157,6 +160,7 @@ public static class ApiHelper
             );
             var data = JsonNode.Parse(response.Result)!;
             var currentTemp = data.Root["main"]?["temp"];
+            Debug.Assert(currentTemp != null, nameof(currentTemp) + " != null");
             return float.Parse(currentTemp.ToString());
         }
         catch (JsonException e)
