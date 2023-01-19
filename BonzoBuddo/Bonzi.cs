@@ -11,7 +11,7 @@ namespace BonzoBuddo;
 public class Bonzi
 {
     private readonly FileHelper _fileHelper;
-    private ISpeakable _speechPattern;
+    private ISpeakable? _speechPattern;
 
     /// <summary>
     ///     Default constructor. Uses FileHelper to dictate if user has used program before.
@@ -40,7 +40,7 @@ public class Bonzi
     }
 
     public bool Initialized { get; }
-    public string Temporary { get; set; }
+    public string? Temporary { get; set; }
     public bool IsHidden { get; set; }
     public BonziData? Data { get; set; }
 
@@ -54,16 +54,18 @@ public class Bonzi
         switch (speechPattern)
         {
             case SpeechType.Greeting:
-                _speechPattern = !Initialized
-                    ? new Greeting(Phrases.BonziIntro(Temporary))
-                    : new Greeting(Phrases.ReturnGreeting(Data.Name));
+                if (Data != null)
+                    _speechPattern = !Initialized
+                        ? new Greeting(Phrases.BonziIntro(Temporary))
+                        : new Greeting(Phrases.ReturnGreeting(Data.Name));
                 break;
             case SpeechType.Weather:
                 if (_speechPattern is not WeatherForecast)
                     try
                     {
-                        _speechPattern = new WeatherForecast(Data.City,
-                            ApiHelper.GetWeather(Data.City, WeatherUnits.Celcius));
+                        if (Data != null)
+                            _speechPattern = new WeatherForecast(Data.City,
+                                ApiHelper.GetWeather(Data.City, WeatherUnits.Celcius));
                     }
                     catch (HttpRequestException e)
                     {
@@ -73,7 +75,8 @@ public class Bonzi
                 break;
             case SpeechType.Insulted:
                 if (_speechPattern is not Insulted)
-                    _speechPattern = new Insulted(Data.Name);
+                    if (Data != null)
+                        _speechPattern = new Insulted(Data.Name);
 
                 break;
             case SpeechType.Joke:
@@ -82,13 +85,21 @@ public class Bonzi
                 break;
             case SpeechType.Fact:
                 if (_speechPattern is not Fact)
-                    _speechPattern = new Fact(Data.Name);
+                    if (Data != null)
+                        _speechPattern = new Fact(Data.Name);
                 break;
             case SpeechType.ShowHide:
                 _speechPattern = new ShowHide(this);
                 break;
+            case SpeechType.News:
+                var news = new News(PersistenceHelper.NewsKeywords, PersistenceHelper.CountryCode,
+                    PersistenceHelper.NewsCategory);
+                _speechPattern = news;
+
+                break;
         }
     }
+
 
     /// <summary>
     ///     Saves this class' model data.
@@ -106,7 +117,7 @@ public class Bonzi
     /// <returns>Implementation of ISpeakable</returns>
     /// <see cref="ISpeakable" />
     /// <seealso cref="Speech" />
-    public ISpeakable Speak()
+    public ISpeakable? Speak()
     {
         return _speechPattern;
     }

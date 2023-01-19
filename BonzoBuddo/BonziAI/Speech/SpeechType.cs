@@ -11,5 +11,6 @@ public enum SpeechType
     Weather,
     Fact,
     Insulted,
-    ShowHide
+    ShowHide,
+    News
 }

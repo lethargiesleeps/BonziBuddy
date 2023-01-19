@@ -5,7 +5,7 @@
 /// </summary>
 public static class Phrases
 {
-    public static List<string> ShowMessages(string name)
+    public static List<string>? ShowMessages(string name)
     {
         return new List<string>
         {
@@ -18,7 +18,7 @@ public static class Phrases
         };
     }
 
-    public static List<string> HideMessages(string name)
+    public static List<string>? HideMessages(string name)
     {
         return new List<string>
         {
@@ -32,7 +32,7 @@ public static class Phrases
         };
     }
 
-    public static List<string> PostFact(string name)
+    public static List<string>? PostFact(string name)
     {
         return new List<string>
         {
@@ -46,7 +46,7 @@ public static class Phrases
         };
     }
 
-    public static Dictionary<string, string> JokeExtras()
+    public static Dictionary<string, string>? JokeExtras()
     {
         return new Dictionary<string, string>
         {
@@ -55,7 +55,7 @@ public static class Phrases
         };
     }
 
-    public static List<string> FirstTimeGreeting()
+    public static List<string>? FirstTimeGreeting()
     {
         return new List<string>
         {
@@ -66,7 +66,7 @@ public static class Phrases
         };
     }
 
-    public static List<string> Insulted(string name)
+    public static List<string>? Insulted(string name)
     {
         return new List<string>
         {
@@ -79,7 +79,7 @@ public static class Phrases
         };
     }
 
-    public static Dictionary<string, string> BonziIntro(string name)
+    public static Dictionary<string, string>? BonziIntro(string? name)
     {
         return new Dictionary<string, string>
         {
@@ -93,7 +93,7 @@ public static class Phrases
         };
     }
 
-    public static List<string> ReturnGreeting(string name)
+    public static List<string>? ReturnGreeting(string name)
     {
         return new List<string>
         {
@@ -109,11 +109,13 @@ public static class Phrases
         };
     }
 
-    public static Dictionary<string, string> Prompts()
+    public static Dictionary<string, string> Prompts(string name)
     {
         return new Dictionary<string, string>
         {
-            {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."}
+            {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."},
+            {"GetNews", $"No problem {name}. I just need some extra information from you before I conduct my search."},
+            {"SearchNews", $"{name}, it would be my pleasure. Please give me a few seconds."}
         };
     }
 
@@ -124,11 +126,13 @@ public static class Phrases
             {
                 "NoWeather",
                 "Well, it seems like I couldn't get the weather for you. Are you sure you are connected to the internet?"
-            }
+            },
+            {"NoResults", "I couldn't find any news for you. Try making your search a little more broad."},
+            {"BadNewsRequest", "Hmmm something went wrong. You can try again."}
         };
     }
 
-    public static Dictionary<string, string> WeatherForecasts(string city, float temp)
+    public static Dictionary<string, string>? WeatherForecasts(string city, float temp)
     {
         return new Dictionary<string, string>
         {

@@ -10,7 +10,7 @@ public class Greeting : Speech
     /// </summary>
     /// <see cref="Bonzi" />
     /// <param name="phrases">Greeting phrases from Phrases static class</param>
-    public Greeting(List<string> phrases) : base(phrases)
+    public Greeting(List<string>? phrases) : base(phrases)
     {
     }
 
@@ -19,7 +19,7 @@ public class Greeting : Speech
     /// </summary>
     /// <see cref="Bonzi" />
     /// <param name="phrases">Override phrases if needed.</param>
-    public Greeting(Dictionary<string, string> phrases) : base(phrases)
+    public Greeting(Dictionary<string, string>? phrases) : base(phrases)
     {
         PhraseList = Phrases.FirstTimeGreeting();
     }

@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
 using BonzoBuddo.BonziAI.Speech;
+using BonzoBuddo.Forms;
 using BonzoBuddo.Helpers;
 using DoubleAgent.AxControl;
+using DoubleAgent.Control;
+using Control = System.Windows.Forms.Control;
 
 namespace BonzoBuddo;
 
@@ -10,21 +13,6 @@ namespace BonzoBuddo;
 /// </summary>
 public partial class BonziBuddyControlPanel : Form
 {
-    #region PrivateFields
-
-    private readonly AxControl _agent;
-    private readonly string _acsPath = "C:\\agents\\Bonzi.acs";
-    private readonly string _agentName = "Bonzi";
-    private readonly string _ttsID = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
-    private readonly Bonzi _bonzi;
-    private readonly BonziHelper _helper;
-    private readonly Control[] _disposableControls;
-    private readonly Control[] _controls;
-
-    private int _debugCounter;
-
-    #endregion
-
     /// <summary>
     ///     Constructor for Control Panel. Contains all instantiation and loading logic.
     ///     Determines if program has been used before, also sets visibility of all UI controls to be used.
@@ -68,8 +56,9 @@ public partial class BonziBuddyControlPanel : Form
             Convert.ToInt16(Screen.PrimaryScreen.Bounds.Bottom - 500), 500);
         _agent.Characters[_agentName].SetSize(250, 250);
         _agent.Characters[_agentName].Show();
+        
         _helper = new BonziHelper(_agent, _agentName);
-
+        
         if (!_bonzi.Initialized)
         {
             UIHelper.ToggleControlVisibility(_controls, false);
@@ -93,6 +82,7 @@ public partial class BonziBuddyControlPanel : Form
         }
     }
 
+   
     /// <summary>
     ///     Makes Bonzi tell a fact.
     /// </summary>
@@ -116,8 +106,8 @@ public partial class BonziBuddyControlPanel : Form
     private void jokeButton_Click(object sender, EventArgs e)
     {
         _bonzi.SetSpeechPattern(SpeechType.Joke);
-        _helper.Speak(_bonzi.Speak().GetPhraseDictionary()["First"]);
-        RandomNumberHelper.SetIndex(4);
+        _helper.Speak(_bonzi.Speak()!.GetPhraseDictionary()["First"]);
+        RandomNumberHelper.SetIndex(5);
         switch (RandomNumberHelper.CurrentValue)
         {
             case 0:
@@ -131,6 +121,9 @@ public partial class BonziBuddyControlPanel : Form
                 break;
             case 3:
                 _helper.Play("Explain4");
+                break;
+            case 4:
+                _helper.Play("Surprised");
                 break;
         }
 
@@ -155,7 +148,7 @@ public partial class BonziBuddyControlPanel : Form
     /// <param name="e"></param>
     private void weatherButton_Click(object sender, EventArgs e)
     {
-        _helper.Speak(Phrases.Prompts()["GetWeather"]);
+        _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["GetWeather"]);
         _helper.Play("Think");
         //TODO: Refactor try catches for weather api calls so if HTTP request doesnt work Bonzi says a message instead of app throwing exception.
         try
@@ -259,5 +252,27 @@ public partial class BonziBuddyControlPanel : Form
         _helper.Speak("I'm afraid I can't do that just yet.");
     }
 
-    
+    private void newsButton_Click(object sender, EventArgs e)
+    {
+        _helper.Play("GestureRight");
+        _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["GetNews"]);
+        var news = new NewsForm(_helper, _bonzi);
+        news.Show();
+    }
+
+
+    #region PrivateFields
+
+    private readonly AxControl _agent;
+    private readonly string _acsPath = "C:\\agents\\Bonzi.acs";
+    private readonly string _agentName = "Bonzi";
+    private readonly string _ttsID = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
+    private readonly Bonzi _bonzi;
+    private readonly BonziHelper _helper;
+    private readonly Control[] _disposableControls;
+    private readonly Control[] _controls;
+
+    private int _debugCounter;
+
+    #endregion
 }
