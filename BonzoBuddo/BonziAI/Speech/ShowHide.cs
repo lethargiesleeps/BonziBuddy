@@ -4,7 +4,10 @@ public class ShowHide : Speech
 {
     public ShowHide(Bonzi bonzi)
     {
-        PhraseList = !bonzi.IsHidden ? Phrases.ShowMessages(bonzi.Data.Name) : Phrases.HideMessages(bonzi.Data.Name);
+        if (bonzi.Data != null)
+            PhraseList = !bonzi.IsHidden
+                ? Phrases.ShowMessages(bonzi.Data.Name!)
+                : Phrases.HideMessages(bonzi.Data.Name!);
     }
 
     public override string GetPhrase(string key)

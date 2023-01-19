@@ -43,7 +43,7 @@ public class Fact : Speech
     public override string GetRandomPhrase()
     {
         RandomNumberHelper.SetIndex(PhraseList);
-        return PhraseList[RandomNumberHelper.CurrentValue];
+        return PhraseList![RandomNumberHelper.CurrentValue];
     }
 
     /// <summary>

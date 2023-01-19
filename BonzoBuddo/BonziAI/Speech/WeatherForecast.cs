@@ -5,7 +5,6 @@
 /// </summary>
 public class WeatherForecast : Speech
 {
-    private readonly string? _city;
     private readonly float _currentTemp;
 
     /// <summary>
@@ -15,9 +14,8 @@ public class WeatherForecast : Speech
     /// <param name="currentTemp">Temperature retrieved using OpenWeather API and ApiHelper class</param>
     public WeatherForecast(string city, float currentTemp)
     {
-        _city = city;
         _currentTemp = currentTemp;
-        PhraseDictionary = Phrases.WeatherForecasts(_city, _currentTemp);
+        PhraseDictionary = Phrases.WeatherForecasts(city, _currentTemp);
     }
 
     /// <summary>
@@ -51,15 +49,15 @@ public class WeatherForecast : Speech
         switch (_currentTemp)
         {
             case > -50.0f and <= -25.0f:
-                return PhraseDictionary["VeryCold"];
+                return PhraseDictionary!["VeryCold"];
             case > -25.0f and <= 0.0f:
-                return PhraseDictionary["Cold"];
+                return PhraseDictionary!["Cold"];
             case > 0.0f and <= 15.0f:
-                return PhraseDictionary["Brisk"];
+                return PhraseDictionary!["Brisk"];
             case > 15.0f and <= 30.0f:
-                return PhraseDictionary["Hot"];
+                return PhraseDictionary!["Hot"];
             case > 30.0f and <= 40.0f:
-                return PhraseDictionary["VeryHot"];
+                return PhraseDictionary!["VeryHot"];
 
             default:
                 return Phrases.ErrorMessages()["NoWeather"];

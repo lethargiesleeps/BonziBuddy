@@ -17,6 +17,8 @@ public partial class Article : Form
     private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
         UIHelper.OpenUrl(PersistenceHelper.ArticleUrl);
+        Dispose(true);
+        Close();
     }
 
 

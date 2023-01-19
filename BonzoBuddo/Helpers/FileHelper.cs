@@ -47,30 +47,29 @@ public class FileHelper
     /// <see cref="BonziData" />
     public BonziData LoadData()
     {
-        string[] values;
         var parsedValues = new List<string>();
-        if (File.Exists(_dataPath))
-            try
+        if (!File.Exists(_dataPath)) throw new Exception("Could not load data!");
+        try
+        {
+            var values = File.ReadAllLines(_dataPath);
+            foreach (var v in values)
             {
-                values = File.ReadAllLines(_dataPath);
-                foreach (var v in values)
-                {
-                    var p = v.Split(": ");
-                    parsedValues.Add(p[1]);
-                }
+                var p = v.Split(": ");
+                parsedValues.Add(p[1]);
+            }
 
-                return new BonziData
-                {
-                    Name = parsedValues[0],
-                    City = parsedValues[1],
-                    LastAccessed = DateTime.Now,
-                    DateCreated = DateTime.Parse(parsedValues[3])
-                };
-            }
-            catch (IOException e)
+            return new BonziData
             {
-                Debug.WriteLine(e.Message);
-            }
+                Name = parsedValues[0],
+                City = parsedValues[1],
+                LastAccessed = DateTime.Now,
+                DateCreated = DateTime.Parse(parsedValues[3])
+            };
+        }
+        catch (IOException e)
+        {
+            Debug.WriteLine(e.Message);
+        }
 
         throw new Exception("Could not load data!");
     }
