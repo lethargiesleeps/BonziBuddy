@@ -87,9 +87,17 @@ public class Bonzi
             case SpeechType.ShowHide:
                 _speechPattern = new ShowHide(this);
                 break;
+            case SpeechType.News:
+                var news = new News(PersistenceHelper.NewsKeywords, PersistenceHelper.CountryCode,
+                        PersistenceHelper.NewsCategory);
+                _speechPattern = news;
+
+                break;
         }
     }
 
+    
+    
     /// <summary>
     ///     Saves this class' model data.
     ///     <see cref="FileHelper" />

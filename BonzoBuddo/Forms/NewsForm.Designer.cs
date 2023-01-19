@@ -76,7 +76,7 @@
             this.categoryBox.Name = "categoryBox";
             this.categoryBox.Size = new System.Drawing.Size(406, 32);
             this.categoryBox.TabIndex = 3;
-            this.categoryBox.Text = "Select \'None\' for random article.";
+            this.categoryBox.Text = "Select a category";
             this.categoryBox.SelectedIndexChanged += new System.EventHandler(this.categoryBox_SelectedIndexChanged);
             // 
             // countryLabel
@@ -97,7 +97,7 @@
             this.countryBox.Name = "countryBox";
             this.countryBox.Size = new System.Drawing.Size(406, 32);
             this.countryBox.TabIndex = 5;
-            this.countryBox.Text = "Select \'None\' to use your default country.";
+            this.countryBox.Text = "Select a country";
             this.countryBox.SelectedIndexChanged += new System.EventHandler(this.countryBox_SelectedIndexChanged);
             // 
             // cancelButton
@@ -127,6 +127,7 @@
             this.submitButton.TabIndex = 8;
             this.submitButton.Text = "Submit";
             this.submitButton.UseVisualStyleBackColor = true;
+            this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
             // NewsForm
             // 

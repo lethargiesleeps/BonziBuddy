@@ -1,4 +1,6 @@
-﻿namespace BonzoBuddo.Helpers;
+﻿using System.Collections;
+
+namespace BonzoBuddo.Helpers;
 
 /// <summary>
 ///     This class keeps track of any static information needed for function classes.
@@ -8,24 +10,42 @@ public static class PersistenceHelper
     public static string Dictionary { get; private set; }
     public static string CountryCode { get; private set; }
     public static string Country { get; private set; }
-
+    public static string NewsKeywords { get; private set; }
     public static string NewsCategory { get; private set; }
+    public static int NewsResults { get; private set; }
 
+    /// <summary>
+    /// Object array with all possible news categories. Unsorted.
+    /// </summary>
+    /// <returns>An object array.</returns>
     public static object[] GetCategories()
     {
         return new object[]
         {
             "None",
+            "News",
+            "Tech",
+            "Sport",
+            "World",
+            "Finance",
+            "Politics",
             "Business",
+            "Economics",
+            "Beauty",
             "Entertainment",
-            "General",
-            "Health",
+            "Travel",
+            "Music",
+            "Food",
             "Science",
-            "Sports",
-            "Technology"
+            "Gaming",
+            "Energy"
         };
     }
 
+    /// <summary>
+    /// Array with all names and country codes of countries.
+    /// </summary>
+    /// <returns>An object array.</returns>
     public static object[] GetCountries()
     {
         return new object[]
@@ -89,7 +109,7 @@ public static class PersistenceHelper
     }
 
     /// <summary>
-    ///     Sets value to be persisted.
+    ///  Sets value to be persisted.
     /// </summary>
     /// <param name="type">Persistence type.</param>
     /// <param name="data">Data to be stored.</param>
@@ -108,6 +128,12 @@ public static class PersistenceHelper
                 break;
             case PersistenceType.NewsCategory:
                 NewsCategory = data;
+                break;
+            case PersistenceType.NewsKeywords:
+                NewsKeywords = data;
+                break;
+            case PersistenceType.NewsResults:
+                NewsResults = int.Parse(data);
                 break;
         }
     }
@@ -132,6 +158,13 @@ public static class PersistenceHelper
             case PersistenceType.NewsCategory:
                 NewsCategory = string.Empty;
                 break;
+            case PersistenceType.NewsKeywords:
+                NewsKeywords = string.Empty;
+                break;
+            case PersistenceType.NewsResults:
+                NewsResults = 0;
+                break;
+            
         }
     }
 
@@ -141,6 +174,7 @@ public static class PersistenceHelper
         Country = string.Empty;
         NewsCategory = string.Empty;
         CountryCode = string.Empty;
+        NewsResults = 0;
     }
 }
 
@@ -152,5 +186,10 @@ public enum PersistenceType
     Dictionary,
     CountryCode,
     Country,
-    NewsCategory
+    NewsCategory,
+    NewsKeywords,
+    NewsResults,
+    Hello
 }
+
+

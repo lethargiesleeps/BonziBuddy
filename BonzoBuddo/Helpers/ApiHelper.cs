@@ -1,7 +1,13 @@
 ﻿using System.Diagnostics;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using BonzoBuddo.BonziAI.Speech;
+using NewsAPI;
+using NewsAPI.Constants;
+using NewsAPI.Models;
 
 namespace BonzoBuddo.Helpers;
 
@@ -10,6 +16,66 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class ApiHelper
 {
+    /// <summary>
+    /// Gets a random news article from NewsCatcher.
+    /// </summary>
+    /// <param name="keyWords">Keywords used in query.</param>
+    /// <param name="countryCode">Country's code.</param>
+    /// <param name="category">Category of article topic.</param>
+    /// <returns></returns>
+    public static Dictionary<string, string> GetNews(string keyWords, string countryCode, string category)
+    {
+        var newsDictionary = new Dictionary<string, string>();
+        string url = "";
+        if (countryCode.Equals("nn"))
+            countryCode = "us"; //Change this to default country later
+        
+        if (string.IsNullOrEmpty(keyWords))
+        {
+            url = $"https://api.newscatcherapi.com/v2/latest_headlines?countries={countryCode.ToUpper()}&topic={category.ToLower()}";
+        }
+        else
+        {
+            var parsedKeywords = Uri.EscapeDataString(keyWords);
+            url =
+                $"https://api.newscatcherapi.com/v2/search?q={parsedKeywords}&countries={countryCode.ToUpper()}&topic={category.ToLower()}";
+        }
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("x-api-key", Keys.NewsKey());
+        try
+        {
+            var response = client.GetStringAsync(url);
+            var data = JsonNode.Parse(response.Result)!;
+            var articles = data.Root["articles"].AsArray();
+            if (articles.Count <= 0)
+            {
+                newsDictionary.Add("NoResults", Phrases.ErrorMessages()["NoResults"]);
+            }
+            else
+            {
+                //TODO: Add some randomly generated flavour.
+                RandomNumberHelper.SetIndex(articles.Count);
+                var selectedArticle = articles[RandomNumberHelper.CurrentValue];
+                newsDictionary.Add("Title", $"It's titled: {selectedArticle["title"]}");
+                newsDictionary.Add("Author", $"Here's one from {selectedArticle["author"]}.");
+                newsDictionary.Add("Excerpt", $"{selectedArticle["excerpt"].ToString()}.");
+                newsDictionary.Add("Summary", selectedArticle["summary"].ToString());
+            }
+            
+
+        }
+        catch (AggregateException e)
+        {
+            Debug.WriteLine("Nope");
+        }
+        return newsDictionary;
+
+    }
+
+    /// <summary>
+    /// Gets a random fun fact from Ninja API.
+    /// </summary>
+    /// <returns>A fact for Bonzi to say.</returns>
     public static string GetFact()
     {
         var client = new HttpClient();
@@ -32,6 +98,10 @@ public static class ApiHelper
         }
     }
 
+    /// <summary>
+    /// Retrieves a random joke from joke api.
+    /// </summary>
+    /// <returns>A joke for Bonzi to say.</returns>
     public static string GetJoke()
     {
         var client = new HttpClient();

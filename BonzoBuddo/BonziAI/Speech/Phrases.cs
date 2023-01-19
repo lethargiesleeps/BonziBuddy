@@ -114,7 +114,8 @@ public static class Phrases
         return new Dictionary<string, string>
         {
             {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."},
-            {"GetNews", $"No problem {name}. I just need some extra information for you before I conduct my search."},
+            {"GetNews", $"No problem {name}. I just need some extra information from you before I conduct my search."},
+            {"SearchNews", $"{name}, it would be my pleasure. Please give me a few seconds."}
             
         };
     }
@@ -126,7 +127,9 @@ public static class Phrases
             {
                 "NoWeather",
                 "Well, it seems like I couldn't get the weather for you. Are you sure you are connected to the internet?"
-            }
+            },
+            { "NoResults", "I couldn't find any news for you. Try making your search a little more broad."},
+            {"BadNewsRequest", "Hmmm something went wrong. You can try again."}
         };
     }
 

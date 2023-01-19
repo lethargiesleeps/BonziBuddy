@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using System.Text.Json;
+using BonzoBuddo.BonziAI.Speech;
 using BonzoBuddo.Helpers;
 
 namespace BonzoBuddo.Forms;
@@ -7,9 +9,10 @@ namespace BonzoBuddo.Forms;
 public partial class NewsForm : Form
 {
     private readonly BonziHelper _helper;
+    private Bonzi _bonzi;
 
     
-
+    //TODO: Document
     private readonly string[] _explainAnimations =
     {
         "Explain",
@@ -19,11 +22,15 @@ public partial class NewsForm : Form
     };
 
 
-    public NewsForm(BonziHelper helper)
+    public NewsForm(BonziHelper helper, Bonzi bonzi)
     {
         InitializeComponent();
         _helper = helper;
-        categoryBox.Items.AddRange(PersistenceHelper.GetCategories());
+        _bonzi = bonzi;
+        
+        var categoryList = PersistenceHelper.GetCategories().ToList();
+        categoryList.Sort();
+        categoryBox.Items.AddRange(categoryList.ToArray());
         countryBox.Items.AddRange(PersistenceHelper.GetCountries());
         
     }
@@ -45,12 +52,49 @@ public partial class NewsForm : Form
         var splitItem2 = splitItem[0].Split(" (");
         PersistenceHelper.SetData(PersistenceType.Country, splitItem2[0]);
         PersistenceHelper.SetData(PersistenceType.CountryCode, countryCode.ToLower());
-        Debug.WriteLine(PersistenceHelper.CountryCode + " " + PersistenceHelper.Country);
+        
     }
 
     private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
     {
         PersistenceHelper.SetData(PersistenceType.NewsCategory, categoryBox.SelectedItem.ToString());
-        Debug.WriteLine(PersistenceHelper.NewsCategory);
+        //Debug.WriteLine(PersistenceHelper.NewsCategory);
+    }
+
+    private void submitButton_Click(object sender, EventArgs e)
+    {
+        if (countryBox.SelectedItem is null || categoryBox.SelectedItem is null)
+        {
+            countryBox.SelectedItem ??= countryBox.Items[0];
+            categoryBox.SelectedItem ??= categoryBox.Items[9];
+        }
+
+        if (categoryBox.SelectedIndex == 0)
+        {
+            RandomNumberHelper.SetIndex(categoryBox.Items.Count);
+            categoryBox.SelectedItem = "General";
+        }
+
+        PersistenceHelper.SetData(PersistenceType.NewsKeywords, keywordsBox.Text);
+        _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["SearchNews"]);
+        _helper.Play("ReadLookUp");
+        _bonzi.SetSpeechPattern(SpeechType.News);
+        _helper.Play("ReadReturn");
+        _helper.Speak(_bonzi.Speak().GetPhrase("Author"));
+        _helper.Speak(_bonzi.Speak().GetPhrase("Title"));
+        _helper.Speak(_bonzi.Speak().GetPhrase("Excerpt"));
+        var articleForm = new Article(_bonzi.Speak().GetPhrase("Title"), _bonzi.Speak().GetPhrase("Summary"));
+        //TODO: Dialogue to show if user wants to open article and link
+        articleForm.Show();
+        this.Close();
+        this.Dispose();
+        
+
+
+
+
+
+
+
     }
 }

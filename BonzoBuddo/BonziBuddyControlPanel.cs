@@ -267,7 +267,7 @@ public partial class BonziBuddyControlPanel : Form
     {
         _helper.Play("GestureRight");
         _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["GetNews"]);
-        NewsForm news = new NewsForm(_helper);
+        NewsForm news = new NewsForm(_helper, _bonzi);
         news.Show();
     }
 }
