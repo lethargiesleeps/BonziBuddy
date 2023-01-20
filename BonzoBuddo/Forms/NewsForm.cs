@@ -52,12 +52,13 @@ public partial class NewsForm : Form
 
     private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        PersistenceHelper.SetData(PersistenceType.NewsCategory, categoryBox.SelectedItem.ToString());
+        PersistenceHelper.SetData(PersistenceType.NewsCategory, categoryBox.SelectedItem.ToString()!);
         //Debug.WriteLine(PersistenceHelper.NewsCategory);
     }
 
     private void submitButton_Click(object sender, EventArgs e)
     {
+        _helper.Stop();
         if (countryBox.SelectedItem is null || categoryBox.SelectedItem is null)
         {
             countryBox.SelectedItem ??= countryBox.Items[0];
@@ -71,10 +72,10 @@ public partial class NewsForm : Form
         }
 
         PersistenceHelper.SetData(PersistenceType.NewsKeywords, keywordsBox.Text);
-        _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["SearchNews"]);
-        _helper.Play("ReadLookUp");
+        _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["SearchNews"]);
+        _helper.Play("MailRead");
         _bonzi.SetSpeechPattern(SpeechType.News);
-        _helper.Play("ReadReturn");
+        _helper.Play("MailReturn");
 
         _helper.Speak(_bonzi.Speak()!.GetPhrase("Author"));
         _helper.Speak(_bonzi.Speak()!.GetPhrase("Title"));
@@ -88,14 +89,18 @@ public partial class NewsForm : Form
             var articleForm = new Article(_bonzi.Speak()!.GetPhrase("Title"), _bonzi.Speak()!.GetPhrase("Summary"));
             articleForm.Show();
             //TODO: Make bonzi act
-            Close();
-            Dispose();
+            ClearAndDispose();
         }
         else
         {
             //TODO: Make bonzi act
-            Close();
-            Dispose();
+            ClearAndDispose();
         }
+    }
+
+    private void ClearAndDispose()
+    {
+        Dispose(true);
+        Close();
     }
 }

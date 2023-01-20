@@ -5,7 +5,14 @@
 /// </summary>
 public static class Phrases
 {
-    public static List<string>? ShowMessages(string name)
+    public static List<string> AuxiliaryPhrases(string name)
+    {
+        return new List<string>()
+        {
+            "You silly goose you."
+        };
+    }
+    public static List<string> ShowMessages(string name)
     {
         return new List<string>
         {
@@ -18,7 +25,7 @@ public static class Phrases
         };
     }
 
-    public static List<string>? HideMessages(string name)
+    public static List<string> HideMessages(string name)
     {
         return new List<string>
         {
@@ -32,7 +39,7 @@ public static class Phrases
         };
     }
 
-    public static List<string>? PostFact(string name)
+    public static List<string> PostFact(string name)
     {
         return new List<string>
         {
@@ -46,7 +53,7 @@ public static class Phrases
         };
     }
 
-    public static Dictionary<string, string>? JokeExtras()
+    public static Dictionary<string, string> JokeExtras()
     {
         return new Dictionary<string, string>
         {
@@ -55,7 +62,7 @@ public static class Phrases
         };
     }
 
-    public static List<string>? FirstTimeGreeting()
+    public static List<string> FirstTimeGreeting()
     {
         return new List<string>
         {
@@ -66,7 +73,7 @@ public static class Phrases
         };
     }
 
-    public static List<string>? Insulted(string name)
+    public static List<string> Insulted(string name)
     {
         return new List<string>
         {
@@ -79,7 +86,7 @@ public static class Phrases
         };
     }
 
-    public static Dictionary<string, string>? BonziIntro(string? name)
+    public static Dictionary<string, string> BonziIntro(string? name)
     {
         return new Dictionary<string, string>
         {
@@ -93,8 +100,29 @@ public static class Phrases
         };
     }
 
-    public static List<string>? ReturnGreeting(string name)
+    public static List<string> ReturnGreeting(string name)
     {
+        var time = TimeOnly.FromDateTime(DateTime.Now);
+        string greetingTime;
+        switch (time.Hour)
+        {
+            case >= 6 and < 12:
+                greetingTime = $"Good morning {name}. We are going to spend a beautiful day together.";
+                break;
+            case >= 12 and < 17:
+                greetingTime = $"Good afternoon {name}. Did you just wake up?";
+                break;
+            case >= 17 and < 21:
+                greetingTime = $"Good evening {name}. Guess what I'm having for dinner? Bananas";
+                break;
+            case >= 21 and < 24:
+                greetingTime =
+                    $"Hello {name}, it's getting pretty late, but since we are best friends I'll stay up with you.";
+                break;
+            default:
+                greetingTime = $"{name}, you are quite the night owl aren't you?";
+                break;
+        }
         return new List<string>
         {
             $"Welcome back {name}!",
@@ -105,7 +133,10 @@ public static class Phrases
             $"I'm so happy to be spending time with you {name}.",
             $"{name}! Did you miss me?",
             $"Just another day with my best friend {name}!",
-            $"{name}, what do you want to do today?"
+            $"{name}, what do you want to do today?",
+            greetingTime,
+
+            
         };
     }
 
@@ -115,10 +146,23 @@ public static class Phrases
         {
             {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."},
             {"GetNews", $"No problem {name}. I just need some extra information from you before I conduct my search."},
-            {"SearchNews", $"{name}, it would be my pleasure. Please give me a few seconds."}
+            {"SearchNews", $"{name}, it would be my pleasure. Please give me a few seconds."},
+            {"GetDictionary", $"{ExtraDictionaryInitialPrompt(name)} I just need you to let me know what word you'd like for me to lookup."}
         };
     }
 
+    private static string ExtraDictionaryInitialPrompt(string name)
+    {
+        List<string> prompts = new List<string>()
+        {
+            $"No problem {name}, just let me know what word you're unsure of.",
+            "Back in my glory days, everyone had a dictionary in their homes. I guess you don't, let me look it up for you.",
+            "Have not read the Oxford Dictionary? It's one of the best selling books in the world. Guess not, I can take care of that for you.",
+            $"Here is the definition of intelligent: Purple Gorilla, usually hilarious and awesome. Synonyms: Bonzi, Antonyms: {name}. Just kidding, I can help you."
+        };
+        Random random = new Random();
+        return prompts[random.Next(prompts.Count)];
+    }
     public static Dictionary<string, string> ErrorMessages()
     {
         return new Dictionary<string, string>
@@ -128,11 +172,14 @@ public static class Phrases
                 "Well, it seems like I couldn't get the weather for you. Are you sure you are connected to the internet?"
             },
             {"NoResults", "I couldn't find any news for you. Try making your search a little more broad."},
-            {"BadNewsRequest", "Hmmm something went wrong. You can try again."}
+            {"BadNewsRequest", "Hmmm something went wrong. You can try again."},
+            {"NoWordDictionary", "You didn't even enter a word!"},
+            {"WhitespaceDictionary", "Here is the definition for space bar: a key on your keyboard."},
+            {"MultipleWordsDictionary", "Whoa there buddy, I said \"a\" word."}
         };
     }
 
-    public static Dictionary<string, string>? WeatherForecasts(string city, float temp)
+    public static Dictionary<string, string> WeatherForecasts(string city, float temp)
     {
         return new Dictionary<string, string>
         {

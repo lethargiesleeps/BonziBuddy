@@ -35,7 +35,6 @@
             this.countryLabel = new System.Windows.Forms.Label();
             this.countryBox = new System.Windows.Forms.ComboBox();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.clearButton = new System.Windows.Forms.Button();
             this.submitButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -110,15 +109,6 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // clearButton
-            // 
-            this.clearButton.Location = new System.Drawing.Point(150, 455);
-            this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(129, 73);
-            this.clearButton.TabIndex = 7;
-            this.clearButton.Text = "Clear";
-            this.clearButton.UseVisualStyleBackColor = true;
-            // 
             // submitButton
             // 
             this.submitButton.Location = new System.Drawing.Point(395, 455);
@@ -136,7 +126,6 @@
             this.ClientSize = new System.Drawing.Size(544, 540);
             this.ControlBox = false;
             this.Controls.Add(this.submitButton);
-            this.Controls.Add(this.clearButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.countryBox);
             this.Controls.Add(this.countryLabel);
@@ -165,7 +154,6 @@
         private Label countryLabel;
         private ComboBox countryBox;
         private Button cancelButton;
-        private Button clearButton;
         private Button submitButton;
     }
 }

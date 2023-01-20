@@ -7,7 +7,7 @@ namespace BonzoBuddo.Helpers;
 /// <summary>
 ///     Static helper class for managing WinForm elements.
 /// </summary>
-public static class UIHelper
+public static class UiHelper
 {
     /// <summary>
     ///     Turn a list of WinForms controls either on or off.
@@ -36,6 +36,7 @@ public static class UIHelper
         }
         catch (Win32Exception ex)
         {
+            Debug.WriteLine(ex.Message);
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 url = url.Replace("&", "^&");

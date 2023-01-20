@@ -12,5 +12,6 @@ public enum SpeechType
     Fact,
     Insulted,
     ShowHide,
-    News
+    News,
+    WordDefinition
 }

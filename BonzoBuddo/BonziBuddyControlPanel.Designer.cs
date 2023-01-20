@@ -228,6 +228,7 @@
             this.dictionaryButton.TabIndex = 109;
             this.dictionaryButton.Text = "Lookup a word for me";
             this.dictionaryButton.UseVisualStyleBackColor = true;
+            this.dictionaryButton.Click += new System.EventHandler(this.dictionaryButton_Click);
             // 
             // recipeButton
             // 

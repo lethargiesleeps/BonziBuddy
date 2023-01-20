@@ -11,6 +11,88 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class ApiHelper
 {
+
+    public static Dictionary<string, string> GetWordDefinition(string word, bool thesaurus = false)
+    {
+        var returnDictionary = new Dictionary<string, string>();
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("X-Api-Key", Keys.NinjaKey());
+        try
+        {
+            var response = client.GetStringAsync($"https://api.api-ninjas.com/v1/dictionary?word={word}");
+            var data = JsonNode.Parse(response.Result)!;
+            var hasDefinition = bool.Parse(data.Root["valid"]!.ToString());
+            if (hasDefinition)
+            {
+                var definition = data.Root["definition"]!.ToString();
+                var definitionWords = definition.Split(' ');
+                if (definitionWords.Length > 100)
+                {
+                    var sb = new StringBuilder();
+                    var index = 0;
+                    while (index <= 100)
+                    {
+                        sb.Append($"{definitionWords[index]} ");
+                        index++;
+                    }
+
+                    sb.Append($"...\nThere is more information on {word}, but I don't want to bore you.");
+                    definition = sb.ToString();
+                }
+                returnDictionary.Add("Definition", $"Here is the definition for {word}: {definition!}");
+                if (thesaurus)
+                {
+                    try
+                    {
+                        response = client.GetStringAsync($"https://api.api-ninjas.com/v1/thesaurus?word={word}");
+                        data = JsonNode.Parse(response.Result!);
+                        var synonyms = data!.Root["synonyms"]!.AsArray();
+                        var sb = new StringBuilder();
+
+                        //TODO: Remove underscores
+                        foreach (var t in synonyms)
+                            sb.Append($"{t},\n");
+                        sb.Replace('_', ' ');
+                        var synonymPhrase = (synonyms.Count <= 0)
+                            ? $"There are no synonyms I can think of for {word}."
+                            : $"Here are synonyms for {word}:\n{sb}";
+                        returnDictionary.Add("Synonyms", synonymPhrase);
+                        sb.Clear();
+                        var antonyms = data!.Root["antonyms"]!.AsArray();
+                        foreach (var a in antonyms)
+                            sb.Append($"{a},\n");
+                        sb.Replace('_', ' ');
+                        
+
+                        var antonymPhrase = (antonyms.Count <= 0)
+                            ? $"There are no antonyms I can think of for {word}."
+                            : $"Here are antonyms for {word}:\nn{sb}";
+                        returnDictionary.Add("Antonyms", antonymPhrase);
+                    }
+                    catch (AggregateException ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+                
+            }
+            else 
+                 returnDictionary.Add("Definition", $"I could not find a definition for {word}. Try checking your spelling.");
+            
+
+
+        }
+        catch (AggregateException ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        finally
+        {
+            client.Dispose();
+        }
+
+        return returnDictionary;
+    }
     /// <summary>
     ///     Gets a random news article from NewsCatcher.
     /// </summary>
@@ -21,7 +103,7 @@ public static class ApiHelper
     public static Dictionary<string, string> GetNews(string keyWords, string countryCode, string category)
     {
         var newsDictionary = new Dictionary<string, string>();
-        var url = "";
+        string url;
         if (countryCode.Equals("nn"))
             countryCode = "us"; //Change this to default country later
 
@@ -44,7 +126,7 @@ public static class ApiHelper
             var response = client.GetStringAsync(url);
             var data = JsonNode.Parse(response.Result)!;
             var articles = data.Root["articles"]?.AsArray();
-            if (articles.Count <= 0)
+            if (articles!.Count <= 0)
             {
                 newsDictionary.Add("NoResults", Phrases.ErrorMessages()["NoResults"]);
             }
@@ -58,7 +140,7 @@ public static class ApiHelper
                     newsDictionary.Add("Title", $"It's titled: {selectedArticle["title"]}.");
                     newsDictionary.Add("Author", $"Here's one from {selectedArticle["author"]}.");
                     newsDictionary.Add("Excerpt", $"{selectedArticle["excerpt"]}");
-                    newsDictionary.Add("Summary", selectedArticle["summary"].ToString());
+                    newsDictionary.Add("Summary", selectedArticle["summary"]!.ToString());
                     PersistenceHelper.SetData(PersistenceType.ArticleDate,
                         selectedArticle["published_date"]?.ToString() ?? string.Empty);
                     PersistenceHelper.SetData(PersistenceType.ArticleUrl, selectedArticle["link"]?.ToString() ?? string.Empty);
@@ -67,7 +149,7 @@ public static class ApiHelper
         }
         catch (AggregateException e)
         {
-            Debug.WriteLine("Nope");
+            Debug.WriteLine(e.Message);
         }
 
         return newsDictionary;
@@ -86,8 +168,8 @@ public static class ApiHelper
             var response = client.GetStringAsync("https://api.api-ninjas.com/v1/facts?limit=1");
             var data = JsonNode.Parse(response.Result)!;
             var fact = data.AsArray()[0]!["fact"];
-            Debug.Assert(fact != null, nameof(fact) + " != null");
-            return fact.ToJsonString();
+            
+            return fact!.ToJsonString();
         }
         catch (JsonException e)
         {

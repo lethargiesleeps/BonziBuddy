@@ -16,7 +16,7 @@ public static class RandomNumberHelper
     public static void SetIndex(IEnumerable<object>? list)
     {
         var random = new Random();
-        UpperBound = list.Count();
+        UpperBound = list!.Count();
         CurrentValue = random.Next(0, UpperBound);
     }
 

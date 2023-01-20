@@ -15,6 +15,7 @@ public class News : Speech
     /// <param name="category">Article's topic category</param>
     public News(string? keyWords, string? countryCode, string? category)
     {
-        PhraseDictionary = ApiHelper.GetNews(keyWords, countryCode, category);
+        if (keyWords != null && countryCode != null && category != null) PhraseDictionary = ApiHelper.GetNews(keyWords, countryCode, category);
+        else throw new ArgumentNullException(nameof(keyWords) + nameof(countryCode) + nameof(category));
     }
 }
