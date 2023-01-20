@@ -39,6 +39,11 @@ public class BonziHelper
         Agent.Characters[AgentName].Play(animation);
     }
 
+    public void Stop()
+    {
+        Agent.Characters[AgentName].Stop();
+    }
+
     public void Show()
     {
         Agent.Characters[AgentName].Show();

@@ -33,11 +33,22 @@ public partial class NewsForm : Form
 
     private void cancelButton_Click(object sender, EventArgs e)
     {
+        PersistenceHelper.ClearData(new[]
+        {
+            PersistenceType.NewsResults,
+            PersistenceType.ArticleDate,
+            PersistenceType.ArticleUrl,
+            PersistenceType.Country,
+            PersistenceType.CountryCode,
+            PersistenceType.NewsCategory,
+            PersistenceType.NewsKeywords
+        });
         Dispose();
         Close();
 
         RandomNumberHelper.SetIndex(_explainAnimations);
         _helper.Play(_explainAnimations[RandomNumberHelper.CurrentValue]);
+        //TODO: Refactor into Phrases.cs
         _helper.Speak("I get it, news is a social contaminator.");
     }
 
@@ -52,12 +63,13 @@ public partial class NewsForm : Form
 
     private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        PersistenceHelper.SetData(PersistenceType.NewsCategory, categoryBox.SelectedItem.ToString());
+        PersistenceHelper.SetData(PersistenceType.NewsCategory, categoryBox.SelectedItem.ToString()!);
         //Debug.WriteLine(PersistenceHelper.NewsCategory);
     }
 
     private void submitButton_Click(object sender, EventArgs e)
     {
+        _helper.Stop();
         if (countryBox.SelectedItem is null || categoryBox.SelectedItem is null)
         {
             countryBox.SelectedItem ??= countryBox.Items[0];
@@ -70,32 +82,61 @@ public partial class NewsForm : Form
             categoryBox.SelectedItem = "General";
         }
 
-        PersistenceHelper.SetData(PersistenceType.NewsKeywords, keywordsBox.Text);
-        _helper.Speak(Phrases.Prompts(_bonzi.Data.Name)["SearchNews"]);
-        _helper.Play("ReadLookUp");
-        _bonzi.SetSpeechPattern(SpeechType.News);
-        _helper.Play("ReadReturn");
-
-        _helper.Speak(_bonzi.Speak()!.GetPhrase("Author"));
-        _helper.Speak(_bonzi.Speak()!.GetPhrase("Title"));
-        _helper.Speak(_bonzi.Speak()!.GetPhrase("Excerpt"));
-
-        //Thread.Sleep(10000);
-        var dialogue = MessageBox.Show("Do you want to view more details?", "News", MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question);
-        if (dialogue == DialogResult.Yes)
+        
+        if (UiHelper.CheckForCussWords(keywordsBox.Text))
         {
-            var articleForm = new Article(_bonzi.Speak()!.GetPhrase("Title"), _bonzi.Speak()!.GetPhrase("Summary"));
-            articleForm.Show();
-            //TODO: Make bonzi act
-            Close();
-            Dispose();
+            if (new Random().Next(0, 5001) == 1234)
+            {
+                var s = keywordsBox.Text;
+                _helper.Speak($"{s}, {s}, {s}, {s}, {s}, {s}. I'm imitating you, {_bonzi.Data!.Name!}! This is what you sound like you ignorant child!");
+                _helper.Play("Giggle");
+                _helper.Hide();
+                Dispose(true);
+                Close();
+            }
+            else
+            {
+                _helper.Play("Unbelievable");
+                _helper.Speak(Phrases.ErrorMessages()["HasCussWords"]);
+                keywordsBox.Text = string.Empty;
+            }
+            
         }
         else
         {
-            //TODO: Make bonzi act
-            Close();
-            Dispose();
+            PersistenceHelper.SetData(PersistenceType.NewsKeywords, keywordsBox.Text);
+            _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["SearchNews"]);
+            _helper.Play("MailRead");
+            _bonzi.SetSpeechPattern(SpeechType.News);
+            _helper.Play("MailReturn");
+            if (_bonzi.Speak()!.GetPhraseDictionary()!.ContainsKey("NoResults"))
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("NoResults"));
+            else
+            {
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("Author"));
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("Title"));
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("Excerpt"));
+                var dialogue = MessageBox.Show("Do you want to view more details?", "News", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+                if (dialogue == DialogResult.Yes)
+                {
+                    var articleForm = new Article(_bonzi.Speak()!.GetPhrase("Title"), _bonzi.Speak()!.GetPhrase("Summary"));
+                    articleForm.Show();
+                    //TODO: Make bonzi act
+                    ClearAndDispose();
+                }
+                else
+                {
+                    //TODO: Make bonzi act
+                    ClearAndDispose();
+                }
+            }
         }
+    }
+
+    private void ClearAndDispose()
+    {
+        Dispose(true);
+        Close();
     }
 }

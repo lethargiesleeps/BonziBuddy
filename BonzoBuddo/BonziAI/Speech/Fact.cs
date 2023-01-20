@@ -37,6 +37,7 @@ public class Fact : Speech
                 returnValue.Append(c);
             }
 
+        returnValue.Append('.');
         return returnValue.ToString();
     }
 

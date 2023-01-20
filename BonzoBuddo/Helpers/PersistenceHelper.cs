@@ -5,15 +5,17 @@
 /// </summary>
 public static class PersistenceHelper
 {
-    public static string Dictionary { get; private set; }
-    public static string CountryCode { get; private set; }
-    public static string Country { get; private set; }
-    public static string NewsKeywords { get; private set; }
-    public static string NewsCategory { get; private set; }
+    public static string? Dictionary { get; private set; }
+    public static bool Thesaurus { get; private set; }
+    public static bool Definition { get; private set; }
+    public static string? CountryCode { get; private set; }
+    public static string? Country { get; private set; }
+    public static string? NewsKeywords { get; private set; }
+    public static string? NewsCategory { get; private set; }
     public static int NewsResults { get; private set; }
 
-    public static string ArticleUrl { get; private set; }
-    public static string ArticlePublishDate { get; private set; }
+    public static string? ArticleUrl { get; private set; }
+    public static string? ArticlePublishDate { get; private set; }
 
     /// <summary>
     ///     Object array with all possible news categories. Unsorted.
@@ -121,6 +123,12 @@ public static class PersistenceHelper
             case PersistenceType.Dictionary:
                 Dictionary = data;
                 break;
+            case PersistenceType.Thesaurus:
+                Thesaurus = bool.Parse(data);
+                break;
+            case PersistenceType.Definition:
+                Definition = bool.Parse(data); 
+                break;
             case PersistenceType.CountryCode:
                 CountryCode = data;
                 break;
@@ -146,6 +154,16 @@ public static class PersistenceHelper
     }
 
     /// <summary>
+    ///     Clears data passed by adding a PersistenceType array.
+    /// </summary>
+    /// <param name="types">Array of persistent data to clear.</param>
+    public static void ClearData(PersistenceType[] types)
+    {
+        foreach (var t in types)
+            ClearData(t);
+    }
+
+    /// <summary>
     ///     Clears data, should be used after every call to this class.
     /// </summary>
     /// <param name="type">Persistence type.</param>
@@ -155,6 +173,12 @@ public static class PersistenceHelper
         {
             case PersistenceType.Dictionary:
                 Dictionary = string.Empty;
+                break;
+            case PersistenceType.Thesaurus:
+                Thesaurus = false;
+                break;
+            case PersistenceType.Definition:
+                Definition = false;
                 break;
             case PersistenceType.CountryCode:
                 CountryCode = string.Empty;
@@ -189,6 +213,7 @@ public static class PersistenceHelper
         NewsResults = 0;
         ArticlePublishDate = string.Empty;
         ArticleUrl = string.Empty;
+        Definition = false;
     }
 }
 
@@ -198,6 +223,8 @@ public static class PersistenceHelper
 public enum PersistenceType
 {
     Dictionary,
+    Thesaurus,
+    Definition,
     CountryCode,
     Country,
     NewsCategory,

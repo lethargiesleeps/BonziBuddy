@@ -62,7 +62,7 @@
             this.jokeButton.Name = "jokeButton";
             this.jokeButton.Size = new System.Drawing.Size(153, 63);
             this.jokeButton.TabIndex = 0;
-            this.jokeButton.Text = "Tell me a joke";
+            this.jokeButton.Text = "Joke";
             this.jokeButton.UseVisualStyleBackColor = true;
             this.jokeButton.Click += new System.EventHandler(this.jokeButton_Click);
             // 
@@ -75,7 +75,7 @@
             this.weatherButton.Name = "weatherButton";
             this.weatherButton.Size = new System.Drawing.Size(153, 63);
             this.weatherButton.TabIndex = 1;
-            this.weatherButton.Text = "What\'s the weather?";
+            this.weatherButton.Text = "Weather";
             this.weatherButton.UseVisualStyleBackColor = true;
             this.weatherButton.Click += new System.EventHandler(this.weatherButton_Click);
             // 
@@ -144,12 +144,12 @@
             // 
             this.insultButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.insultButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.insultButton.Location = new System.Drawing.Point(572, 154);
+            this.insultButton.Location = new System.Drawing.Point(574, 352);
             this.insultButton.Margin = new System.Windows.Forms.Padding(2);
             this.insultButton.Name = "insultButton";
             this.insultButton.Size = new System.Drawing.Size(153, 63);
             this.insultButton.TabIndex = 103;
-            this.insultButton.Text = "I hate you Bonzi!";
+            this.insultButton.Text = "Insult";
             this.insultButton.UseVisualStyleBackColor = true;
             this.insultButton.Click += new System.EventHandler(this.insultButton_Click);
             // 
@@ -162,7 +162,7 @@
             this.factButton.Name = "factButton";
             this.factButton.Size = new System.Drawing.Size(153, 63);
             this.factButton.TabIndex = 104;
-            this.factButton.Text = "Tell me a fact";
+            this.factButton.Text = "Fact";
             this.factButton.UseVisualStyleBackColor = true;
             this.factButton.Click += new System.EventHandler(this.factButton_Click);
             // 
@@ -175,7 +175,7 @@
             this.newsButton.Name = "newsButton";
             this.newsButton.Size = new System.Drawing.Size(153, 63);
             this.newsButton.TabIndex = 105;
-            this.newsButton.Text = "What\'s the news Bonzi?";
+            this.newsButton.Text = "News";
             this.newsButton.UseVisualStyleBackColor = true;
             this.newsButton.Click += new System.EventHandler(this.newsButton_Click);
             // 
@@ -188,7 +188,7 @@
             this.songButton.Name = "songButton";
             this.songButton.Size = new System.Drawing.Size(153, 63);
             this.songButton.TabIndex = 106;
-            this.songButton.Text = "Sing me a song";
+            this.songButton.Text = "Song";
             this.songButton.UseVisualStyleBackColor = true;
             this.songButton.Click += new System.EventHandler(this.songButton_Click);
             // 
@@ -196,19 +196,19 @@
             // 
             this.virusButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.virusButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.virusButton.Location = new System.Drawing.Point(385, 253);
+            this.virusButton.Location = new System.Drawing.Point(385, 352);
             this.virusButton.Margin = new System.Windows.Forms.Padding(2);
             this.virusButton.Name = "virusButton";
             this.virusButton.Size = new System.Drawing.Size(153, 63);
             this.virusButton.TabIndex = 107;
-            this.virusButton.Text = "Are you spyware?";
+            this.virusButton.Text = "Information";
             this.virusButton.UseVisualStyleBackColor = true;
             // 
             // showHideButton
             // 
             this.showHideButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.showHideButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.showHideButton.Location = new System.Drawing.Point(572, 253);
+            this.showHideButton.Location = new System.Drawing.Point(574, 451);
             this.showHideButton.Margin = new System.Windows.Forms.Padding(2);
             this.showHideButton.Name = "showHideButton";
             this.showHideButton.Size = new System.Drawing.Size(153, 63);
@@ -226,43 +226,44 @@
             this.dictionaryButton.Name = "dictionaryButton";
             this.dictionaryButton.Size = new System.Drawing.Size(153, 63);
             this.dictionaryButton.TabIndex = 109;
-            this.dictionaryButton.Text = "Lookup a word for me";
+            this.dictionaryButton.Text = "Dictionary";
             this.dictionaryButton.UseVisualStyleBackColor = true;
+            this.dictionaryButton.Click += new System.EventHandler(this.dictionaryButton_Click);
             // 
             // recipeButton
             // 
             this.recipeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.recipeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.recipeButton.Location = new System.Drawing.Point(198, 352);
+            this.recipeButton.Location = new System.Drawing.Point(572, 253);
             this.recipeButton.Margin = new System.Windows.Forms.Padding(2);
             this.recipeButton.Name = "recipeButton";
             this.recipeButton.Size = new System.Drawing.Size(153, 63);
             this.recipeButton.TabIndex = 110;
-            this.recipeButton.Text = "Give me a recipe idea";
+            this.recipeButton.Text = "Recipe";
             this.recipeButton.UseVisualStyleBackColor = true;
             // 
             // triviaButton
             // 
             this.triviaButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.triviaButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.triviaButton.Location = new System.Drawing.Point(385, 352);
+            this.triviaButton.Location = new System.Drawing.Point(572, 154);
             this.triviaButton.Margin = new System.Windows.Forms.Padding(2);
             this.triviaButton.Name = "triviaButton";
             this.triviaButton.Size = new System.Drawing.Size(153, 63);
             this.triviaButton.TabIndex = 111;
-            this.triviaButton.Text = "Tell me some trivia";
+            this.triviaButton.Text = "Trivia";
             this.triviaButton.UseVisualStyleBackColor = true;
             // 
             // riddleButton
             // 
             this.riddleButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.riddleButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.riddleButton.Location = new System.Drawing.Point(572, 352);
+            this.riddleButton.Location = new System.Drawing.Point(385, 253);
             this.riddleButton.Margin = new System.Windows.Forms.Padding(2);
             this.riddleButton.Name = "riddleButton";
             this.riddleButton.Size = new System.Drawing.Size(153, 63);
             this.riddleButton.TabIndex = 112;
-            this.riddleButton.Text = "Tell me a riddle";
+            this.riddleButton.Text = "Riddle";
             this.riddleButton.UseVisualStyleBackColor = true;
             // 
             // babyButton
@@ -305,13 +306,14 @@
             // 
             this.randomWordButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
             this.randomWordButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.randomWordButton.Location = new System.Drawing.Point(572, 451);
+            this.randomWordButton.Location = new System.Drawing.Point(198, 352);
             this.randomWordButton.Margin = new System.Windows.Forms.Padding(2);
             this.randomWordButton.Name = "randomWordButton";
             this.randomWordButton.Size = new System.Drawing.Size(153, 63);
             this.randomWordButton.TabIndex = 116;
-            this.randomWordButton.Text = "Give me a random word";
+            this.randomWordButton.Text = "Random Word";
             this.randomWordButton.UseVisualStyleBackColor = true;
+            this.randomWordButton.Click += new System.EventHandler(this.randomWordButton_Click);
             // 
             // BonziBuddyControlPanel
             // 

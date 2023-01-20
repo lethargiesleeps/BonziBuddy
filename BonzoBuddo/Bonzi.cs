@@ -57,15 +57,15 @@ public class Bonzi
                 if (Data != null)
                     _speechPattern = !Initialized
                         ? new Greeting(Phrases.BonziIntro(Temporary))
-                        : new Greeting(Phrases.ReturnGreeting(Data.Name));
+                        : new Greeting(Phrases.ReturnGreeting(Data.Name!));
                 break;
             case SpeechType.Weather:
                 if (_speechPattern is not WeatherForecast)
                     try
                     {
                         if (Data != null)
-                            _speechPattern = new WeatherForecast(Data.City,
-                                ApiHelper.GetWeather(Data.City, WeatherUnits.Celcius));
+                            _speechPattern = new WeatherForecast(Data.City!,
+                                ApiHelper.GetWeather(Data.City!, WeatherUnits.Celcius));
                     }
                     catch (HttpRequestException e)
                     {
@@ -76,7 +76,7 @@ public class Bonzi
             case SpeechType.Insulted:
                 if (_speechPattern is not Insulted)
                     if (Data != null)
-                        _speechPattern = new Insulted(Data.Name);
+                        _speechPattern = new Insulted(Data.Name!);
 
                 break;
             case SpeechType.Joke:
@@ -86,7 +86,7 @@ public class Bonzi
             case SpeechType.Fact:
                 if (_speechPattern is not Fact)
                     if (Data != null)
-                        _speechPattern = new Fact(Data.Name);
+                        _speechPattern = new Fact(Data.Name!);
                 break;
             case SpeechType.ShowHide:
                 _speechPattern = new ShowHide(this);
@@ -95,7 +95,12 @@ public class Bonzi
                 var news = new News(PersistenceHelper.NewsKeywords, PersistenceHelper.CountryCode,
                     PersistenceHelper.NewsCategory);
                 _speechPattern = news;
-
+                break;
+            case SpeechType.WordDefinition:
+                _speechPattern = new WordDefinition(PersistenceHelper.Dictionary!, PersistenceHelper.Thesaurus);
+                break;
+            case SpeechType.RandomWord:
+                _speechPattern = new WordDefinition(PersistenceHelper.Definition, PersistenceHelper.Thesaurus);
                 break;
         }
     }
