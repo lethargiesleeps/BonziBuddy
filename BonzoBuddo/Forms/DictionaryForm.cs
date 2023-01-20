@@ -77,4 +77,14 @@ public partial class DictionaryForm : Form
             Close();
         }
     }
+
+    private void cancelButton_Click(object sender, EventArgs e)
+    {
+        PersistenceHelper.ClearData(new[]
+        {
+            PersistenceType.Dictionary,
+            PersistenceType.Thesaurus
+        });
+        Close();
+    }
 }

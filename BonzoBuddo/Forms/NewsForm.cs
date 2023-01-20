@@ -33,11 +33,22 @@ public partial class NewsForm : Form
 
     private void cancelButton_Click(object sender, EventArgs e)
     {
+        PersistenceHelper.ClearData(new[]
+        {
+            PersistenceType.NewsResults,
+            PersistenceType.ArticleDate,
+            PersistenceType.ArticleUrl,
+            PersistenceType.Country,
+            PersistenceType.CountryCode,
+            PersistenceType.NewsCategory,
+            PersistenceType.NewsKeywords
+        });
         Dispose();
         Close();
 
         RandomNumberHelper.SetIndex(_explainAnimations);
         _helper.Play(_explainAnimations[RandomNumberHelper.CurrentValue]);
+        //TODO: Refactor into Phrases.cs
         _helper.Speak("I get it, news is a social contaminator.");
     }
 

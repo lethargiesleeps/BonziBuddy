@@ -13,5 +13,6 @@ public enum SpeechType
     Insulted,
     ShowHide,
     News,
-    WordDefinition
+    WordDefinition,
+    RandomWord
 }

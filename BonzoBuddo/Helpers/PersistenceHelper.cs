@@ -7,8 +7,7 @@ public static class PersistenceHelper
 {
     public static string? Dictionary { get; private set; }
     public static bool Thesaurus { get; private set; }
-    public static bool DictionaryHasResult { get; set; }
-    public static bool HasCussWords { get; set; }
+    public static bool Definition { get; private set; }
     public static string? CountryCode { get; private set; }
     public static string? Country { get; private set; }
     public static string? NewsKeywords { get; private set; }
@@ -127,6 +126,9 @@ public static class PersistenceHelper
             case PersistenceType.Thesaurus:
                 Thesaurus = bool.Parse(data);
                 break;
+            case PersistenceType.Definition:
+                Definition = bool.Parse(data); 
+                break;
             case PersistenceType.CountryCode:
                 CountryCode = data;
                 break;
@@ -175,6 +177,9 @@ public static class PersistenceHelper
             case PersistenceType.Thesaurus:
                 Thesaurus = false;
                 break;
+            case PersistenceType.Definition:
+                Definition = false;
+                break;
             case PersistenceType.CountryCode:
                 CountryCode = string.Empty;
                 break;
@@ -208,6 +213,7 @@ public static class PersistenceHelper
         NewsResults = 0;
         ArticlePublishDate = string.Empty;
         ArticleUrl = string.Empty;
+        Definition = false;
     }
 }
 
@@ -218,6 +224,7 @@ public enum PersistenceType
 {
     Dictionary,
     Thesaurus,
+    Definition,
     CountryCode,
     Country,
     NewsCategory,

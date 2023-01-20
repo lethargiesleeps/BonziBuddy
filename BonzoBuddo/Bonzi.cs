@@ -99,6 +99,9 @@ public class Bonzi
             case SpeechType.WordDefinition:
                 _speechPattern = new WordDefinition(PersistenceHelper.Dictionary!, PersistenceHelper.Thesaurus);
                 break;
+            case SpeechType.RandomWord:
+                _speechPattern = new WordDefinition(PersistenceHelper.Definition, PersistenceHelper.Thesaurus);
+                break;
         }
     }
 

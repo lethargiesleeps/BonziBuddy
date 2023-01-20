@@ -344,7 +344,7 @@ public partial class BonziBuddyControlPanel : Form
         _helper.Stop();
 
         _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["GetNews"]);
-        _helper.Play("GestureRight");
+        _helper.Play("GestureUp");
         var news = new NewsForm(_helper, _bonzi);
         news.Show();
     }
@@ -362,7 +362,11 @@ public partial class BonziBuddyControlPanel : Form
 
     private void randomWordButton_Click(object sender, EventArgs e)
     {
-
+        _helper.Stop();
+        var randomWord = new RandomWordForm(_helper, _bonzi);
+        _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["PreRandomWord"]);
+        _helper.Play("GestureUp");
+        randomWord.Show();
     }
     
 }

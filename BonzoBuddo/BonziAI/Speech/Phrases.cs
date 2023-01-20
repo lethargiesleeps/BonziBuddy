@@ -143,6 +143,7 @@ public static class Phrases
         };
     }
 
+     
     public static Dictionary<string, string> Prompts(string name)
     {
         return new Dictionary<string, string>
@@ -155,10 +156,23 @@ public static class Phrases
             {
                 "GetDictionary",
                 $"{PreDictionary(name)} I just need you to let me know what word you'd like for me to look up."
-            }
+            },
+            {"PreRandomWord", $"Not a problem {name}, let me know if you would also like for me to get a definition."},
+            {"RandomWord", "Ok, let me just think of a word."}
         };
     }
 
+    public static List<string> PreRandomWord(string word)
+    {
+        return new List<string>()
+        {
+            $"Bet you've never heard of '{word}' before.",
+            $"'{word}' !",
+            $"'{word}' is my new favorite word.",
+            $"Have you ever heard of '{word}'?",
+            $"I've got it, it's '{word}'!"
+        };
+    }
     private static string PreDictionary(string name)
     {
         var prompts = new List<string>
@@ -175,7 +189,7 @@ public static class Phrases
     {
         var prompts = new List<string>
         {
-            "That was an easy word.",
+            "That was an easy one.",
             $"Don't you wish you were as smart as me?",
             $"Who know '{word}' actually had a definition?!",
             $"I'll add '{word}' to my list of favorite words!",
@@ -209,7 +223,8 @@ public static class Phrases
             {"NoWordDictionary", "You didn't even enter a word!"},
             {"WhitespaceDictionary", "Here is the definition for space bar: a key on your keyboard."},
             {"MultipleWordsDictionary", "Whoa there buddy, I said \"a\" word."},
-            {"HasCussWords", illegalPrompts[RandomNumberHelper.CurrentValue]}
+            {"HasCussWords", illegalPrompts[RandomNumberHelper.CurrentValue]},
+            {"RandomWordIllegalBoxCombo", "I can't just search for synonyms and antonyms. If you want those, please check 'Definition' as well."}
         };
     }
 

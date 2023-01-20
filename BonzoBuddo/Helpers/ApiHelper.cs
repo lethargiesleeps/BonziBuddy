@@ -11,6 +11,29 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class ApiHelper
 {
+
+    public static string GetRandomWord()
+    {
+        var returnValue = string.Empty;
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("X-Api-Key", Keys.NinjaKey());
+        try
+        {
+            var response = client.GetStringAsync($"https://api.api-ninjas.com/v1/randomword");
+            var data = JsonNode.Parse(response.Result!);
+            returnValue = data.Root["word"]!.ToString();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+
+        }
+        finally
+        {
+            client.Dispose();
+        }
+        return returnValue;
+    }
     /// <summary>
     ///     Returns a definition of a word using Ninja API. If 'thesaurus' is true, a new call is made to retrieve to a
     ///     different API to retrieve synonyms and antonyms.
@@ -36,7 +59,7 @@ public static class ApiHelper
                 {
                     var sb = new StringBuilder();
                     var index = 0;
-                    while (index <= 100)
+                    while (index <= 75)
                     {
                         sb.Append($"{definitionWords[index]} ");
                         index++;
