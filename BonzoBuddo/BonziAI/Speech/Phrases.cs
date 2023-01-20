@@ -1,4 +1,6 @@
-﻿namespace BonzoBuddo.BonziAI.Speech;
+﻿using BonzoBuddo.Helpers;
+
+namespace BonzoBuddo.BonziAI.Speech;
 
 /// <summary>
 ///     Lists and dictionaries of phrases used by Bonzi.
@@ -7,11 +9,12 @@ public static class Phrases
 {
     public static List<string> AuxiliaryPhrases(string name)
     {
-        return new List<string>()
+        return new List<string>
         {
             "You silly goose you."
         };
     }
+
     public static List<string> ShowMessages(string name)
     {
         return new List<string>
@@ -39,6 +42,7 @@ public static class Phrases
         };
     }
 
+    
     public static List<string> PostFact(string name)
     {
         return new List<string>
@@ -123,6 +127,7 @@ public static class Phrases
                 greetingTime = $"{name}, you are quite the night owl aren't you?";
                 break;
         }
+
         return new List<string>
         {
             $"Welcome back {name}!",
@@ -134,9 +139,7 @@ public static class Phrases
             $"{name}! Did you miss me?",
             $"Just another day with my best friend {name}!",
             $"{name}, what do you want to do today?",
-            greetingTime,
-
-            
+            greetingTime
         };
     }
 
@@ -144,27 +147,57 @@ public static class Phrases
     {
         return new Dictionary<string, string>
         {
+            {"OpenPanel", "Look at all those buttons!"},
+            {"ClosePanel", $" It's {DateTime.Now.Year}, who needs buttons anymore!"},
             {"GetWeather", "Please wait while I use my big and marvelous brain to get the weather."},
             {"GetNews", $"No problem {name}. I just need some extra information from you before I conduct my search."},
             {"SearchNews", $"{name}, it would be my pleasure. Please give me a few seconds."},
-            {"GetDictionary", $"{ExtraDictionaryInitialPrompt(name)} I just need you to let me know what word you'd like for me to lookup."}
+            {
+                "GetDictionary",
+                $"{PreDictionary(name)} I just need you to let me know what word you'd like for me to look up."
+            }
         };
     }
 
-    private static string ExtraDictionaryInitialPrompt(string name)
+    private static string PreDictionary(string name)
     {
-        List<string> prompts = new List<string>()
+        var prompts = new List<string>
         {
             $"No problem {name}, just let me know what word you're unsure of.",
             "Back in my glory days, everyone had a dictionary in their homes. I guess you don't, let me look it up for you.",
             "Have not read the Oxford Dictionary? It's one of the best selling books in the world. Guess not, I can take care of that for you.",
             $"Here is the definition of intelligent: Purple Gorilla, usually hilarious and awesome. Synonyms: Bonzi, Antonyms: {name}. Just kidding, I can help you."
         };
-        Random random = new Random();
-        return prompts[random.Next(prompts.Count)];
+        
+        return prompts[new Random().Next(prompts.Count)];
     }
+    public static string PostDictionary(string word)
+    {
+        var prompts = new List<string>
+        {
+            "That was an easy word.",
+            $"Don't you wish you were as smart as me?",
+            $"Who know '{word}' actually had a definition?!",
+            $"I'll add '{word}' to my list of favorite words!",
+            $"I thought '{word}' meant something else, but I guess I was wrong!"
+        };
+        RandomNumberHelper.SetIndex(prompts.Count);
+        return prompts[RandomNumberHelper.CurrentValue];
+    }
+
     public static Dictionary<string, string> ErrorMessages()
     {
+        var illegalPrompts = new List<string>()
+        {
+            "I'm not looking that up!",
+            "Who raised you with such bad language.",
+            "They say only the uneducated use bad words.",
+            "Cussing is the language of idiots!",
+            "Are you trying to get me arrested?"
+
+        };
+
+        RandomNumberHelper.SetIndex(illegalPrompts.Count);
         return new Dictionary<string, string>
         {
             {
@@ -175,7 +208,8 @@ public static class Phrases
             {"BadNewsRequest", "Hmmm something went wrong. You can try again."},
             {"NoWordDictionary", "You didn't even enter a word!"},
             {"WhitespaceDictionary", "Here is the definition for space bar: a key on your keyboard."},
-            {"MultipleWordsDictionary", "Whoa there buddy, I said \"a\" word."}
+            {"MultipleWordsDictionary", "Whoa there buddy, I said \"a\" word."},
+            {"HasCussWords", illegalPrompts[RandomNumberHelper.CurrentValue]}
         };
     }
 

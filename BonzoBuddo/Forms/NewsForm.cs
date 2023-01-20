@@ -71,30 +71,55 @@ public partial class NewsForm : Form
             categoryBox.SelectedItem = "General";
         }
 
-        PersistenceHelper.SetData(PersistenceType.NewsKeywords, keywordsBox.Text);
-        _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["SearchNews"]);
-        _helper.Play("MailRead");
-        _bonzi.SetSpeechPattern(SpeechType.News);
-        _helper.Play("MailReturn");
-
-        _helper.Speak(_bonzi.Speak()!.GetPhrase("Author"));
-        _helper.Speak(_bonzi.Speak()!.GetPhrase("Title"));
-        _helper.Speak(_bonzi.Speak()!.GetPhrase("Excerpt"));
-
-        //Thread.Sleep(10000);
-        var dialogue = MessageBox.Show("Do you want to view more details?", "News", MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question);
-        if (dialogue == DialogResult.Yes)
+        
+        if (UiHelper.CheckForCussWords(keywordsBox.Text))
         {
-            var articleForm = new Article(_bonzi.Speak()!.GetPhrase("Title"), _bonzi.Speak()!.GetPhrase("Summary"));
-            articleForm.Show();
-            //TODO: Make bonzi act
-            ClearAndDispose();
+            if (new Random().Next(0, 5001) == 1234)
+            {
+                var s = keywordsBox.Text;
+                _helper.Speak($"{s}, {s}, {s}, {s}, {s}, {s}. I'm imitating you, {_bonzi.Data!.Name!}! This is what you sound like you ignorant child!");
+                _helper.Play("Giggle");
+                _helper.Hide();
+                Dispose(true);
+                Close();
+            }
+            else
+            {
+                _helper.Play("Unbelievable");
+                _helper.Speak(Phrases.ErrorMessages()["HasCussWords"]);
+                keywordsBox.Text = string.Empty;
+            }
+            
         }
         else
         {
-            //TODO: Make bonzi act
-            ClearAndDispose();
+            PersistenceHelper.SetData(PersistenceType.NewsKeywords, keywordsBox.Text);
+            _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["SearchNews"]);
+            _helper.Play("MailRead");
+            _bonzi.SetSpeechPattern(SpeechType.News);
+            _helper.Play("MailReturn");
+            if (_bonzi.Speak()!.GetPhraseDictionary()!.ContainsKey("NoResults"))
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("NoResults"));
+            else
+            {
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("Author"));
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("Title"));
+                _helper.Speak(_bonzi.Speak()!.GetPhrase("Excerpt"));
+                var dialogue = MessageBox.Show("Do you want to view more details?", "News", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+                if (dialogue == DialogResult.Yes)
+                {
+                    var articleForm = new Article(_bonzi.Speak()!.GetPhrase("Title"), _bonzi.Speak()!.GetPhrase("Summary"));
+                    articleForm.Show();
+                    //TODO: Make bonzi act
+                    ClearAndDispose();
+                }
+                else
+                {
+                    //TODO: Make bonzi act
+                    ClearAndDispose();
+                }
+            }
         }
     }
 

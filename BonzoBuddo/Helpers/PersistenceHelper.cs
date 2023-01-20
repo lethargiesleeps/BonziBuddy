@@ -8,6 +8,7 @@ public static class PersistenceHelper
     public static string? Dictionary { get; private set; }
     public static bool Thesaurus { get; private set; }
     public static bool DictionaryHasResult { get; set; }
+    public static bool HasCussWords { get; set; }
     public static string? CountryCode { get; private set; }
     public static string? Country { get; private set; }
     public static string? NewsKeywords { get; private set; }
@@ -151,14 +152,15 @@ public static class PersistenceHelper
     }
 
     /// <summary>
-    /// Clears data passed by adding a PersistenceType array.
+    ///     Clears data passed by adding a PersistenceType array.
     /// </summary>
     /// <param name="types">Array of persistent data to clear.</param>
     public static void ClearData(PersistenceType[] types)
     {
-        foreach(var t in types)
+        foreach (var t in types)
             ClearData(t);
     }
+
     /// <summary>
     ///     Clears data, should be used after every call to this class.
     /// </summary>

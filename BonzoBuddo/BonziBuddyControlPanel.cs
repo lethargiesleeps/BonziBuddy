@@ -3,6 +3,8 @@ using BonzoBuddo.BonziAI.Speech;
 using BonzoBuddo.Forms;
 using BonzoBuddo.Helpers;
 using DoubleAgent.AxControl;
+using DoubleAgent.Control;
+using DoubleAgent.Control.Native;
 using Control = System.Windows.Forms.Control;
 
 namespace BonzoBuddo;
@@ -12,6 +14,22 @@ namespace BonzoBuddo;
 /// </summary>
 public partial class BonziBuddyControlPanel : Form
 {
+    //TODO: Documentation
+
+    private readonly AxControl _agent;
+    private const string AcsPath = "C:\\agents\\Bonzi.acs";
+    private const string AgentName = "Bonzi";
+    private const string TtsId = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
+    private readonly Bonzi _bonzi;
+    private readonly BonziHelper _helper;
+    private readonly Control[] _disposableControls;
+    private readonly Control[] _controls;
+    private int _debugCounter;
+    private bool _formDisplayedInit;
+    private bool _formHiding;
+    private UserInput _input;
+    private CtlCommandEvent? _event;
+    private CtlCommandEventHandler? _handler;
     /// <summary>
     ///     Constructor for Control Panel. Contains all instantiation and loading logic.
     ///     Determines if program has been used before, also sets visibility of all UI controls to be used.
@@ -55,9 +73,11 @@ public partial class BonziBuddyControlPanel : Form
             Convert.ToInt16(Screen.PrimaryScreen.Bounds.Bottom - 500), 500);
         _agent.Characters[AgentName].SetSize(250, 250);
         _agent.Characters[AgentName].Show();
+
+        _helper = UiHelper.CreateCommandMenu(new BonziHelper(_agent, AgentName));
+        _input = new UserInput(null);
         
-        _helper = new BonziHelper(_agent, AgentName);
-        
+
         if (!_bonzi.Initialized)
         {
             UiHelper.ToggleControlVisibility(_controls, false);
@@ -69,6 +89,8 @@ public partial class BonziBuddyControlPanel : Form
         }
         else
         {
+            _agent.CtlCommand += agent_CtlCommand;
+            this.Hide();
             _bonzi.SetSpeechPattern(SpeechType.Greeting);
             UiHelper.ToggleControlVisibility(_controls, true);
             UiHelper.ToggleControlVisibility(_disposableControls, false);
@@ -79,9 +101,74 @@ public partial class BonziBuddyControlPanel : Form
             if (RandomNumberHelper.CurrentValue == 4)
                 _helper.Play("Giggle");
         }
+
+        
+
+
     }
 
-   
+    /// <summary>
+    /// Fires relevant commands for when user click on item in command menu.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">CtlCommandEvent args, use EventArgs.Empty</param>
+    private void agent_CtlCommand(object sender, CtlCommandEvent e)
+    {
+        switch (e.UserInput.Name)
+        {
+            case "Joke":
+                jokeButton_Click(sender, EventArgs.Empty);
+                break;
+            case "Fact":
+                factButton_Click(sender, EventArgs.Empty);
+                break;
+            case "Weather":
+                weatherButton_Click(sender, EventArgs.Empty);
+                break;
+            case "News":
+                newsButton_Click(sender, EventArgs.Empty);
+                break;
+            case "Dictionary":
+                dictionaryButton_Click(sender, EventArgs.Empty);
+                break;
+            case "Random Word":
+                randomWordButton_Click(sender, EventArgs.Empty);
+                break;
+            case "Show Panel":
+                if (!_formDisplayedInit)
+                {
+                    Show();
+                    _formDisplayedInit = true;
+                    _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["OpenPanel"]);
+                    _helper.Play("Idle1_7");
+                }
+                else
+                {
+                    if (_formHiding)
+                    {
+                        _helper.Stop();
+                        _formHiding = false;
+                        WindowState = FormWindowState.Normal;
+                        _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["OpenPanel"]);
+                        _helper.Play("Idle1_7");
+                    }
+                    else
+                    {
+                        _helper.Stop();
+                        _formHiding = true;
+                        WindowState = FormWindowState.Minimized;
+                        _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["ClosePanel"]);
+                        _helper.Play("Idle1_24");
+                    }
+                    Debug.WriteLine($"INIT: {_formDisplayedInit}\nCURRENT: {_formHiding}");
+                }
+                break;
+            default:
+                songButton_Click(sender, EventArgs.Empty);
+                break;
+        }
+    }
+
     /// <summary>
     ///     Makes Bonzi tell a fact.
     /// </summary>
@@ -139,7 +226,6 @@ public partial class BonziBuddyControlPanel : Form
                 _helper.Play("PleasedSoft");
                 break;
         }
-        
     }
 
     /// <summary>
@@ -256,12 +342,13 @@ public partial class BonziBuddyControlPanel : Form
     private void newsButton_Click(object sender, EventArgs e)
     {
         _helper.Stop();
-        
+
         _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["GetNews"]);
         _helper.Play("GestureRight");
         var news = new NewsForm(_helper, _bonzi);
         news.Show();
     }
+
     private void dictionaryButton_Click(object sender, EventArgs e)
     {
         _helper.Stop();
@@ -271,20 +358,12 @@ public partial class BonziBuddyControlPanel : Form
         dictionary.Show();
     }
 
-    #region PrivateFields
+    
 
-    private readonly AxControl _agent;
-    private const string AcsPath = "C:\\agents\\Bonzi.acs";
-    private const string AgentName = "Bonzi";
-    private const string TtsId = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
-    private readonly Bonzi _bonzi;
-    private readonly BonziHelper _helper;
-    private readonly Control[] _disposableControls;
-    private readonly Control[] _controls;
+    private void randomWordButton_Click(object sender, EventArgs e)
+    {
 
-    private int _debugCounter;
-
-    #endregion
-
+    }
     
 }
+

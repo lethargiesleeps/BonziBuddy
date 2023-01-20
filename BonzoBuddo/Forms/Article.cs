@@ -3,14 +3,14 @@
 namespace BonzoBuddo.Forms;
 
 /// <summary>
-/// Form for displaying content of an Article.
-/// <see cref="NewsForm"/>
-/// <seealso cref="ApiHelper"/>
+///     Form for displaying content of an Article.
+///     <see cref="NewsForm" />
+///     <seealso cref="ApiHelper" />
 /// </summary>
 public partial class Article : Form
 {
     /// <summary>
-    /// Default constructor.
+    ///     Default constructor.
     /// </summary>
     /// <param name="title">Article title</param>
     /// <param name="summary">Article contents</param>
@@ -25,7 +25,7 @@ public partial class Article : Form
     }
 
     /// <summary>
-    /// Opens a URL in default browser when link label is clicked.
+    ///     Opens a URL in default browser when link label is clicked.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -37,7 +37,7 @@ public partial class Article : Form
     }
 
     /// <summary>
-    /// Closes form.
+    ///     Closes form.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
