@@ -1,6 +1,9 @@
 ﻿namespace BonzoBuddo.BonziAI.Songs.SongBuilder;
 
-//TODO: Document
+/// <summary>
+/// Enum containing representations of all the letter notes.
+/// </summary>
+/// <see cref="Notes"/>
 public enum NoteType
 {
     GSharp,

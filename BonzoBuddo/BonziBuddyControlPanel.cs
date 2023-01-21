@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using BonzoBuddo.BonziAI.Songs;
+using BonzoBuddo.BonziAI.Songs.SongBuilder;
 using BonzoBuddo.BonziAI.Speech;
 using BonzoBuddo.Forms;
 using BonzoBuddo.Helpers;
@@ -337,7 +339,9 @@ public partial class BonziBuddyControlPanel : Form
     private void songButton_Click(object sender, EventArgs e)
     {
         _helper.Stop();
-        _helper.Speak("\\Chr=\"Monotone\"\\\\Spd=130\\\\Pit=52\\doe \\Pit=55\\ray \\Spd=100\\\\Pit=62\\me \\Pit=65\\fah");
+        var songs = new Songs();
+        _helper.Speak(songs.SongDictionary["Mary Had A Little Lamb"].ToString());
+        //_helper.Speak("\\Chr=\"Monotone\"\\\\Spd=130\\\\Pit=52\\doe \\Pit=55\\ray \\Spd=100\\\\Pit=62\\me \\Pit=65\\fah");
         //Bonzi.Speak "\Chr=""Monotone""\\Map=""\Pit=52\\Spd=130\doe \Pit=55\ray \Pit=62\me \Pit=65\fah \Pit=73\so \Pit=82\lah \Pit=87\tea \Pit=104\doe""=""do re mi fa so la ti do""\"
 
     }

@@ -2,7 +2,9 @@
 
 namespace BonzoBuddo.BonziAI.Songs.SongBuilder;
 
-//TODO: Document
+/// <summary>
+/// This class contains static Note objects with their pitch set to their corresponding letter note values.
+/// </summary>
 public static class Notes
 {
     public static Note GSharp = new (NoteType.GSharp);
@@ -19,6 +21,9 @@ public static class Notes
     public static Note ASharp = new(NoteType.ASharp);
     public static List<Note> CustomNotes = new();
 
+    /// <summary>
+    /// Resets all the Notes in this class to their initial value. Should be used if pitch is ever adjusted during song building.
+    /// </summary>
     public static void ResetNotes()
     {
         GSharp = new(NoteType.GSharp);
@@ -34,6 +39,4 @@ public static class Notes
         A = new(NoteType.A);
         ASharp = new(NoteType.ASharp);
     }
-
-
 }
