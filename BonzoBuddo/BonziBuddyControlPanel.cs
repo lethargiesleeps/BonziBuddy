@@ -336,7 +336,10 @@ public partial class BonziBuddyControlPanel : Form
 
     private void songButton_Click(object sender, EventArgs e)
     {
-        _helper.Speak("I'm afraid I can't do that just yet.");
+        _helper.Stop();
+        _helper.Speak("\\Chr=\"Monotone\"\\\\Spd=130\\\\Pit=52\\doe \\Pit=55\\ray \\Spd=100\\\\Pit=62\\me \\Pit=65\\fah");
+        //Bonzi.Speak "\Chr=""Monotone""\\Map=""\Pit=52\\Spd=130\doe \Pit=55\ray \Pit=62\me \Pit=65\fah \Pit=73\so \Pit=82\lah \Pit=87\tea \Pit=104\doe""=""do re mi fa so la ti do""\"
+
     }
 
     private void newsButton_Click(object sender, EventArgs e)
