@@ -28,6 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="BonziAI\Songs\SongBuilder\" />
 		<Folder Include="BonziAI\Speech\" />
 	</ItemGroup>
 
