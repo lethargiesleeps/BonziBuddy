@@ -47,13 +47,17 @@ public static class Phrases
     {
         return new List<string>
         {
-            "Wow! Isn't it fun to learn something new everyday.",
+            "Wow! Isn't it fun to learn something new everyday?",
             $"{name}, I really think you should thank me for giving you this vital information.",
             "Well, isn't this fascinating.",
             "They say Einstein was the smartest man in the world. I think now we can both agree that it's Bonzi!",
             "You learn a lot when you spend nearly two decades in internet prison.",
             "That's fascinating to you, but I already knew that.",
-            $"{name}, aren't I a wealth of information!"
+            $"{name}, aren't I a wealth of information!",
+            "The more you know!",
+            "You learn a lot being the world's most famous purple simian!",
+            "I didn't know that one! Did you?",
+            $"{name}, are you hungry for knowledge?"
         };
     }
 
@@ -155,11 +159,12 @@ public static class Phrases
             {"SearchNews", $"{name}, it would be my pleasure. Please give me a few seconds."},
             {
                 "GetDictionary",
-                $"{PreDictionary(name)} I just need you to let me know what word you'd like for me to look up."
+                $"{PreDictionary(name)} I just need you to tell me what word you'd like for me to look up."
             },
             {"PreRandomWord", $"Not a problem {name}, let me know if you would also like for me to get a definition."},
             {"RandomWord", "Ok, let me just think of a word."},
-            {"PostSong", $"I hope you enjoyed that, that was one of my favorite tunes {name}!"}
+            {"PostSong", $"I hope you enjoyed that, that was one of my favorite tunes {name}!"},
+            {"PreRecipe", $"{PreRecipe(name)}"}
         };
     }
 
@@ -173,6 +178,25 @@ public static class Phrases
             $"Have you ever heard of '{word}'?",
             $"I've got it, it's '{word}'!"
         };
+    }
+
+    private static string PreRecipe(string name)
+    {
+        var prompts = new List<string>()
+        {
+            $"{name} hungry!",
+            $"I'm a world renown chef! Let me know what you would like to cook.",
+            $"{name}! If you just tell me what you feel like eating, I'll tell you how to cook it.",
+            $"I can help you with that. As long as you share.",
+            $"I'm the head chef at {name}'s Kitchen!",
+            "You're in good hands. I can work a kitchen like I used to work your private information.",
+            $"Not a problem {name}. Just let me know what you want to eat.",
+            "Who needs search engines when you've got Bonzi!",
+            $"No problem, but if you don't nail this recipe..."
+
+        };
+        RandomNumberHelper.SetIndex(prompts.Count);
+        return prompts[RandomNumberHelper.CurrentValue];
     }
     private static string PreDictionary(string name)
     {

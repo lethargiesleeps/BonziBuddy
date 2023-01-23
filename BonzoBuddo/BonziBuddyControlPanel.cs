@@ -30,7 +30,7 @@ public partial class BonziBuddyControlPanel : Form
     private bool _formDisplayedInit;
     private bool _formHiding;
     private UserInput _input;
-    private string[] _songKeys;
+    
     /// <summary>
     ///     Constructor for Control Panel. Contains all instantiation and loading logic.
     ///     Determines if program has been used before, also sets visibility of all UI controls to be used.
@@ -64,15 +64,17 @@ public partial class BonziBuddyControlPanel : Form
             triviaButton,
             riddleButton,
             babyButton,
-            mortgageButton
+            mortgageButton,
+            airQualityButton,
+
         };
         _agent = new AxControl();
         _agent.CreateControl();
         _agent.Characters.Load(AgentName, AcsPath);
         _agent.Characters[AgentName].TTSModeID = TtsId;
-        _agent.Characters[AgentName].MoveTo(Convert.ToInt16(Screen.PrimaryScreen.Bounds.Right - 700),
-            Convert.ToInt16(Screen.PrimaryScreen.Bounds.Bottom - 500), 500);
-        _agent.Characters[AgentName].SetSize(250, 250);
+        _agent.Characters[AgentName].MoveTo(Convert.ToInt16(Screen.PrimaryScreen.Bounds.Right - 600),
+            Convert.ToInt16(Screen.PrimaryScreen.Bounds.Bottom - 450), 500);
+        //_agent.Characters[AgentName].SetSize(250, 250);
         _agent.Characters[AgentName].Show();
 
         _helper = UiHelper.CreateCommandMenu(new BonziHelper(_agent, AgentName));
@@ -81,6 +83,9 @@ public partial class BonziBuddyControlPanel : Form
 
         if (!_bonzi.Initialized)
         {
+            Show();
+            _formHiding = false;
+            _formHiding = true;
             UiHelper.ToggleControlVisibility(_controls, false);
             UiHelper.ToggleControlVisibility(_disposableControls, true);
             _bonzi.SetSpeechPattern(SpeechType.Greeting);
@@ -90,24 +95,39 @@ public partial class BonziBuddyControlPanel : Form
         }
         else
         {
-            _agent.CtlCommand += agent_CtlCommand;
+            
             this.Hide();
             _bonzi.SetSpeechPattern(SpeechType.Greeting);
             UiHelper.ToggleControlVisibility(_controls, true);
             UiHelper.ToggleControlVisibility(_disposableControls, false);
             _helper.Play("Wave");
             _helper.Speak(_bonzi.Speak()!.GetRandomPhrase());
-
+            PersistenceHelper.SetData(PersistenceType.Name, _bonzi.Data!.Name!);
             //If random phrase is specific, can maybe refactor to own helper class later.
             if (RandomNumberHelper.CurrentValue == 4)
                 _helper.Play("Giggle");
         }
 
-        
 
+        _agent.CtlCommand += agent_CtlCommand;
+        
 
     }
 
+    
+    private void agent_Move(object sender, CtlMoveEvent e)
+    {
+        //TODO: Add more
+        _helper.Stop();
+        _helper.Play("Surprised");
+        _helper.Speak("What do you think you're doing?!");
+    }
+    private void agent_DblClick(object sender, CtlDblClickEvent e)
+    {
+        //TODO: Add more
+        _helper.Play("Sad");
+        _helper.Speak("That hurts!");
+    }
     /// <summary>
     /// Fires relevant commands for when user click on item in command menu.
     /// </summary>
@@ -134,6 +154,12 @@ public partial class BonziBuddyControlPanel : Form
                 break;
             case "Random Word":
                 randomWordButton_Click(sender, EventArgs.Empty);
+                break;
+            case "Recipe":
+                recipeButton_Click(sender, EventArgs.Empty);
+                break;
+            case "Roll Dice":
+                rollDice_Click(sender, EventArgs.Empty);
                 break;
             case "Show Panel":
                 if (!_formDisplayedInit)
@@ -170,6 +196,10 @@ public partial class BonziBuddyControlPanel : Form
         }
     }
 
+    private void rollDice_Click(object sender, EventArgs e)
+    {
+        _helper.Speak($"You rolled a {new Random().Next(0, 21)}!");
+    }
     /// <summary>
     ///     Makes Bonzi tell a fact.
     /// </summary>
@@ -282,6 +312,7 @@ public partial class BonziBuddyControlPanel : Form
         _helper.Speak(_bonzi.Speak()!.GetPhraseDictionary()!["Intro"]);
         _helper.Speak(_bonzi.Speak()!.GetPhraseDictionary()!["Smart"]);
         _helper.Play("Confused");
+        Close();
     }
 
     /// <summary>
@@ -355,7 +386,7 @@ public partial class BonziBuddyControlPanel : Form
         _helper.Stop();
 
         _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["GetNews"]);
-        _helper.Play("GestureUp");
+        _helper.Play("GestureRight");
         var news = new NewsForm(_helper, _bonzi);
         news.Show();
     }
@@ -376,9 +407,23 @@ public partial class BonziBuddyControlPanel : Form
         _helper.Stop();
         var randomWord = new RandomWordForm(_helper, _bonzi);
         _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["PreRandomWord"]);
-        _helper.Play("GestureUp");
+        _helper.Play("GestureRight");
         randomWord.Show();
     }
-    
+
+    /// <summary>
+    /// Gets a recipes based on search terms using Ninja API.
+    /// </summary>
+    /// <see cref="ApiHelper"/>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void recipeButton_Click(object sender, EventArgs e)
+    {
+        _helper.Stop();
+        _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["PreRecipe"]);
+        _helper.Play("GestureRight");
+        RecipeSearchForm recipe = new RecipeSearchForm();
+        recipe.Show();
+    }
 }
 

@@ -48,6 +48,7 @@ public static class UiHelper
         helper.Agent.Characters[helper.AgentName].Commands.Add("Information", "Information", null, true, true);
         helper.Agent.Characters[helper.AgentName].Commands.Add("Insult", "Insult", null, true, true);
         helper.Agent.Characters[helper.AgentName].Commands.Add("Show Panel", "Show Control Panel", null, true, true);
+        helper.Agent.Characters[helper.AgentName].Commands.Add("Roll Dice", "Roll Dice", null, true, true);
 
         return helper;
     }
