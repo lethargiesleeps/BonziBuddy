@@ -67,11 +67,19 @@ public class Note
     /// <returns>The current note object.</returns>
     public Note AdjustPitch(int value)
     {
-        if(value >= 12)
-            value = 12;
-        if(value <= -12)
-            value = -12;
         Pitch += value;
+        return this;
+    }
+
+    public Note IncreaseOctave()
+    {
+        Pitch *= 2;
+        return this;
+    }
+
+    public Note DecreaseOctave()
+    {
+        Pitch /= 2;
         return this;
     }
 

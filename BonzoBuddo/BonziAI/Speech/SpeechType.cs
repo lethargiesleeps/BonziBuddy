@@ -14,5 +14,6 @@ public enum SpeechType
     ShowHide,
     News,
     WordDefinition,
-    RandomWord
+    RandomWord,
+    Song
 }

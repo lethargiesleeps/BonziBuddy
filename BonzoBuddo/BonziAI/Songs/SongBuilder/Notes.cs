@@ -21,6 +21,7 @@ public static class Notes
     public static Note ASharp = new(NoteType.ASharp);
     public static List<Note> CustomNotes = new();
 
+    
     /// <summary>
     /// Resets all the Notes in this class to their initial value. Should be used if pitch is ever adjusted during song building.
     /// </summary>

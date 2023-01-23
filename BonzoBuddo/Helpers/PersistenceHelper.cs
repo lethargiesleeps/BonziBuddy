@@ -5,6 +5,8 @@
 /// </summary>
 public static class PersistenceHelper
 {
+    public static string? Name { get; private set; }
+    public static string? LastSong { get; private set; }
     public static string? Dictionary { get; private set; }
     public static bool Thesaurus { get; private set; }
     public static bool Definition { get; private set; }
@@ -150,6 +152,12 @@ public static class PersistenceHelper
             case PersistenceType.ArticleDate:
                 ArticlePublishDate = data;
                 break;
+            case PersistenceType.Name:
+                Name = data;
+                break;
+            case PersistenceType.LastSong:
+                LastSong = data;
+                break;
         }
     }
 
@@ -201,6 +209,12 @@ public static class PersistenceHelper
             case PersistenceType.ArticleDate:
                 ArticlePublishDate = string.Empty;
                 break;
+            case PersistenceType.Name:
+                Name = string.Empty;
+                break;
+            case PersistenceType.LastSong:
+                LastSong = string.Empty;
+                break;
         }
     }
 
@@ -214,6 +228,8 @@ public static class PersistenceHelper
         ArticlePublishDate = string.Empty;
         ArticleUrl = string.Empty;
         Definition = false;
+        Name = string.Empty;
+        LastSong = string.Empty;
     }
 }
 
@@ -231,5 +247,7 @@ public enum PersistenceType
     NewsKeywords,
     NewsResults,
     ArticleDate,
-    ArticleUrl
+    ArticleUrl,
+    Name,
+    LastSong
 }

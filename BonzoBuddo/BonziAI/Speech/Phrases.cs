@@ -158,7 +158,8 @@ public static class Phrases
                 $"{PreDictionary(name)} I just need you to let me know what word you'd like for me to look up."
             },
             {"PreRandomWord", $"Not a problem {name}, let me know if you would also like for me to get a definition."},
-            {"RandomWord", "Ok, let me just think of a word."}
+            {"RandomWord", "Ok, let me just think of a word."},
+            {"PostSong", $"I hope you enjoyed that, that was one of my favorite tunes {name}!"}
         };
     }
 

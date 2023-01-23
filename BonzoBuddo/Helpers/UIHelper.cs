@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using BonzoBuddo.BonziAI.Songs;
 using BonzoBuddo.BonziAI.Speech;
 using DoubleAgent.Control;
 using Control = System.Windows.Forms.Control;
@@ -12,7 +13,7 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class UiHelper
 {
-
+    
     public static bool CheckForCussWords(string text)
     {
         return IllegalPhrases.CussWords().Any(c => text.Contains(c) || text.Equals(c));

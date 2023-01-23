@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using BonzoBuddo.Helpers;
 
 namespace BonzoBuddo.BonziAI.Songs.SongBuilder;
 
@@ -45,6 +46,15 @@ public class Song
     }
 
     /// <summary>
+    /// Resets all notes that have been adjusted.
+    /// </summary>
+    /// <returns>The current song object.</returns>
+    public Song ResetNotes()
+    {
+        SongBuilder.Notes.ResetNotes();
+        return this;
+    }
+    /// <summary>
     /// Decreases speed of note, prefix before adding note you want to adjust.
     /// </summary>
     /// <param name="value">Value to be removed from speed.</param>
@@ -67,6 +77,7 @@ public class Song
     public Song ChangeSpeed(int value)
     {
         Speed = value;
+        SongString.Append($"\\Spd={Speed}\\");
         return this;
     }
 
@@ -77,6 +88,7 @@ public class Song
     public Song ResetSpeed()
     {
         Speed = InitialSpeed;
+        SongString.Append($"\\Spd={Speed}\\");
         return this;
     }
 
@@ -134,7 +146,7 @@ public class Song
     public override string ToString()
     {
         //SongString.Append("\"");
-        Debug.WriteLine(SongString.ToString());
-        return SongString.ToString();
+        PersistenceHelper.SetData(PersistenceType.LastSong, this.Title);
+        return SongString.ToString() + $"\\Chr=\"Normal\"\\";
     }
 }

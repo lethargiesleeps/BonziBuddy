@@ -30,8 +30,7 @@ public partial class BonziBuddyControlPanel : Form
     private bool _formDisplayedInit;
     private bool _formHiding;
     private UserInput _input;
-    private CtlCommandEvent? _event;
-    private CtlCommandEventHandler? _handler;
+    private string[] _songKeys;
     /// <summary>
     ///     Constructor for Control Panel. Contains all instantiation and loading logic.
     ///     Determines if program has been used before, also sets visibility of all UI controls to be used.
@@ -336,11 +335,16 @@ public partial class BonziBuddyControlPanel : Form
         }
     }
 
+    
     private void songButton_Click(object sender, EventArgs e)
     {
+        //TODO: Add pre song stuff
+        PersistenceHelper.SetData(PersistenceType.Name, _bonzi.Data!.Name!);
+        _bonzi.SetSpeechPattern(SpeechType.Song);
         _helper.Stop();
-        var songs = new Songs();
-        _helper.Speak(songs.SongDictionary["Mary Had A Little Lamb"].ToString());
+        _helper.Speak(_bonzi.Speak()!.GetRandomPhrase());
+        _helper.Play("Congratulate");
+        _helper.Speak(Phrases.Prompts(PersistenceHelper.LastSong!)["PostSong"]);
         //_helper.Speak("\\Chr=\"Monotone\"\\\\Spd=130\\\\Pit=52\\doe \\Pit=55\\ray \\Spd=100\\\\Pit=62\\me \\Pit=65\\fah");
         //Bonzi.Speak "\Chr=""Monotone""\\Map=""\Pit=52\\Spd=130\doe \Pit=55\ray \Pit=62\me \Pit=65\fah \Pit=73\so \Pit=82\lah \Pit=87\tea \Pit=104\doe""=""do re mi fa so la ti do""\"
 
