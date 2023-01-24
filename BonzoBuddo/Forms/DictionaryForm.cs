@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using BonzoBuddo.BonziAI.Speech;
+﻿using BonzoBuddo.BonziAI.Speech;
 using BonzoBuddo.Helpers;
 
 namespace BonzoBuddo.Forms;
@@ -21,7 +20,7 @@ public partial class DictionaryForm : Form
         _helper.Stop();
         _helper.Play("MailRead");
         _helper.Play("MailReturn");
-        if (wordBox.Text.Length <= 0)
+        if (string.IsNullOrEmpty(wordBox.Text))
         {
             _helper.Speak(Phrases.ErrorMessages()["NoWordDictionary"]);
             _helper.Play("Giggle");
@@ -39,21 +38,7 @@ public partial class DictionaryForm : Form
         }
         else if (UiHelper.CheckForCussWords(wordBox.Text))
         {
-            if (new Random().Next(0, 5001) == 1234)
-            {
-                var s = wordBox.Text;
-                _helper.Speak($"{s}, {s}, {s}, {s}, {s}, {s}. I'm imitating you, {_bonzi.Data!.Name!}! This is what you sound like you ignorant child!");
-                _helper.Play("Giggle");
-                _helper.Hide();
-                Dispose(true);
-                Close();
-            }
-            else
-            {
-                _helper.Play("Unbelievable");
-                _helper.Speak(Phrases.ErrorMessages()["HasCussWords"]);
-                wordBox.Text = string.Empty;
-            }
+            UiHelper.HasCussWords(_helper, this, wordBox);
         }
         else
         {
@@ -61,8 +46,6 @@ public partial class DictionaryForm : Form
             PersistenceHelper.SetData(PersistenceType.Thesaurus, thesaurusBox.Checked.ToString());
             _helper.Play("ReadLookUp");
             _bonzi.SetSpeechPattern(SpeechType.WordDefinition);
-            Debug.WriteLine(PersistenceHelper.Dictionary);
-            Debug.WriteLine(PersistenceHelper.Thesaurus);
             _helper.Speak(_bonzi.Speak()!.GetPhrase("Definition"));
             if (PersistenceHelper.Thesaurus)
             {
@@ -71,6 +54,7 @@ public partial class DictionaryForm : Form
                 if (_bonzi.Speak()!.GetPhraseDictionary()!.ContainsKey("Antonyms"))
                     _helper.Speak(_bonzi.Speak()!.GetPhrase("Antonyms"));
             }
+
             if (_bonzi.Speak()!.GetPhraseDictionary()!.ContainsKey("Post"))
                 _helper.Speak(_bonzi.Speak()!.GetPhrase("Post"));
             Dispose(true);

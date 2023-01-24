@@ -5,28 +5,29 @@ using BonzoBuddo.Helpers;
 namespace BonzoBuddo.BonziAI.Songs;
 
 /// <summary>
-/// This class contains a Dictionary with all available songs for Bonzi to sing.
-/// Songs should be created in this class with their own respective static methods.
-/// ex: private static Song TwinkleTwinkleLittleStar().
+///     This class contains a Dictionary with all available songs for Bonzi to sing.
+///     Songs should be created in this class with their own respective static methods.
+///     ex: private static Song TwinkleTwinkleLittleStar().
 /// </summary>
 public class Songs
 {
-    
     private List<Song>? _songList;
-    
+
     /// <summary>
-    /// Static constructor. Loads the songs that can be accessed.
+    ///     Static constructor. Loads the songs that can be accessed.
     /// </summary>
     public Songs()
     {
         LoadSongs();
-
     }
 
-    public List<string> SongData() => _songList!.Select(s => s.ToString()).ToList();
-    
+    public List<string> SongData()
+    {
+        return _songList!.Select(s => s.ToString()).ToList();
+    }
+
     /// <summary>
-    /// Searches for song with matching title and returns it's string data.
+    ///     Searches for song with matching title and returns it's string data.
     /// </summary>
     /// <param name="title">Title of the song.</param>
     /// <returns>Data of song as string for Bonzi to sing</returns>
@@ -34,15 +35,13 @@ public class Songs
     public string GetSongByTitle(string title)
     {
         foreach (var song in _songList!.Where(song => CleanTitle(song.Title).Equals(CleanTitle(title))))
-        {
             return song.ToString();
-        }
 
         throw new KeyNotFoundException("Could not find song with name: " + title);
     }
 
     /// <summary>
-    /// Gets a random song an returns it's string data.
+    ///     Gets a random song an returns it's string data.
     /// </summary>
     /// <returns>Data of song as string for Bonzi to sing.</returns>
     public string GetRandomSong()
@@ -50,10 +49,10 @@ public class Songs
         RandomNumberHelper.SetIndex(_songList);
         var song = _songList![RandomNumberHelper.CurrentValue];
         return song.ToString();
-
     }
+
     /// <summary>
-    /// Adds a song to the SongDictionary.
+    ///     Adds a song to the SongDictionary.
     /// </summary>
     private void LoadSongs()
     {
@@ -67,7 +66,7 @@ public class Songs
     }
 
     /// <summary>
-    /// Removes white space and converts to lowercase.
+    ///     Removes white space and converts to lowercase.
     /// </summary>
     /// <param name="title">String to clean.</param>
     /// <returns>Formatted string.</returns>
@@ -78,7 +77,6 @@ public class Songs
         foreach (var c in title.Where(c => !c.Equals(' ')))
             sb.Append(c);
         return sb.ToString();
-
     }
 
     private static Song AllStar()
@@ -100,6 +98,7 @@ public class Songs
 
         return song;
     }
+
     private static Song WokeUpLikeThis()
     {
         Notes.ResetNotes();
@@ -132,24 +131,29 @@ public class Songs
     private static Song TwinkleTwinkle()
     {
         Notes.ResetNotes();
-        var song = new Song("Twinkle Twinkle Little Bonzi").SetInitialSpeed(250).AddNote(Notes.C, "Twin").AddNote(Notes.C, "kle")
-            .AddNote(Notes.G, "twin").AddNote(Notes.G, "kle").ChangeSpeed(100).AddNote(Notes.A.IncreaseOctave(), "little")
+        var song = new Song("Twinkle Twinkle Little Bonzi").SetInitialSpeed(250).AddNote(Notes.C, "Twin")
+            .AddNote(Notes.C, "kle")
+            .AddNote(Notes.G, "twin").AddNote(Notes.G, "kle").ChangeSpeed(100)
+            .AddNote(Notes.A.IncreaseOctave(), "little")
             .ResetNotes().AddPause(50).SubtractSpeed(50).AddNote(Notes.G, "Bonzi.").AddPause(500)
             .ChangeSpeed(250);
 
         song.AddNote(Notes.F, "How").AddNote(Notes.F, "I").AddNote(Notes.E, "won").AddNote(Notes.E, "der")
-            .AddNote(Notes.D, "why").AddNote(Notes.D, "you're").SubtractSpeed(50).AddPause(500).AddNote(Notes.C, $"{PersistenceHelper.Name}!");
+            .AddNote(Notes.D, "why").AddNote(Notes.D, "you're").SubtractSpeed(50).AddPause(500)
+            .AddNote(Notes.C, $"{PersistenceHelper.Name}!");
         return song;
     }
+
     /// <summary>
-    /// Song object for the song 'Mary had a little lamb'.
+    ///     Song object for the song 'Mary had a little lamb'.
     /// </summary>
     /// <returns>Song to be converted into song data.</returns>
     private static Song MaryHadALittleLamb()
     {
         Notes.ResetNotes();
         return new Song($"Bonzi Had A Little {PersistenceHelper.Name}").SetInitialSpeed(120).AddNote(Notes.E, "Bonzi")
-            .AddNote(Notes.D, "had").AddNote(Notes.C, "a").AddNote(Notes.D, "little").AddNote(Notes.E, $"{PersistenceHelper.Name}.")
+            .AddNote(Notes.D, "had").AddNote(Notes.C, "a").AddNote(Notes.D, "little")
+            .AddNote(Notes.E, $"{PersistenceHelper.Name}.")
             .AddPause(300).AddNote(Notes.D, "Little").AddNote(Notes.D, $"{PersistenceHelper.Name}.").AddPause(300)
             .AddNote(Notes.E, "Little").AddNote(Notes.G, $"{PersistenceHelper.Name}!")
             .AddNote(Notes.E, "Bonzi").AddNote(Notes.D, "had").AddNote(Notes.C, "a")
@@ -157,5 +161,4 @@ public class Songs
             .AddNote(Notes.E, "their").AddNote(Notes.E, "wool").AddNote(Notes.D, "was")
             .AddNote(Notes.E, "white").AddNote(Notes.D, "as").SubtractSpeed(50).AddNote(Notes.C, "snow!");
     }
-
 }

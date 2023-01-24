@@ -82,13 +82,14 @@ public partial class NewsForm : Form
             categoryBox.SelectedItem = "General";
         }
 
-        
+
         if (UiHelper.CheckForCussWords(keywordsBox.Text))
         {
             if (new Random().Next(0, 5001) == 1234)
             {
                 var s = keywordsBox.Text;
-                _helper.Speak($"{s}, {s}, {s}, {s}, {s}, {s}. I'm imitating you, {_bonzi.Data!.Name!}! This is what you sound like you ignorant child!");
+                _helper.Speak(
+                    $"{s}, {s}, {s}, {s}, {s}, {s}. I'm imitating you, {_bonzi.Data!.Name!}! This is what you sound like you ignorant child!");
                 _helper.Play("Giggle");
                 _helper.Hide();
                 Dispose(true);
@@ -100,7 +101,6 @@ public partial class NewsForm : Form
                 _helper.Speak(Phrases.ErrorMessages()["HasCussWords"]);
                 keywordsBox.Text = string.Empty;
             }
-            
         }
         else
         {
@@ -110,7 +110,9 @@ public partial class NewsForm : Form
             _bonzi.SetSpeechPattern(SpeechType.News);
             _helper.Play("MailReturn");
             if (_bonzi.Speak()!.GetPhraseDictionary()!.ContainsKey("NoResults"))
+            {
                 _helper.Speak(_bonzi.Speak()!.GetPhrase("NoResults"));
+            }
             else
             {
                 _helper.Speak(_bonzi.Speak()!.GetPhrase("Author"));
@@ -120,7 +122,8 @@ public partial class NewsForm : Form
                     MessageBoxIcon.Question);
                 if (dialogue == DialogResult.Yes)
                 {
-                    var articleForm = new Article(_bonzi.Speak()!.GetPhrase("Title"), _bonzi.Speak()!.GetPhrase("Summary"));
+                    var articleForm = new Article(_bonzi.Speak()!.GetPhrase("Title"),
+                        _bonzi.Speak()!.GetPhrase("Summary"));
                     articleForm.Show();
                     //TODO: Make bonzi act
                     ClearAndDispose();

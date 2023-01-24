@@ -11,6 +11,38 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class ApiHelper
 {
+    public static Dictionary<string, string> GetRecipe(string query)
+    {
+        var returnValue = new Dictionary<string, string>();
+        var parsedQuery = Uri.EscapeDataString(query).ToLower();
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("X-Api-Key", Keys.NinjaKey());
+        try
+        {
+            var response = client.GetStringAsync($"https://api.api-ninjas.com/v1/recipe?query={parsedQuery}");
+            var data = JsonNode.Parse(response.Result!);
+            if (data!.AsArray().Count <= 0)
+            {
+                returnValue.Add("NoRecipe",
+                    $"{PersistenceHelper.Name}, I couldn't find any recipes in my book for {query}. I'm sorry.");
+            }
+            else
+            {
+                returnValue.Add("HasRecipe", $"Here are recipes I found for {query}.");
+                RecipeHelper.StoreResults(data!.AsArray());
+            }
+        }
+        catch (AggregateException ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        finally
+        {
+            client.Dispose();
+        }
+
+        return returnValue;
+    }
 
     public static string GetRandomWord()
     {
@@ -19,21 +51,22 @@ public static class ApiHelper
         client.DefaultRequestHeaders.Add("X-Api-Key", Keys.NinjaKey());
         try
         {
-            var response = client.GetStringAsync($"https://api.api-ninjas.com/v1/randomword");
+            var response = client.GetStringAsync("https://api.api-ninjas.com/v1/randomword");
             var data = JsonNode.Parse(response.Result!);
             returnValue = data.Root["word"]!.ToString();
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
-
         }
         finally
         {
             client.Dispose();
         }
+
         return returnValue;
     }
+
     /// <summary>
     ///     Returns a definition of a word using Ninja API. If 'thesaurus' is true, a new call is made to retrieve to a
     ///     different API to retrieve synonyms and antonyms.
@@ -142,7 +175,7 @@ public static class ApiHelper
         else
         {
             var parsedKeywords = Uri.EscapeDataString(keyWords);
-            
+
             url =
                 $"https://api.newscatcherapi.com/v2/search?q={parsedKeywords}&countries={countryCode.ToUpper()}&topic={category.ToLower()}";
             Debug.WriteLine(url);
@@ -155,8 +188,10 @@ public static class ApiHelper
             var response = client.GetStringAsync(url);
             var data = JsonNode.Parse(response.Result)!;
             var articles = data.Root["articles"]?.AsArray();
-            if(articles is null)
+            if (articles is null)
+            {
                 newsDictionary.Add("NoResults", Phrases.ErrorMessages()["NoResults"]);
+            }
             else
             {
                 if (articles!.Count <= 0 || data.Root["status"]!.ToString().Equals("error"))
@@ -181,7 +216,6 @@ public static class ApiHelper
                     }
                 }
             }
-            
         }
         catch (AggregateException e)
         {

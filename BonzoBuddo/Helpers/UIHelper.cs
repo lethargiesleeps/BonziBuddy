@@ -1,10 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using BonzoBuddo.BonziAI.Songs;
 using BonzoBuddo.BonziAI.Speech;
-using DoubleAgent.Control;
-using Control = System.Windows.Forms.Control;
 
 namespace BonzoBuddo.Helpers;
 
@@ -13,11 +10,11 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class UiHelper
 {
-    
     public static bool CheckForCussWords(string text)
     {
         return IllegalPhrases.CussWords().Any(c => text.Contains(c) || text.Equals(c));
     }
+
     /// <summary>
     ///     Turn a list of WinForms controls either on or off.
     /// </summary>
@@ -83,6 +80,34 @@ public static class UiHelper
             {
                 throw;
             }
+        }
+    }
+
+
+    /// <summary>
+    ///     Sequence of actions if user provides illegal words as a text parameter.
+    /// </summary>
+    /// <param name="helper">The form's BonziHelper.</param>
+    /// <param name="form">The form to dispose of.</param>
+    /// <param name="text">The illegal text in question</param>
+    public static void HasCussWords(BonziHelper helper, Form form, TextBox text)
+    {
+        //TODO: Maybe refactor this into one method with HasCussWords
+        var s = text.Text;
+        if (new Random().Next(0, 5001) == 1234)
+        {
+            helper.Speak(
+                $"{s}, {s}, {s}, {s}, {s}, {s}. I'm imitating you, {PersistenceHelper.Name!}! This is what you sound like you ignorant child!");
+            helper.Play("Giggle");
+            helper.Hide();
+            form.Dispose();
+            form.Close();
+        }
+        else
+        {
+            helper.Play("Unbelievable");
+            helper.Speak(Phrases.ErrorMessages()["HasCussWords"]);
+            text.Text = string.Empty;
         }
     }
 }
