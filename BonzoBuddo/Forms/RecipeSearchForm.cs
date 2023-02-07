@@ -1,4 +1,5 @@
 ﻿using BonzoBuddo.BonziAI.Speech;
+using BonzoBuddo.Forms.RecipeForms;
 using BonzoBuddo.Helpers;
 
 namespace BonzoBuddo.Forms;
@@ -55,6 +56,10 @@ public partial class RecipeSearchForm : Form
             {
                 _helper.Speak(_bonzi.Speak()!.GetPhraseDictionary()!["HasRecipe"]);
                 _helper.Play("Congratulate");
+                //TODO: Recipe list form
+                var recipeList = new RecipeList(_helper, _bonzi);
+                recipeList.Show();
+                //TODO: Recipe display form
                 Dispose(true);
                 Close();
             }

@@ -1,6 +1,6 @@
 # Road Map
 ## v1.0.0
-Expected Release: 2nd week of February 2023
+Expected Release: 2nd-3rd week of February 2023
 ### Features
 - Jokes
 - Get the weather based on the city you provide
