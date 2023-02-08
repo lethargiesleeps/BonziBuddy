@@ -47,13 +47,23 @@ namespace BonzoBuddo.Forms.RecipeForms
         private void viewButton_Click(object sender, EventArgs e)
         {
             var index = recipeListBox.SelectedIndex;
-            var recipeDisplay = new RecipeDisplay(
-                RecipeHelper.Titles![index],
-                RecipeHelper.Ingredients![index],
-                RecipeHelper.Servings![index],
-                RecipeHelper.Ingredients[index],
-                _helper,
-                _bonzi);
+            if (index <= 0)
+            {
+                //TODO: Bonzi stuff for not having anything selected
+            }
+
+            else
+            {
+                var recipeDisplay = new RecipeDisplay(
+                    RecipeHelper.Titles![index],
+                    RecipeHelper.Ingredients![index],
+                    RecipeHelper.Servings![index],
+                    RecipeHelper.Instructions![index],
+                    _helper,
+                    _bonzi);
+                recipeDisplay.Show();
+            }
+            
         }
     }
 }

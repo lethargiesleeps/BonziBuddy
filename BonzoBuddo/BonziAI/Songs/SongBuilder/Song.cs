@@ -95,7 +95,7 @@ public class Song
     {
         note.SetSyllable(syllable);
         Notes.Add(note);
-        SongString.Append(note.ToString());
+        SongString.Append(note);
         return this;
     }
 

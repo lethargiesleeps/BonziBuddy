@@ -12,7 +12,14 @@ public static class UiHelper
 {
     public static bool CheckForCussWords(string text)
     {
-        return IllegalPhrases.CussWords().Any(c => text.Contains(c) || text.Equals(c));
+        var value = false;
+        foreach (var cussWord in IllegalPhrases.CussWords())
+        {
+            if (!text.ToLower().Equals(cussWord.ToLower())) continue;
+            value = true;
+            break;
+        }
+        return value;
     }
 
     /// <summary>
