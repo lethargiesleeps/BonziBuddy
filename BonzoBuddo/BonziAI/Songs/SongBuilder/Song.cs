@@ -1,24 +1,16 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using BonzoBuddo.Helpers;
 
 namespace BonzoBuddo.BonziAI.Songs.SongBuilder;
 
 /// <summary>
-/// Class used to construct songs for Bonzi to sing.
-/// Song is returned as a string by calling ToString() on it, and most methods return the current Song object.
+///     Class used to construct songs for Bonzi to sing.
+///     Song is returned as a string by calling ToString() on it, and most methods return the current Song object.
 /// </summary>
 public class Song
 {
-    public List<Note> Notes { get; private set; }
-    public string Title { get; private set; }
-    public StringBuilder SongString { get; private set; }
-    public int Speed { get; private set; }
-    public int InitialSpeed { get; private set; }
-    
-
     /// <summary>
-    /// Default constructor.
+    ///     Default constructor.
     /// </summary>
     /// <param name="title">Title of the song with spaces, used to retrieve from SongsDictionary</param>
     public Song(string title)
@@ -27,26 +19,28 @@ public class Song
         Notes = new List<Note>();
         Title = title;
         SongString.Append("\\Chr=\"Monotone\"\\");
-        
     }
 
+    public List<Note> Notes { get; }
+    public string Title { get; }
+    public StringBuilder SongString { get; }
+    public int Speed { get; private set; }
+    public int InitialSpeed { get; private set; }
+
     /// <summary>
-    /// Increases speed of note, prefix before adding note you want to adjust.
+    ///     Increases speed of note, prefix before adding note you want to adjust.
     /// </summary>
     /// <param name="value">Value to be added to speed.</param>
     /// <returns>The current song object.</returns>
     public Song AddSpeed(int value)
     {
         Speed += value;
-        if (Speed > 0)
-        {
-            SongString.Append($"\\Spd={Speed}\\");
-        }
+        if (Speed > 0) SongString.Append($"\\Spd={Speed}\\");
         return this;
     }
 
     /// <summary>
-    /// Resets all notes that have been adjusted.
+    ///     Resets all notes that have been adjusted.
     /// </summary>
     /// <returns>The current song object.</returns>
     public Song ResetNotes()
@@ -54,23 +48,21 @@ public class Song
         SongBuilder.Notes.ResetNotes();
         return this;
     }
+
     /// <summary>
-    /// Decreases speed of note, prefix before adding note you want to adjust.
+    ///     Decreases speed of note, prefix before adding note you want to adjust.
     /// </summary>
     /// <param name="value">Value to be removed from speed.</param>
     /// <returns>The current song object.</returns>
     public Song SubtractSpeed(int value)
     {
         Speed -= value;
-        if (Speed > 0)
-        {
-            SongString.Append($"\\Spd={Speed}\\");
-        }
+        if (Speed > 0) SongString.Append($"\\Spd={Speed}\\");
         return this;
     }
 
     /// <summary>
-    /// Changes speed value directly.
+    ///     Changes speed value directly.
     /// </summary>
     /// <param name="value">Value of speed.</param>
     /// <returns>The current song object.</returns>
@@ -82,7 +74,7 @@ public class Song
     }
 
     /// <summary>
-    /// Resets speed of song to initial speed value.
+    ///     Resets speed of song to initial speed value.
     /// </summary>
     /// <returns>The current song object.</returns>
     public Song ResetSpeed()
@@ -93,23 +85,22 @@ public class Song
     }
 
     /// <summary>
-    /// Adds a Note to the song.
+    ///     Adds a Note to the song.
     /// </summary>
     /// <param name="note">The note to be added.</param>
     /// <param name="syllable">The word Bonzi speaks at selected Note's pitch.</param>
-    /// <see cref="Note"/>
+    /// <see cref="Note" />
     /// <returns>The current song object.</returns>
     public Song AddNote(Note note, string syllable)
     {
-        //TODO: If speed is different than initial speed
         note.SetSyllable(syllable);
         Notes.Add(note);
-        SongString.AppendLine(note.ToString());
+        SongString.Append(note);
         return this;
     }
 
     /// <summary>
-    /// Adds a pause to the song in milliseconds.
+    ///     Adds a pause to the song in milliseconds.
     /// </summary>
     /// <param name="milliseconds">The time interval of the pause.</param>
     /// <returns>The current song object.</returns>
@@ -122,9 +113,10 @@ public class Song
     }
 
     /// <summary>
-    /// Sets the initial speed value of the song. Should be the first method used when creating a song.
-    /// The initial speed value does not change when modifying speed value, using ResetSpeed will change the speed back it's
-    /// original value.
+    ///     Sets the initial speed value of the song. Should be the first method used when creating a song.
+    ///     The initial speed value does not change when modifying speed value, using ResetSpeed will change the speed back
+    ///     it's
+    ///     original value.
     /// </summary>
     /// <param name="speed">Value of initial song speed.</param>
     /// <returns>The current song object.</returns>
@@ -132,21 +124,18 @@ public class Song
     {
         InitialSpeed = speed;
         Speed = speed;
-        if (Speed > 0)
-        {
-            SongString.Append($"\\Spd={Speed}\\");
-        }
+        if (Speed > 0) SongString.Append($"\\Spd={Speed}\\");
         return this;
     }
 
     /// <summary>
-    /// Returns the song to be used in TTS engine.
+    ///     Returns the song to be used in TTS engine.
     /// </summary>
     /// <returns>A string containing all the song data.</returns>
     public override string ToString()
     {
         //SongString.Append("\"");
-        PersistenceHelper.SetData(PersistenceType.LastSong, this.Title);
-        return SongString.ToString() + $"\\Chr=\"Normal\"\\";
+        PersistenceHelper.SetData(PersistenceType.LastSong, Title);
+        return SongString + "\\Chr=\"Normal\"\\";
     }
 }

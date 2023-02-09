@@ -15,5 +15,6 @@ public enum SpeechType
     News,
     WordDefinition,
     RandomWord,
-    Song
+    Song,
+    Recipe
 }

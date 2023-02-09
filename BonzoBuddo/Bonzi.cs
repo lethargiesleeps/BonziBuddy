@@ -63,6 +63,7 @@ public class Bonzi
                 if (_speechPattern is not WeatherForecast)
                     try
                     {
+                        //TODO: Refactor
                         if (Data != null)
                             _speechPattern = new WeatherForecast(Data.City!,
                                 ApiHelper.GetWeather(Data.City!, WeatherUnits.Celcius));
@@ -74,14 +75,11 @@ public class Bonzi
 
                 break;
             case SpeechType.Insulted:
-                if (_speechPattern is not Insulted)
-                    if (Data != null)
-                        _speechPattern = new Insulted(Data.Name!);
-
+                if (Data != null)
+                    _speechPattern = new Insulted(Data.Name!);
                 break;
             case SpeechType.Joke:
-                if (_speechPattern is not Joke)
-                    _speechPattern = new Joke();
+                _speechPattern = new Joke();
                 break;
             case SpeechType.Fact:
                 if (_speechPattern is not Fact)
@@ -104,6 +102,9 @@ public class Bonzi
                 break;
             case SpeechType.Song:
                 _speechPattern = new Singing();
+                break;
+            case SpeechType.Recipe:
+                _speechPattern = new Recipe();
                 break;
         }
     }

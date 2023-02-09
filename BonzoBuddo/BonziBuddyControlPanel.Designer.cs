@@ -241,6 +241,7 @@
             this.recipeButton.TabIndex = 110;
             this.recipeButton.Text = "Recipe";
             this.recipeButton.UseVisualStyleBackColor = true;
+            this.recipeButton.Click += new System.EventHandler(this.recipeButton_Click);
             // 
             // triviaButton
             // 

@@ -9,6 +9,7 @@ public static class PersistenceHelper
     public static string? LastSong { get; private set; }
     public static string? Dictionary { get; private set; }
     public static bool Thesaurus { get; private set; }
+    public static string? RecipeSearchTerm { get; private set; }
     public static bool Definition { get; private set; }
     public static string? CountryCode { get; private set; }
     public static string? Country { get; private set; }
@@ -129,7 +130,7 @@ public static class PersistenceHelper
                 Thesaurus = bool.Parse(data);
                 break;
             case PersistenceType.Definition:
-                Definition = bool.Parse(data); 
+                Definition = bool.Parse(data);
                 break;
             case PersistenceType.CountryCode:
                 CountryCode = data;
@@ -158,6 +159,11 @@ public static class PersistenceHelper
             case PersistenceType.LastSong:
                 LastSong = data;
                 break;
+            case PersistenceType.Recipe:
+                RecipeSearchTerm = data;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
 
@@ -215,6 +221,9 @@ public static class PersistenceHelper
             case PersistenceType.LastSong:
                 LastSong = string.Empty;
                 break;
+            case PersistenceType.Recipe:
+                RecipeSearchTerm = string.Empty;
+                break;
         }
     }
 
@@ -230,6 +239,7 @@ public static class PersistenceHelper
         Definition = false;
         Name = string.Empty;
         LastSong = string.Empty;
+        RecipeSearchTerm = string.Empty;
     }
 }
 
@@ -249,5 +259,6 @@ public enum PersistenceType
     ArticleDate,
     ArticleUrl,
     Name,
-    LastSong
+    LastSong,
+    Recipe
 }

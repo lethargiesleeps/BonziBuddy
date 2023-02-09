@@ -42,18 +42,22 @@ public static class Phrases
         };
     }
 
-    
+
     public static List<string> PostFact(string name)
     {
         return new List<string>
         {
-            "Wow! Isn't it fun to learn something new everyday.",
+            "Wow! Isn't it fun to learn something new everyday?",
             $"{name}, I really think you should thank me for giving you this vital information.",
             "Well, isn't this fascinating.",
             "They say Einstein was the smartest man in the world. I think now we can both agree that it's Bonzi!",
             "You learn a lot when you spend nearly two decades in internet prison.",
             "That's fascinating to you, but I already knew that.",
-            $"{name}, aren't I a wealth of information!"
+            $"{name}, aren't I a wealth of information!",
+            "The more you know!",
+            "You learn a lot being the world's most famous purple simian!",
+            "I didn't know that one! Did you?",
+            $"{name}, are you hungry for knowledge?"
         };
     }
 
@@ -143,7 +147,7 @@ public static class Phrases
         };
     }
 
-     
+
     public static Dictionary<string, string> Prompts(string name)
     {
         return new Dictionary<string, string>
@@ -155,17 +159,18 @@ public static class Phrases
             {"SearchNews", $"{name}, it would be my pleasure. Please give me a few seconds."},
             {
                 "GetDictionary",
-                $"{PreDictionary(name)} I just need you to let me know what word you'd like for me to look up."
+                $"{PreDictionary(name)} I just need you to tell me what word you'd like for me to look up."
             },
             {"PreRandomWord", $"Not a problem {name}, let me know if you would also like for me to get a definition."},
             {"RandomWord", "Ok, let me just think of a word."},
-            {"PostSong", $"I hope you enjoyed that, that was one of my favorite tunes {name}!"}
+            {"PostSong", $"I hope you enjoyed that, that was one of my favorite tunes {name}!"},
+            {"PreRecipe", $"{PreRecipe(name)}"}
         };
     }
 
     public static List<string> PreRandomWord(string word)
     {
-        return new List<string>()
+        return new List<string>
         {
             $"Bet you've never heard of '{word}' before.",
             $"'{word}' !",
@@ -174,6 +179,25 @@ public static class Phrases
             $"I've got it, it's '{word}'!"
         };
     }
+
+    private static string PreRecipe(string name)
+    {
+        var prompts = new List<string>
+        {
+            $"{name} hungry!",
+            "I'm a world renown chef! Let me know what you would like to cook.",
+            $"{name}! If you just tell me what you feel like eating, I'll tell you how to cook it.",
+            "I can help you with that. As long as you share.",
+            $"I'm the head chef at {name}'s Kitchen!",
+            "You're in good hands. I can work a kitchen like I used to work your private information.",
+            $"Not a problem {name}. Just let me know what you want to eat.",
+            "Who needs search engines when you've got Bonzi!",
+            "No problem, but if you don't nail this recipe..."
+        };
+        RandomNumberHelper.SetIndex(prompts.Count);
+        return prompts[RandomNumberHelper.CurrentValue];
+    }
+
     private static string PreDictionary(string name)
     {
         var prompts = new List<string>
@@ -183,15 +207,16 @@ public static class Phrases
             "Have not read the Oxford Dictionary? It's one of the best selling books in the world. Guess not, I can take care of that for you.",
             $"Here is the definition of intelligent: Purple Gorilla, usually hilarious and awesome. Synonyms: Bonzi, Antonyms: {name}. Just kidding, I can help you."
         };
-        
+
         return prompts[new Random().Next(prompts.Count)];
     }
+
     public static string PostDictionary(string word)
     {
         var prompts = new List<string>
         {
             "That was an easy one.",
-            $"Don't you wish you were as smart as me?",
+            "Don't you wish you were as smart as me?",
             $"Who know '{word}' actually had a definition?!",
             $"I'll add '{word}' to my list of favorite words!",
             $"I thought '{word}' meant something else, but I guess I was wrong!"
@@ -202,14 +227,13 @@ public static class Phrases
 
     public static Dictionary<string, string> ErrorMessages()
     {
-        var illegalPrompts = new List<string>()
+        var illegalPrompts = new List<string>
         {
             "I'm not looking that up!",
             "Who raised you with such bad language.",
             "They say only the uneducated use bad words.",
             "Cussing is the language of idiots!",
             "Are you trying to get me arrested?"
-
         };
 
         RandomNumberHelper.SetIndex(illegalPrompts.Count);
@@ -225,7 +249,12 @@ public static class Phrases
             {"WhitespaceDictionary", "Here is the definition for space bar: a key on your keyboard."},
             {"MultipleWordsDictionary", "Whoa there buddy, I said \"a\" word."},
             {"HasCussWords", illegalPrompts[RandomNumberHelper.CurrentValue]},
-            {"RandomWordIllegalBoxCombo", "I can't just search for synonyms and antonyms. If you want those, please check 'Definition' as well."}
+            {
+                "RandomWordIllegalBoxCombo",
+                "I can't just search for synonyms and antonyms. If you want those, please check 'Definition' as well."
+            },
+            {"NoWordRecipe", "You need to enter a dish you'd like a recipe for."},
+            {"WhitespaceRecipe", "Here are some recipes I found for 'whitespace':"}
         };
     }
 
