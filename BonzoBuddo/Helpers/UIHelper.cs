@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Text;
 using BonzoBuddo.BonziAI.Speech;
 
 namespace BonzoBuddo.Helpers;
@@ -10,6 +12,24 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class UiHelper
 {
+
+    public static string ParseIngredients(string ingredients)
+    {
+        var sb = new StringBuilder();
+        for (var i = 0; i < ingredients.Length; i++)
+        {
+            if ( i != 0)
+                if (char.IsNumber(ingredients[i - 1]))
+                    sb.Append('\n');
+            sb.Append(ingredients[i]);
+        }
+        return sb.ToString();
+    }
+    /// <summary>
+    /// Checks if any word or phrase passed for API queries contains bad language.
+    /// </summary>
+    /// <param name="text">The text to be searched.</param>
+    /// <returns>True if it has bad language, otherwise false.</returns>
     public static bool CheckForCussWords(string text)
     {
         var value = false;
@@ -19,6 +39,7 @@ public static class UiHelper
             value = true;
             break;
         }
+
         return value;
     }
 
@@ -51,8 +72,8 @@ public static class UiHelper
         helper.Agent.Characters[helper.AgentName].Commands.Add("Random Word", "Random Word", null, true, true);
         helper.Agent.Characters[helper.AgentName].Commands.Add("Information", "Information", null, true, true);
         helper.Agent.Characters[helper.AgentName].Commands.Add("Insult", "Insult", null, true, true);
-        helper.Agent.Characters[helper.AgentName].Commands.Add("Show Panel", "Show Control Panel", null, true, true);
-        helper.Agent.Characters[helper.AgentName].Commands.Add("Roll Dice", "Roll Dice", null, true, true);
+        //helper.Agent.Characters[helper.AgentName].Commands.Add("Show Panel", "Show Control Panel", null, true, true);
+        //helper.Agent.Characters[helper.AgentName].Commands.Add("Roll Dice", "Roll Dice", null, true, true);
 
         return helper;
     }

@@ -139,7 +139,7 @@ public partial class BonziBuddyControlPanel : Form
             case "Fact":
                 factButton_Click(sender, EventArgs.Empty);
                 break;
-            case "Weather":
+            case "Weather": 
                 weatherButton_Click(sender, EventArgs.Empty);
                 break;
             case "News":
@@ -157,6 +157,7 @@ public partial class BonziBuddyControlPanel : Form
             case "Roll Dice":
                 rollDice_Click(sender, EventArgs.Empty);
                 break;
+            //TODO: Remove this, app shoudln't have panel accessible, for testing purposes only.
             case "Show Panel":
                 if (!_formDisplayedInit)
                 {
