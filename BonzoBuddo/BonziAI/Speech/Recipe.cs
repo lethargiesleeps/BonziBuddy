@@ -15,18 +15,25 @@ public class Recipe : Speech
         PhraseDictionary = ApiHelper.GetRecipe(PersistenceHelper.RecipeSearchTerm!);
     }
 
-    public override string GetPhrase(int index)
-    {
-        throw new NotSupportedException("Use GetPhrase(string key)");
-    }
+    /// <summary>
+    /// Method unsupported by implementation.
+    /// </summary>
+    /// <param name="index">Not used.</param>
+    /// <returns>See exception.</returns>
+    /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
+    public override string GetPhrase(int index) => throw new NotSupportedException("Use GetPhrase(string key)");
 
-    public override List<string> GetPhraseList()
-    {
-        throw new NotSupportedException("Use GetPhraseDictionary instead");
-    }
+    /// <summary>
+    /// Method unsupported by implementation.
+    /// </summary>
+    /// <returns>See exception.</returns>
+    /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
+    public override List<string> GetPhraseList() => throw new NotSupportedException("Use GetPhraseDictionary instead");
 
-    public override string GetRandomPhrase()
-    {
-        throw new NotSupportedException("This subclass cannot use this method.");
-    }
+    /// <summary>
+    /// Method unsupported by implementation.
+    /// </summary>
+    /// <returns>See exception.</returns>
+    /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
+    public override string GetRandomPhrase() => throw new NotSupportedException("This subclass cannot use this method.");
 }

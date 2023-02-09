@@ -3,11 +3,19 @@ using BonzoBuddo.Helpers;
 
 namespace BonzoBuddo.Forms;
 
+/// <summary>
+/// Form for performing Dictionary request.
+/// </summary>
 public partial class DictionaryForm : Form
 {
     private readonly Bonzi _bonzi;
     private readonly BonziHelper _helper;
 
+    /// <summary>
+    /// Form constructor.
+    /// </summary>
+    /// <param name="helper">Global BonziHelper</param>
+    /// <param name="bonzi">Global Bonzi</param>
     public DictionaryForm(BonziHelper helper, Bonzi bonzi)
     {
         InitializeComponent();
@@ -15,6 +23,11 @@ public partial class DictionaryForm : Form
         _bonzi = bonzi;
     }
 
+    /// <summary>
+    /// Validation for sending API request, and logic for displaying response data.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void submitButton_Click(object sender, EventArgs e)
     {
         _helper.Stop();
@@ -62,6 +75,11 @@ public partial class DictionaryForm : Form
         }
     }
 
+    /// <summary>
+    /// Closes and unallocates resources of form.
+    /// </summary>
+    /// <param name="sender">Button</param>
+    /// <param name="e">Args.</param>
     private void cancelButton_Click(object sender, EventArgs e)
     {
         PersistenceHelper.ClearData(new[]

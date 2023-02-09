@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -12,7 +13,28 @@ namespace BonzoBuddo.Helpers;
 /// </summary>
 public static class UiHelper
 {
+    public static bool RefreshCheckConnection(DateTime initDt)
+    {
+        bool returnValue = false;
+        var timeDifference = DateTime.Now - initDt;
+        if (timeDifference.Seconds > 45)
+            returnValue = true;
+        return returnValue;
 
+    }
+    public static bool CheckInternetConnection()
+    {
+        try
+        {
+            using var client = new WebClient();
+            using var stream = client.OpenRead("http://google.com");
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
     public static string ParseIngredients(string ingredients)
     {
         var sb = new StringBuilder();

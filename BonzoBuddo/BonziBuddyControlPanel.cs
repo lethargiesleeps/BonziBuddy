@@ -19,12 +19,13 @@ public partial class BonziBuddyControlPanel : Form
     private const string TtsId = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
     //TODO: Documentation
 
+    private readonly DateTime _initDt;
     private readonly AxControl _agent;
     private readonly Bonzi _bonzi;
     private readonly Control[] _controls;
     private readonly Control[] _disposableControls;
     private readonly BonziHelper _helper;
-    private int _debugCounter;
+    private bool _isConnected;
     private bool _formDisplayedInit;
     private bool _formHiding;
     private UserInput _input;
@@ -37,6 +38,8 @@ public partial class BonziBuddyControlPanel : Form
     public BonziBuddyControlPanel()
     {
         InitializeComponent();
+        _isConnected = UiHelper.CheckInternetConnection();
+        _initDt = DateTime.Now;
         _bonzi = new Bonzi();
         _disposableControls = new Control[]
         {
@@ -131,67 +134,79 @@ public partial class BonziBuddyControlPanel : Form
     /// <param name="e">CtlCommandEvent args, use EventArgs.Empty</param>
     private void agent_CtlCommand(object sender, CtlCommandEvent e)
     {
-        switch (e.UserInput.Name)
+
+        if (UiHelper.RefreshCheckConnection(_initDt))
         {
-            case "Joke":
-                jokeButton_Click(sender, EventArgs.Empty);
-                break;
-            case "Fact":
-                factButton_Click(sender, EventArgs.Empty);
-                break;
-            case "Weather": 
-                weatherButton_Click(sender, EventArgs.Empty);
-                break;
-            case "News":
-                newsButton_Click(sender, EventArgs.Empty);
-                break;
-            case "Dictionary":
-                dictionaryButton_Click(sender, EventArgs.Empty);
-                break;
-            case "Random Word":
-                randomWordButton_Click(sender, EventArgs.Empty);
-                break;
-            case "Recipe":
-                recipeButton_Click(sender, EventArgs.Empty);
-                break;
-            case "Roll Dice":
-                rollDice_Click(sender, EventArgs.Empty);
-                break;
-            //TODO: Remove this, app shoudln't have panel accessible, for testing purposes only.
-            case "Show Panel":
-                if (!_formDisplayedInit)
-                {
-                    Show();
-                    _formDisplayedInit = true;
-                    _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["OpenPanel"]);
-                    _helper.Play("Idle1_7");
-                }
-                else
-                {
-                    if (_formHiding)
+            Debug.WriteLine("Refreshing connection check...");
+            _isConnected = UiHelper.CheckInternetConnection();
+        }
+        Debug.WriteLine($"Connected: {_isConnected}");
+        if (_isConnected)
+        {
+            switch (e.UserInput.Name)
+            {
+                case "Joke":
+                    jokeButton_Click(sender, EventArgs.Empty);
+                    break;
+                case "Fact":
+                    factButton_Click(sender, EventArgs.Empty);
+                    break;
+                case "Weather":
+                    weatherButton_Click(sender, EventArgs.Empty);
+                    break;
+                case "News":
+                    newsButton_Click(sender, EventArgs.Empty);
+                    break;
+                case "Dictionary":
+                    dictionaryButton_Click(sender, EventArgs.Empty);
+                    break;
+                case "Random Word":
+                    randomWordButton_Click(sender, EventArgs.Empty);
+                    break;
+                case "Recipe":
+                    recipeButton_Click(sender, EventArgs.Empty);
+                    break;
+                case "Roll Dice":
+                    rollDice_Click(sender, EventArgs.Empty);
+                    break;
+                //TODO: Remove this, app shoudln't have panel accessible, for testing purposes only.
+                case "Show Panel":
+                    if (!_formDisplayedInit)
                     {
-                        _helper.Stop();
-                        _formHiding = false;
-                        WindowState = FormWindowState.Normal;
+                        Show();
+                        _formDisplayedInit = true;
                         _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["OpenPanel"]);
                         _helper.Play("Idle1_7");
                     }
                     else
                     {
-                        _helper.Stop();
-                        _formHiding = true;
-                        WindowState = FormWindowState.Minimized;
-                        _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["ClosePanel"]);
-                        _helper.Play("Idle1_24");
+                        if (_formHiding)
+                        {
+                            _helper.Stop();
+                            _formHiding = false;
+                            WindowState = FormWindowState.Normal;
+                            _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["OpenPanel"]);
+                            _helper.Play("Idle1_7");
+                        }
+                        else
+                        {
+                            _helper.Stop();
+                            _formHiding = true;
+                            WindowState = FormWindowState.Minimized;
+                            _helper.Speak(Phrases.Prompts(_bonzi.Data!.Name!)["ClosePanel"]);
+                            _helper.Play("Idle1_24");
+                        }
                     }
 
-                    Debug.WriteLine($"INIT: {_formDisplayedInit}\nCURRENT: {_formHiding}");
-                }
-
-                break;
-            default:
-                songButton_Click(sender, EventArgs.Empty);
-                break;
+                    break;
+                default:
+                    songButton_Click(sender, EventArgs.Empty);
+                    break;
+            }
+        }
+        else
+        {
+            _helper.Speak("Fuck you;");
         }
     }
 

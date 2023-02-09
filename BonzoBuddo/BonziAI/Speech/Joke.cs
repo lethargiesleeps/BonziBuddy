@@ -28,11 +28,8 @@ public class Joke : Speech
     /// <summary>
     ///     Method unsupported by implementation.
     /// </summary>
-    /// <param name="key">Not used.</param>
+    /// <param name="index">Not used.</param>
     /// <returns>See exception</returns>
     /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
-    public override string GetPhrase(string key)
-    {
-        throw new NotSupportedException("Use parameter-less GetPhrase() or GetPhrase(int index)");
-    }
+    public override string GetPhrase(int index) => throw new NotSupportedException("Use parameter-less GetPhrase() or GetPhrase(string key)");
 }

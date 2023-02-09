@@ -40,6 +40,10 @@ public class Fact : Speech
         return returnValue.ToString();
     }
 
+    /// <summary>
+    /// Gets a random fact.
+    /// </summary>
+    /// <returns>Returns random fact.</returns>
     public override string GetRandomPhrase()
     {
         RandomNumberHelper.SetIndex(PhraseList);
@@ -51,10 +55,7 @@ public class Fact : Speech
     /// </summary>
     /// <returns>See exception.</returns>
     /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
-    public override Dictionary<string, string> GetPhraseDictionary()
-    {
-        throw new NotSupportedException("Use GetPhraseList");
-    }
+    public override Dictionary<string, string> GetPhraseDictionary() => throw new NotSupportedException("Use GetPhraseList");
 
     /// <summary>
     ///     Method unsupported by implementation.
@@ -62,10 +63,7 @@ public class Fact : Speech
     /// <param name="key">Not used.</param>
     /// <returns>See exception</returns>
     /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
-    public override string GetPhrase(string key)
-    {
-        throw new NotSupportedException("Use parameter-less GetPhrase()");
-    }
+    public override string GetPhrase(string key) => throw new NotSupportedException("Use parameter-less GetPhrase()");
 
     /// <summary>
     ///     Method unsupported by implementation.
@@ -73,8 +71,5 @@ public class Fact : Speech
     /// <param name="index">Not used.</param>
     /// <returns>See exception</returns>
     /// <exception cref="NotSupportedException">Throws if this method is used with this child class.</exception>
-    public override string GetPhrase(int index)
-    {
-        throw new NotSupportedException("Use parameter-less GetPhrase()");
-    }
+    public override string GetPhrase(int index) => throw new NotSupportedException("Use parameter-less GetPhrase()");
 }

@@ -79,6 +79,10 @@ public class Songs
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Builder for a song.
+    /// </summary>
+    /// <returns>All-Star by Smash Mouth</returns>
     private static Song AllStar()
     {
         Notes.ResetNotes();
@@ -99,6 +103,10 @@ public class Songs
         return song;
     }
 
+    /// <summary>
+    /// Builder for a song.
+    /// </summary>
+    /// <returns>wokeuplikethis* by Playboi Carti</returns>
     private static Song WokeUpLikeThis()
     {
         Notes.ResetNotes();
@@ -123,11 +131,13 @@ public class Songs
         song.AddSpeed(100).AddNote(dSharp, "Woke").AddNote(dSharp, "up").AddNote(dSharp, "to").AddPause(500)
             .AddNote(g, $"{PersistenceHelper.Name}").AddNote(g, "talking").SubtractSpeed(100)
             .AddNote(gSharp, "like").AddNote(f, "me.").AddPause(500).ResetSpeed();
-
-
         return song;
     }
 
+    /// <summary>
+    /// Builder for a song.
+    /// </summary>
+    /// <returns>Twinkle-Twinkle Little Star.</returns>
     private static Song TwinkleTwinkle()
     {
         Notes.ResetNotes();
@@ -145,9 +155,9 @@ public class Songs
     }
 
     /// <summary>
-    ///     Song object for the song 'Mary had a little lamb'.
+    ///     Builder for a song.
     /// </summary>
-    /// <returns>Song to be converted into song data.</returns>
+    /// <returns>Mary Had a Little Lamb.</returns>
     private static Song MaryHadALittleLamb()
     {
         Notes.ResetNotes();
@@ -161,4 +171,6 @@ public class Songs
             .AddNote(Notes.E, "their").AddNote(Notes.E, "wool").AddNote(Notes.D, "was")
             .AddNote(Notes.E, "white").AddNote(Notes.D, "as").SubtractSpeed(50).AddNote(Notes.C, "snow!");
     }
+
+    //TODO: More songs
 }
