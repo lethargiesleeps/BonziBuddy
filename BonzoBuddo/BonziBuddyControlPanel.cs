@@ -15,7 +15,6 @@ public partial class BonziBuddyControlPanel : Form
 {
     private const string AcsPath = "C:\\agents\\Bonzi.acs";
     private const string AgentName = "Bonzi";
-
     private const string TtsId = "{CA141FD0-AC7F-11D1-97A3-006008273000}";
     //TODO: Documentation
 

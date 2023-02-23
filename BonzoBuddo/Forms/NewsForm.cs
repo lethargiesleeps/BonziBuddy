@@ -7,7 +7,6 @@ public partial class NewsForm : Form
 {
     private readonly Bonzi _bonzi;
 
-    //TODO: Document
     private readonly string[] _explainAnimations =
     {
         "Explain",
